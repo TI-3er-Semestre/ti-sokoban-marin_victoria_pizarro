@@ -12,20 +12,55 @@
 
 ---
 
-#  Requerimiento Funcional RF1
+#  Requerimiento Funcional RF1 registrar usuario
 
 ##  Información del requerimiento
 | Campo                   | Descripción |
 |------------------------|------------|
-| Identificador y nombre | RF1 - Nombre |
-| Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
+| Identificador y nombre | RF1 - Registrar usuario |
+| Resumen                |Permitir el registro de un usurario mediante un formulario que incluya nombre, correo electronico, username, avatar y nivel de experiencia |
 
 ---
 
 ## Entradas
 | Nombre entrada | Tipo de dato | Condición valores válidos |
 |---------------|-------------|---------------------------|
-|               |             |                           |
+| nombre completo     |String             |    no vacio                       |
+| correo electronico              | String            |formato vaido de email                           |
+| username              |   String          |  unico no vacio                         |
+| avatar              |         imagen/stirng    |    opcional o valido                       |
+|      nivel de experiencia         |     String        |              principiante, avanzado o experto             |
+
+---
+
+## Salidas
+| Nombre salida | Tipo de dato | Formato |
+|--------------|-------------|---------|
+|        usuario registrado      |       objeto      |    datos del usuario     |
+|        mensaje de confirmacio      |       String      |    texto     |
+|              |             |         |
+
+---
+
+## Resultado o Postcondición
+| Resultado o Postcondición |
+|---------------------------|
+|       el usuario queda registrado y puede ingresar al juego                    |
+
+#  Requerimiento Funcional RF2 Cargar niveles desde JSON
+
+##  Información del requerimiento
+| Campo                   | Descripción |
+|------------------------|------------|
+| Identificador y nombre | RF1 - cargar niveles desde JSON |
+| Resumen                | Permitir la carga de niveles del juego en formato JSON donde se guardaran elementos |
+
+---
+
+## Entradas
+| Nombre entrada | Tipo de dato | Condición valores válidos |
+|---------------|-------------|---------------------------|
+| archivos JSON              |    Archivo         |      Formato JSON valido                     |
 |               |             |                           |
 |               |             |                           |
 
@@ -33,8 +68,8 @@
 
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
-|--------------|-------------|---------|
-|              |             |         |
+|---------------|------------|-----------|
+| bien cargado      |     objeto        |    Estructura del tablero     |
 |              |             |         |
 |              |             |         |
 
@@ -43,22 +78,23 @@
 ## Resultado o Postcondición
 | Resultado o Postcondición |
 |---------------------------|
-|                           |
+|                    el nivel es cargado correctamente       |
 
-#  Requerimiento Funcional RF2
+
+#  Requerimiento Funcional RF3 Guardar partidas 
 
 ##  Información del requerimiento
 | Campo                   | Descripción |
 |------------------------|------------|
-| Identificador y nombre | RF1 - Nombre |
-| Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
+| Identificador y nombre | RF1 - Guardar partidas |
+| Resumen                | Permitir guardar el estado actual de la partida |
 
 ---
 
 ## Entradas
 | Nombre entrada | Tipo de dato | Condición valores válidos |
 |---------------|-------------|---------------------------|
-|               |             |                           |
+|          Estado de la partida     | Objeto            | valido y completo                          |
 |               |             |                           |
 |               |             |                           |
 
@@ -67,7 +103,7 @@
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
 |--------------|-------------|---------|
-|              |             |         |
+|     Archivo de guardado         |   Archivo          |     Serializable    |
 |              |             |         |
 |              |             |         |
 
@@ -76,23 +112,22 @@
 ## Resultado o Postcondición
 | Resultado o Postcondición |
 |---------------------------|
-|                           |
+|       la partida queda almacenada y puede ser cargada posteriormente                    |
 
-
-#  Requerimiento Funcional RF3
+#  Requerimiento Funcional RF4 Movimiento del jugador
 
 ##  Información del requerimiento
 | Campo                   | Descripción |
 |------------------------|------------|
-| Identificador y nombre | RF1 - Nombre |
-| Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
+| Identificador y nombre | RF4 - Movimiento del jugador|
+| Resumen                | Permitir al jugador desplazarse en cuatros direcciones dentro del tablero |
 
 ---
 
 ## Entradas
 | Nombre entrada | Tipo de dato | Condición valores válidos |
 |---------------|-------------|---------------------------|
-|               |             |                           |
+|   Direccion            |      String       | arriba, abajo, izquierda y derecha                          |
 |               |             |                           |
 |               |             |                           |
 
@@ -101,7 +136,7 @@
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
 |--------------|-------------|---------|
-|              |             |         |
+|       nueva psocicion del jugador       |    coordenada         |      (X,y)   |
 |              |             |         |
 |              |             |         |
 
@@ -110,31 +145,31 @@
 ## Resultado o Postcondición
 | Resultado o Postcondición |
 |---------------------------|
-|                           |
+|        el jugador de posicion en el tablero si el movimiento es valido                   |
 
-#  Requerimiento Funcional RF4
+#  Requerimiento Funcional RF5 Validar movimientos
 
 ##  Información del requerimiento
 | Campo                   | Descripción |
 |------------------------|------------|
-| Identificador y nombre | RF1 - Nombre |
-| Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
+| Identificador y nombre | RF5 - validar movimeintos |
+| Resumen                | Validar que los movimientos del jugador cumplan las reglas del juego. |
 
 ---
 
 ## Entradas
 | Nombre entrada | Tipo de dato | Condición valores válidos |
 |---------------|-------------|---------------------------|
-|               |             |                           |
-|               |             |                           |
-|               |             |                           |
+|   Posicion actual            |       coordenada      |               (x,y) valida            |
+|         direccion      |       String      |                 valida          |
+|       Esatdo del tablero        |    Objeto         |             valido              |
 
 ---
 
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
 |--------------|-------------|---------|
-|              |             |         |
+|        Movimiento valido      | boolean            | true/false        |
 |              |             |         |
 |              |             |         |
 
@@ -143,40 +178,7 @@
 ## Resultado o Postcondición
 | Resultado o Postcondición |
 |---------------------------|
-|                           |
-
-#  Requerimiento Funcional RF5
-
-##  Información del requerimiento
-| Campo                   | Descripción |
-|------------------------|------------|
-| Identificador y nombre | RF1 - Nombre |
-| Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
-
----
-
-## Entradas
-| Nombre entrada | Tipo de dato | Condición valores válidos |
-|---------------|-------------|---------------------------|
-|               |             |                           |
-|               |             |                           |
-|               |             |                           |
-
----
-
-## Salidas
-| Nombre salida | Tipo de dato | Formato |
-|--------------|-------------|---------|
-|              |             |         |
-|              |             |         |
-|              |             |         |
-
----
-
-## Resultado o Postcondición
-| Resultado o Postcondición |
-|---------------------------|
-|                           |
+|          solo permite el movimiento si cumple las reglas del juego                 |
 
 #  Requerimiento Funcional RF6
 
