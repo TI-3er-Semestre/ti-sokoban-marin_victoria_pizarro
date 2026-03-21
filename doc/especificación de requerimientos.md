@@ -185,25 +185,25 @@
 ##  Información del requerimiento
 | Campo                   | Descripción |
 |------------------------|------------|
-| Identificador y nombre | RF1 - Nombre |
-| Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
+| Identificador y nombre|RF6  empujar cajas|
+| Resumen                | Permitir empujar cajas unicamente si la posicion sguiente esta libre |
 
 ---
 
 ## Entradas
 | Nombre entrada | Tipo de dato | Condición valores válidos |
 |---------------|-------------|---------------------------|
-|               |             |                           |
-|               |             |                           |
-|               |             |                           |
+|  posicion del jugador            |      coordenada       |    (x,y) valida                       |
+|           direccion    |   String          |              arriba,abajo,izquierda,derecha             |
+|   Estado del tablero            |       objeto      |          valido                 |
 
 ---
 
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
 |--------------|-------------|---------|
-|              |             |         |
-|              |             |         |
+|      nueva posicion de caja       | coordenada            |      (x,y)   |
+|     movimiento realizado         | Boolean            | true/false        |
 |              |             |         |
 
 ---
@@ -211,22 +211,22 @@
 ## Resultado o Postcondición
 | Resultado o Postcondición |
 |---------------------------|
-|                           |
+|       la caja se mueve si la posicion esta libre, de lo contrario no lo hara |                    |
 
-#  Requerimiento Funcional RF7
+#  Requerimiento Funcional RF7 detectar condicion de victoria
 
 ##  Información del requerimiento
 | Campo                   | Descripción |
 |------------------------|------------|
-| Identificador y nombre | RF1 - Nombre |
-| Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
+| Identificador y nombre | RF7 - Detectar condicion de victoria |
+| Resumen                | Detectar cuando todas las cajas han sido ubicados en ru respectiva posiciones de objetivos |
 
 ---
 
 ## Entradas
 | Nombre entrada | Tipo de dato | Condición valores válidos |
 |---------------|-------------|---------------------------|
-|               |             |                           |
+|          Estado del tablero     |       objeto      |      valido                     |
 |               |             |                           |
 |               |             |                           |
 
@@ -235,7 +235,7 @@
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
 |--------------|-------------|---------|
-|              |             |         |
+|    Estado de victoria          |   boolean          |    true/false     |
 |              |             |         |
 |              |             |         |
 
@@ -244,22 +244,22 @@
 ## Resultado o Postcondición
 | Resultado o Postcondición |
 |---------------------------|
-|                           |
+|      el sistema identifica correctamente si el nivel ha sido completado                     |
 
-#  Requerimiento Funcional RF8
+#  Requerimiento Funcional RF8 Mostar interfaz grafica del juego
 
 ##  Información del requerimiento
 | Campo                   | Descripción |
 |------------------------|------------|
-| Identificador y nombre | RF1 - Nombre |
-| Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
+| Identificador y nombre | RF8 - Mostrar interfaz grafica |
+| Resumen                | Mostrar representacion visual del juego mediante una interfaz grafica 2d. |
 
 ---
 
 ## Entradas
 | Nombre entrada | Tipo de dato | Condición valores válidos |
 |---------------|-------------|---------------------------|
-|               |             |                           |
+|      Estado del juego         |      objeto       |               valido            |
 |               |             |                           |
 |               |             |                           |
 
@@ -268,7 +268,7 @@
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
 |--------------|-------------|---------|
-|              |             |         |
+|     interfaz renderizada         |        visual     |  pantalla 2d       |
 |              |             |         |
 |              |             |         |
 
@@ -277,14 +277,14 @@
 ## Resultado o Postcondición
 | Resultado o Postcondición |
 |---------------------------|
-|                           |
+|                 el juego se muestra correctamente en pantalla con todos sus elementos visuales          |
 
-#  Requerimiento Funcional RF9
+#  Requerimiento Funcional RF9 Mostrar menu principal
 
 ##  Información del requerimiento
 | Campo                   | Descripción |
 |------------------------|------------|
-| Identificador y nombre | RF1 - Nombre |
+| Identificador y nombre | RF1 - Mostrar menu principal |
 | Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
 
 ---
@@ -292,7 +292,7 @@
 ## Entradas
 | Nombre entrada | Tipo de dato | Condición valores válidos |
 |---------------|-------------|---------------------------|
-|               |             |                           |
+|  incio del sistema             |     evento        |       validp                    |
 |               |             |                           |
 |               |             |                           |
 
@@ -301,7 +301,7 @@
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
 |--------------|-------------|---------|
-|              |             |         |
+|    Menu principal          |  visual           |  pantalla       |
 |              |             |         |
 |              |             |         |
 
@@ -310,22 +310,22 @@
 ## Resultado o Postcondición
 | Resultado o Postcondición |
 |---------------------------|
-|                           |
+|      el usuario puede acceder a las diferentes opciones del sustema desde el menu principal                     |
 
-#  Requerimiento Funcional RF10
+#  Requerimiento Funcional RF10 jugar en 3 niveles diferentes
 
 ##  Información del requerimiento
 | Campo                   | Descripción |
 |------------------------|------------|
-| Identificador y nombre | RF1 - Nombre |
-| Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
+| Identificador y nombre | RF1 - Niveles de juego|
+| Resumen                | permitir al usuario jugar en 3 niveles de dificultad, basico, avanzado y experto |
 
 ---
 
 ## Entradas
 | Nombre entrada | Tipo de dato | Condición valores válidos |
 |---------------|-------------|---------------------------|
-|               |             |                           |
+|       Seleccion de nivel        |     String        |          Basico,avanzado,experto                 |
 |               |             |                           |
 |               |             |                           |
 
@@ -334,7 +334,7 @@
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
 |--------------|-------------|---------|
-|              |             |         |
+|        nivel cargado      | objeto            | tablero del nivel        |
 |              |             |         |
 |              |             |         |
 
@@ -343,7 +343,7 @@
 ## Resultado o Postcondición
 | Resultado o Postcondición |
 |---------------------------|
-|                           |
+|             El sistema carga el nivel seleccionado y permite iniciar la partida correspondiente              |
 
 #  Requerimiento Funcional RF11
 
