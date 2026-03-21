@@ -696,8 +696,8 @@
 
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
-|--------------|-------------|---------|pantalla 
-|    pantalla de victoria          |  visual           |         |
+|--------------|-------------|---------|
+|    pantalla de victoria          |  visual           |     pantalla     |
 |              |             |         |
 |              |             |         |
 
