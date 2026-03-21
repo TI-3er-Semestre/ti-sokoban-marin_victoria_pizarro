@@ -345,20 +345,20 @@
 |---------------------------|
 |             El sistema carga el nivel seleccionado y permite iniciar la partida correspondiente              |
 
-#  Requerimiento Funcional RF11
+#  Requerimiento Funcional RF11 mostrar estadisticas del jugador
 
 ##  Información del requerimiento
 | Campo                   | Descripción |
 |------------------------|------------|
 | Identificador y nombre | RF1 - Nombre |
-| Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
+| Resumen                |Mostrar estadistica del jugador como movimientos, empujes y tiempo pornivel. |
 
 ---
 
 ## Entradas
 | Nombre entrada | Tipo de dato | Condición valores válidos |
 |---------------|-------------|---------------------------|
-|               |             |                           |
+|        Datos de partida       |   objeto          |        validos y existentes                   |
 |               |             |                           |
 |               |             |                           |
 
@@ -367,7 +367,7 @@
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
 |--------------|-------------|---------|
-|              |             |         |
+|      Estadisticas        |      visual       |  pantalla       |
 |              |             |         |
 |              |             |         |
 
@@ -376,22 +376,22 @@
 ## Resultado o Postcondición
 | Resultado o Postcondición |
 |---------------------------|
-|                           |
+|el usuario puede visualizar sus estadisticas de juego correctamente                           |
 
-#  Requerimiento Funcional RF12
+#  Requerimiento Funcional RF12 manual de usuario
 
 ##  Información del requerimiento
 | Campo                   | Descripción |
 |------------------------|------------|
-| Identificador y nombre | RF1 - Nombre |
-| Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
+| Identificador y nombre | RF12 - manual de usuario |
+| Resumen                | proporcionar un manual que explique el funcionamiento del juego y ss controles |
 
 ---
 
 ## Entradas
 | Nombre entrada | Tipo de dato | Condición valores válidos |
 |---------------|-------------|---------------------------|
-|               |             |                           |
+|     solicitud de usuario          | evento            |                           |
 |               |             |                           |
 |               |             |                           |
 
@@ -400,7 +400,7 @@
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
 |--------------|-------------|---------|
-|              |             |         |
+|       maual       | visual/texto            | pantalla        |
 |              |             |         |
 |              |             |         |
 
@@ -409,22 +409,22 @@
 ## Resultado o Postcondición
 | Resultado o Postcondición |
 |---------------------------|
-|                           |
+|          el usuario accede al manual de usuario desde el sistema                 |
 
-#  Requerimiento Funcional RF13
+#  Requerimiento Funcional RF13 Mostrar movimientos realizados
 
 ##  Información del requerimiento
 | Campo                   | Descripción |
 |------------------------|------------|
-| Identificador y nombre | RF1 - Nombre |
-| Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
+| Identificador y nombre | RF13 - Mostrar movimientos realizados |
+| Resumen                | Mostrar la cantidad de movimeintos realizados durante la partida |
 
 ---
 
 ## Entradas
 | Nombre entrada | Tipo de dato | Condición valores válidos |
 |---------------|-------------|---------------------------|
-|               |             |                           |
+|    contador de movimientos           | entero         |  >= 0                         |
 |               |             |                           |
 |               |             |                           |
 
@@ -433,7 +433,7 @@
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
 |--------------|-------------|---------|
-|              |             |         |
+|     movimientos         | entero          |  numero       |
 |              |             |         |
 |              |             |         |
 
@@ -442,22 +442,22 @@
 ## Resultado o Postcondición
 | Resultado o Postcondición |
 |---------------------------|
-|                           |
+| el numero de de movimientos se actualiza y se muestra correctamente                           |
 
 #  Requerimiento Funcional RF14
 
 ##  Información del requerimiento
 | Campo                   | Descripción |
 |------------------------|------------|
-| Identificador y nombre | RF1 - Nombre |
-| Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
+| Identificador y nombre | RF14 - mostrar empujes  |
+| Resumen                | Mostrar empujes de cajas realizados |
 
 ---
 
 ## Entradas
 | Nombre entrada | Tipo de dato | Condición valores válidos |
 |---------------|-------------|---------------------------|
-|               |             |                           |
+|     contador de empujes          | Entero            | >=0                          |
 |               |             |                           |
 |               |             |                           |
 
@@ -466,7 +466,7 @@
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
 |--------------|-------------|---------|
-|              |             |         |
+|      empujes        |    entero         | Numero        |
 |              |             |         |
 |              |             |         |
 
@@ -475,22 +475,22 @@
 ## Resultado o Postcondición
 | Resultado o Postcondición |
 |---------------------------|
-|                           |
+|     el numero de empujes se actualiza y se muestra correctamente                      |
 
-#  Requerimiento Funcional RF15
+#  Requerimiento Funcional RF15 Mostrar tiempo de partida
 
 ##  Información del requerimiento
 | Campo                   | Descripción |
 |------------------------|------------|
-| Identificador y nombre | RF1 - Nombre |
-| Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
+| Identificador y nombre | RF15 - Mostrar tiempo de partida |
+| Resumen                | Mostrar el tiempo transcurrido durante la partida  |
 
 ---
 
 ## Entradas
 | Nombre entrada | Tipo de dato | Condición valores válidos |
 |---------------|-------------|---------------------------|
-|               |             |                           |
+|   tiemppo            |    tiempo/time         |>=0                           |
 |               |             |                           |
 |               |             |                           |
 
@@ -499,7 +499,7 @@
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
 |--------------|-------------|---------|
-|              |             |         |
+|     tiempo         |  tiempo           | mm:ss        |
 |              |             |         |
 |              |             |         |
 
@@ -508,22 +508,22 @@
 ## Resultado o Postcondición
 | Resultado o Postcondición |
 |---------------------------|
-|                           |
+|      el tiempo se actuliza en tiempo real|                     |
 
-#  Requerimiento Funcional RF16
+#  Requerimiento Funcional RF16  sitema de ranking por nivel
 
 ##  Información del requerimiento
 | Campo                   | Descripción |
 |------------------------|------------|
-| Identificador y nombre | RF1 - Nombre |
-| Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
+| Identificador y nombre | R61 - Nombre |
+| Resumen                | gestionar un ranking que almacene los mejores resultado por nivel segun sus criterios definidos|
 
 ---
 
 ## Entradas
 | Nombre entrada | Tipo de dato | Condición valores válidos |
 |---------------|-------------|---------------------------|
-|               |             |                           |
+|  resultados de la partida             |  objeto           |      validos                     |
 |               |             |                           |
 |               |             |                           |
 
@@ -532,7 +532,7 @@
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
 |--------------|-------------|---------|
-|              |             |         |
+|        ranking      | lista            |   ordenada      |
 |              |             |         |
 |              |             |         |
 
@@ -541,23 +541,23 @@
 ## Resultado o Postcondición
 | Resultado o Postcondición |
 |---------------------------|
-|                           |
+|     el ranking se actualiza y mantien los mejores resulados por nivel                      |
 
-#  Requerimiento Funcional RF17
+#  Requerimiento Funcional RF17 deshacer nuevos movimientos
 
 ##  Información del requerimiento
 | Campo                   | Descripción |
 |------------------------|------------|
-| Identificador y nombre | RF1 - Nombre |
-| Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
+| Identificador y nombre | RF17- Deshacer nuevos movimeintos |
+| Resumen                | pertmitir al usuario deshacer el ultimo movimiento|
 
 ---
 
 ## Entradas
 | Nombre entrada | Tipo de dato | Condición valores válidos |
 |---------------|-------------|---------------------------|
-|               |             |                           |
-|               |             |                           |
+|      accion de  deshacer         | evento            |   valido                        |
+|            historial de estados   |  pila           | no vacia                          |
 |               |             |                           |
 
 ---
@@ -565,7 +565,7 @@
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
 |--------------|-------------|---------|
-|              |             |         |
+|     Estado anterior       | objeto            | tablero        |
 |              |             |         |
 |              |             |         |
 
@@ -574,22 +574,22 @@
 ## Resultado o Postcondición
 | Resultado o Postcondición |
 |---------------------------|
-|                           |
+|     el juego retorna al estado anterior del tablero                      |
 
-#  Requerimiento Funcional RF18
+#  Requerimiento Funcional RF18 registar entradas al usuario
 
 ##  Información del requerimiento
 | Campo                   | Descripción |
 |------------------------|------------|
-| Identificador y nombre | RF1 - Nombre |
-| Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
+| Identificador y nombre | RF18 - Registra entradas |
+| Resumen                | registrar las accciones del usurario en una estructura de datos para su procesamiento |
 
 ---
 
 ## Entradas
 | Nombre entrada | Tipo de dato | Condición valores válidos |
 |---------------|-------------|---------------------------|
-|               |             |                           |
+|         entrada del teclaco      |   evento          | valido                          |
 |               |             |                           |
 |               |             |                           |
 
@@ -598,7 +598,7 @@
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
 |--------------|-------------|---------|
-|              |             |         |
+| cola de entradas             |   cola          | secuenci        |
 |              |             |         |
 |              |             |         |
 
@@ -607,23 +607,23 @@
 ## Resultado o Postcondición
 | Resultado o Postcondición |
 |---------------------------|
-|                           |
+|         las entradas del usuario quedan almacenadas en orden de llegada                  |
 
-#  Requerimiento Funcional RF19
+#  Requerimiento Funcional RF19 solucion autmoatica del nivel
 
 ##  Información del requerimiento
 | Campo                   | Descripción |
 |------------------------|------------|
-| Identificador y nombre | RF1 - Nombre |
-| Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
+| Identificador y nombre | RF19 - Solucion automatica del nivel |
+| Resumen                | permitir resolver auntomaticamente un nivel mediante algritmos de busqueda|
 
 ---
 
 ## Entradas
 | Nombre entrada | Tipo de dato | Condición valores válidos |
 |---------------|-------------|---------------------------|
-|               |             |                           |
-|               |             |                           |
+|        estado del tablero       |       objeto      |       valido                    |
+|     algoritmo elejido          |     String        |                 BFS DFS otros          |
 |               |             |                           |
 
 ---
@@ -631,7 +631,7 @@
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
 |--------------|-------------|---------|
-|              |             |         |
+|    secuencia de solucion          | lista            | movimeintos        |
 |              |             |         |
 |              |             |         |
 
@@ -640,22 +640,22 @@
 ## Resultado o Postcondición
 | Resultado o Postcondición |
 |---------------------------|
-|                           |
+|          se genera una solucion valida para completar el nivel                 |
 
-#  Requerimiento Funcional RF20
+#  Requerimiento Funcional RF20 animacion de solucion automatica
 
 ##  Información del requerimiento
 | Campo                   | Descripción |
 |------------------------|------------|
-| Identificador y nombre | RF1 - Nombre |
-| Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
+| Identificador y nombre | R20- Animacion de solucion |
+| Resumen                | Mostrar de forma animada la ejecucion de la soluccion automatica del nivel|
 
 ---
 
 ## Entradas
 | Nombre entrada | Tipo de dato | Condición valores válidos |
 |---------------|-------------|---------------------------|
-|               |             |                           |
+|        secuencias de movimientos       |  lista           | no vacia                          |
 |               |             |                           |
 |               |             |                           |
 
@@ -664,7 +664,7 @@
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
 |--------------|-------------|---------|
-|              |             |         |
+|       animacion        |  vasual            | pantalla        |
 |              |             |         |
 |              |             |         |
 
@@ -673,22 +673,22 @@
 ## Resultado o Postcondición
 | Resultado o Postcondición |
 |---------------------------|
-|                           |
+|        la solucion se reproduce visualmente de forma continua en juego                   |
 
 #  Requerimiento Funcional RF21
 
 ##  Información del requerimiento
 | Campo                   | Descripción |
 |------------------------|------------|
-| Identificador y nombre | RF1 - Nombre |
-| Resumen                | Descripción clara, precisa, concisa, verificable y completa del requerimiento. |
+| Identificador y nombre | RF21 - pantalla de victoria |
+| Resumen                | mostrar una pantalla de victoria cuando el jugador complete el nivel |
 
 ---
 
 ## Entradas
 | Nombre entrada | Tipo de dato | Condición valores válidos |
 |---------------|-------------|---------------------------|
-|               |             |                           |
+|    estado de victoria           |  boolean           | true                          |
 |               |             |                           |
 |               |             |                           |
 
@@ -696,8 +696,8 @@
 
 ## Salidas
 | Nombre salida | Tipo de dato | Formato |
-|--------------|-------------|---------|
-|              |             |         |
+|--------------|-------------|---------|pantalla 
+|    pantalla de victoria          |  visual           |         |
 |              |             |         |
 |              |             |         |
 
@@ -706,4 +706,4 @@
 ## Resultado o Postcondición
 | Resultado o Postcondición |
 |---------------------------|
-|                           |
+|      el usuario es notificado de que se ha completado el nivel                     |
