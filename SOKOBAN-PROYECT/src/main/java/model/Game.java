@@ -46,4 +46,8 @@ public class Game {
     public void saveGame() {
 
     }
+
+    public boolean isFinished() {
+        return isFinished;
+    }
 }
