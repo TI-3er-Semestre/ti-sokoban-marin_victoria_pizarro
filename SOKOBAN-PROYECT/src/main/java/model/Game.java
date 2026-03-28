@@ -46,4 +46,7 @@ public class Game {
     public void saveGame() {
 
     }
+
+    public void pushBox(Box box, String right) {
+    }
 }
