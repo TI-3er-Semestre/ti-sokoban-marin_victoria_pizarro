@@ -20,6 +20,10 @@ public class CellTest {
         goalCell = new Cell(CellType.GOAL,false);
     }
 
+    /**
+     * Verifica que las celdas tipo FLOOR y GOAL
+     * sean consideradas caminables.
+     */
     @Test
     public void testIsWalkable_FloorAndGoal() {
 
@@ -35,6 +39,10 @@ public class CellTest {
         Assertions.assertTrue(goalResult);
     }
 
+    /**
+     * Verifica que las celdas tipo WALL
+     * NO sean caminables.
+     */
     @Test
     public void testIsWalkable_Wall() {
 
@@ -48,6 +56,10 @@ public class CellTest {
         Assertions.assertFalse(result);
     }
 
+    /**
+     * Verifica que isGoal retorne true
+     * cuando la celda es de tipo GOAL.
+     */
     @Test
     public void testIsGoal_True() {
 
@@ -61,6 +73,10 @@ public class CellTest {
         Assertions.assertTrue(result);
     }
 
+    /**
+     * Verifica que isGoal retorne false
+     * cuando la celda NO es de tipo GOAL.
+     */
     @Test
     public void testIsGoal_False() {
 

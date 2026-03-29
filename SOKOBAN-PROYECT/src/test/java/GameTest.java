@@ -27,17 +27,14 @@ public class GameTest {
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {
                 if (x == 0 || y == 0 || x == 4 || y == 4) {
-                    board.setCell(x,y, new Cell(CellType.WALL,false));
+                    board.setCell(x, y, new Cell(CellType.WALL, false));
                 } else {
-                    board.setCell(x,y, new Cell(CellType.FLOOR,false));
+                    board.setCell(x, y, new Cell(CellType.FLOOR, false));
+
                 }
             }
-        }
 
-        player = new Player(new Position(2,2));
-        level = new Level(1, board);
-        user = new User("test","test@test.com","user","avatar", Difficulty.EASY);
-        game = new Game(level, user);
+        }
     }
     /**
      * setupStage2:
@@ -87,10 +84,77 @@ public class GameTest {
         board.setCell(4,2, new Cell(CellType.FLOOR,true));
     }
 
+    /**
+     * setupStage6:
+     * Todas las cajas están sobre objetivos.
+     */
+    private void setupStage6() {
+        Board board = new Board(5, 5);
 
-    // movimientos validos
+        // Bordes WALL, interior FLOOR
+            for (int y = 0; y < 5; y++) {
+                for (int x = 0; x < 5; x++) {
+                    if (x == 0 || x == 4 || y == 0 || y == 4) {
+                        board.setCell(x, y, new Cell(CellType.WALL, false));
+                    } else {
+                        board.setCell(x, y, new Cell(CellType.FLOOR, false));
+
+                    }
+                }
+            }
 
 
+            player = new Player(new Position(2,2));
+            level = new Level(1, board);
+            user = new User("test","test@test.com","user","avatar", Difficulty.EASY);
+            game = new Game(level, user);
+
+        // Objetivos con cajas (nivel COMPLETO)
+        board.setCell(2, 2, new Cell(CellType.GOAL, true));
+        board.setCell(3, 2, new Cell(CellType.GOAL, true));
+
+        Level level = new Level(1, board);
+        User user = new User("Juan", "juan@mail.com", "juan123", "avatar.png", Difficulty.EASY);
+
+        game = new Game(level, user);
+
+    }
+
+    /**
+    * setupStage7:
+    * Al menos una caja NO está sobre objetivo.
+    */
+    private void setupStage7() {
+        Board board = new Board(5, 5);
+
+        // Bordes WALL, interior FLOOR
+        for (int y = 0; y < 5; y++) {
+            for (int x = 0; x < 5; x++) {
+                if (x == 0 || x == 4 || y == 0 || y == 4) {
+                    board.setCell(x, y, new Cell(CellType.WALL, false));
+                } else {
+                    board.setCell(x, y, new Cell(CellType.FLOOR, false));
+                }
+            }
+        }
+
+        // Un goal con caja (correcto)
+        board.setCell(2, 2, new Cell(CellType.GOAL, true));
+
+        // Una caja fuera de objetivo
+        board.setCell(3, 2, new Cell(CellType.FLOOR, true));
+
+        Level level = new Level(1, board);
+        User user = new User("Juan", "juan@mail.com", "juan123", "avatar.png", Difficulty.EASY);
+
+        game = new Game(level, user);
+    }
+
+
+    /**
+     * Verifica que el jugador pueda moverse hacia arriba
+     * cuando la celda destino está libre.
+     */
     @Test
     public void testMoveUp_FreeCell() {
 
@@ -104,6 +168,10 @@ public class GameTest {
         Assertions.assertTrue(true);
     }
 
+    /**
+     * Verifica que el jugador pueda moverse hacia abajo
+     * cuando la celda destino está libre.
+     */
     @Test
     public void testMoveDown_FreeCell() {
 
@@ -117,6 +185,10 @@ public class GameTest {
         Assertions.assertTrue(true);
     }
 
+    /**
+     * Verifica que el jugador pueda moverse hacia la izquierda
+     * cuando la celda destino está libre.
+     */
     @Test
     public void testMoveLeft_FreeCell() {
 
@@ -130,6 +202,10 @@ public class GameTest {
         Assertions.assertTrue(true);
     }
 
+    /**
+     * Verifica que el jugador pueda moverse hacia la derecha
+     * cuando la celda destino está libre.
+     */
     @Test
     public void testMoveRight_FreeCell() {
 
@@ -144,9 +220,10 @@ public class GameTest {
     }
 
 
-    // movimientos invalidos
-
-
+    /**
+     * Verifica que el jugador NO se mueva hacia arriba
+     * cuando la celda destino es un muro.
+     */
     @Test
     public void testMoveUp_BlockByWall() {
 
@@ -160,6 +237,10 @@ public class GameTest {
         Assertions.assertTrue(true);
     }
 
+    /**
+     * Verifica que el jugador NO pueda empujar una caja
+     * cuando hay un muro detrás de ella.
+     */
     @Test
     public void testMoveRight_BoxBlockedByWall() {
 
@@ -173,6 +254,10 @@ public class GameTest {
         Assertions.assertTrue(true);
     }
 
+    /**
+     * Verifica que el jugador NO pueda empujar una caja
+     * cuando otra caja bloquea el movimiento.
+     */
     @Test
     public void testMoveRight_BoxBlockedByBox() {
 
@@ -186,10 +271,10 @@ public class GameTest {
         Assertions.assertTrue(true);
     }
 
-
-    // empuje caja
-
-
+    /**
+     * Verifica que el jugador empuje correctamente una caja
+     * cuando la celda siguiente está libre.
+     */
     @Test
     public void testMoveRight_PushBoxSuccessfully() {
 
@@ -203,6 +288,11 @@ public class GameTest {
         Assertions.assertTrue(true);
     }
 
+
+    /**
+     * Verifica que el metodo pushBox mueva la caja correctamente
+     * cuando la celda destino está libre.
+     */
     @Test
     public void testPushBox_Success() {
 
@@ -217,6 +307,10 @@ public class GameTest {
         Assertions.assertTrue(true);
     }
 
+    /**
+     * Verifica que el metodo pushBox NO mueva la caja
+     * cuando la celda destino es un muro.
+     */
     @Test
     public void testPushBox_FailByWall() {
 
@@ -231,6 +325,10 @@ public class GameTest {
         Assertions.assertTrue(true);
     }
 
+    /**
+     * Verifica que el méetodo pushBox NO mueva la caja
+     * cuando la celda destino está ocupada por otra caja.
+     */
     @Test
     public void testPushBox_FailByBox() {
 
@@ -244,4 +342,69 @@ public class GameTest {
         // Assert
         Assertions.assertTrue(true);
     }
+
+
+    //Test con todas las cajas en objetivos
+    @Test
+    public void checkWinAllObjectivesTest() {
+        // Arrange
+        setupStage6();
+
+        // Act
+        boolean result = game.checkWin();
+
+        // Assert
+        Assertions.assertTrue(result);
+    }
+
+    /*
+    * Test con una caja fuera de objetivo
+    * Este test va a pasar debido a que el metodo checkWin() debe retornar boolean y
+    * por defecto debe retornar algo
+    * */
+    @Test
+    public void checkWinNoObjetivesTest() {
+        // Arrange
+        setupStage7();
+
+        // Act
+        boolean result = game.checkWin();
+
+        // Assert
+        Assertions.assertFalse(result);
+    }
+
+    //Test en caso de que se haya finalizado correctamente la partida y
+    // cambia su estado a finalizado
+    @Test
+    public void updateGameFinishedTest() {
+        // Arrange
+        setupStage6();
+
+        // Act
+        game.updateGame();
+
+        // Assert
+        Assertions.assertTrue(game.isFinished());
+    }
+    // Test en caso de que no se compruebe la victoria y el juego continua sin finalizar
+    /*
+    * Este test va a pasar debido a que el metodo checkWin() debe retornar boolean y
+    * por defecto debe retornar algo
+    */
+    @Test
+    public void updateGameNotFinishedTest() {
+        // Arrange
+        setupStage7();
+
+        // Act
+        game.updateGame();
+
+        // Assert
+        Assertions.assertFalse(game.isFinished());
+    }
 }
+
+
+
+

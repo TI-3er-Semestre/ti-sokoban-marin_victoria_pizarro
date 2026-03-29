@@ -22,17 +22,24 @@ public class GameStats {
 
 
     public void reset() {
-        moves = 0;
-        pushes = 0;
-        time = 0;
+
     }
 
 
     public void addMove() {
-        moves++;
+
+        ;
     }
 
     public void addPush() {
-        pushes++;
+
+
+    }
+
+    public int getMoves() {
+        return moves;
+    }
+    public int getPushes() {
+        return pushes;
     }
 }

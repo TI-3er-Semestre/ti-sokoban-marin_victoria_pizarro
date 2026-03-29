@@ -20,6 +20,10 @@ public class BoardTest {
         board.setCell(3,2, new Cell(CellType.FLOOR,true));
     }
 
+    /**
+     * Verifica que isFree retorne true
+     * cuando la celda está libre.
+     */
     @Test
     public void testIsFree_FreeCell() {
 
@@ -33,6 +37,10 @@ public class BoardTest {
         Assertions.assertTrue(result);
     }
 
+    /**
+     * Verifica que isFree retorne false
+     * cuando la celda es un muro.
+     */
     @Test
     public void testIsFree_Wall() {
 
@@ -45,7 +53,10 @@ public class BoardTest {
         // Assert
         Assertions.assertFalse(result);
     }
-
+    /**
+     * Verifica que isFree retorne false
+     * cuando la celda contiene una caja.
+     */
     @Test
     public void testIsFree_CellWithBox() {
 
