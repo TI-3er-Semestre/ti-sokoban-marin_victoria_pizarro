@@ -396,24 +396,38 @@
 
 | Campo         | Descripción |
 |---------------|------------|
-| Historia N°   |            |
-| Yo como       |            |
-| Quiero        |            |
-| Para          |            |
+| Historia N°   |      HU-12      |
+| Yo como       |     Jugador       |
+| Quiero        |     ver una solución automática del nivel experto     |
+| Para          |     entender cómo resolver el juego      |
 
 ---
 
-## Escenario ___
+## Escenario 12.1
 
-**Escenario:**  
+**Escenario: Intento de visualizar solución sin disponibilidad**  
 
 | Paso  | Descripción |
 |-------|------------|
-| Given |            |
-| And   |            |
-| When  |            |
-| Then  |            |
-| And   |            |
+| Given |   el jugador se encuentra en el nivel experto         |
+| And   |   no existe una solución automática disponible para ese nivel     |
+| When  |   el jugador selecciona la opción para ver solución        |
+| Then  |   el sistema muestra un mensaje indicando que la solución no está disponible        |
+
+---
+---
+
+## Escenario 12.2
+
+**Escenario: Visualizar solución automática del nivel experto correctamente**  
+
+| Paso  | Descripción |
+|-------|------------|
+| Given |   el jugador se encuentra en el nivel experto        |
+| And   |   existe una solución automática disponible para ese nivel         |
+| When  |   el jugador selecciona la opción para ver solución         |
+| Then  |   el sistema muestra la solución del nivel experto de forma secuencial         |
+| And   |   el jugador puede observar la ejecución de cada movimiento         |
 
 ---
 
@@ -421,24 +435,38 @@
 
 | Campo         | Descripción |
 |---------------|------------|
-| Historia N°   |            |
-| Yo como       |            |
-| Quiero        |            |
-| Para          |            |
+| Historia N°   |    HU-13        |
+| Yo como       |   Jugador         |
+| Quiero        |   ver un ranking de mejores resultados          |
+| Para          |   comparar mi desempeño         |
 
 ---
 
-## Escenario ___
+## Escenario 13.1
 
-**Escenario:**  
+**Escenario: Visualizar ranking de mejores resultados correctamente**  
 
 | Paso  | Descripción |
 |-------|------------|
-| Given |            |
-| And   |            |
-| When  |            |
-| Then  |            |
-| And   |            |
+| Given |   el jugador ha iniciado sesión en el sistema         |
+| And   |   existen resultados registrados de otros jugadores o partidas         |
+| When  |   el jugador accede a la pantalla de ranking         |
+| Then  |   el sistema muestra una lista ordenada de los mejores resultados         |
+| And   |   los resultados se presentan según criterios como menor tiempo, menos movimientos o menos empujes         |
+
+---
+---
+
+## Escenario 13.2
+
+**Escenario: Visualizar ranking sin resultados registrados**  
+
+| Paso  | Descripción |
+|-------|------------|
+| Given |  el jugador ha iniciado sesión en el sistema          |
+| And   |  no existen resultados registrados en el sistema          |
+| When  |  el jugador accede a la pantalla de ranking          |
+| Then  |  el sistema muestra un mensaje indicando que no hay resultados disponibles          |
 
 ---
 
@@ -446,24 +474,38 @@
 
 | Campo         | Descripción |
 |---------------|------------|
-| Historia N°   |            |
-| Yo como       |            |
-| Quiero        |            |
-| Para          |            |
+| Historia N°   |    HU-14        |
+| Yo como       |    Jugador        |
+| Quiero        |    consultar mis estadísticas de juego        |
+| Para          |    analizar mi progreso        |
 
 ---
 
-## Escenario ___
+## Escenario 14.1
 
-**Escenario:**  
+**Escenario: Consultar estadísticas de juego correctamente**  
 
 | Paso  | Descripción |
 |-------|------------|
-| Given |            |
-| And   |            |
-| When  |            |
-| Then  |            |
-| And   |            |
+| Given |  el jugador ha iniciado sesión en el sistema          |
+| And   |  existen estadísticas registradas de sus partidas          |
+| When  |  el jugador accede a la pantalla de estadísticas          |
+| Then  |  el sistema muestra sus estadísticas de juego          |
+| And   |  el jugador visualiza datos como cantidad de movimientos, cantidad de empujes y tiempo por nivel          |
+
+---
+---
+
+## Escenario 14.2
+
+**Escenario: Consultar estadísticas sin partidas registradas**  
+
+| Paso  | Descripción |
+|-------|------------|
+| Given |  el jugador ha iniciado sesión en el sistema          |
+| And   |  no existen estadísticas registradas de sus partidas          |
+| When  |  el jugador accede a la pantalla de estadísticas          |
+| Then  |  el sistema muestra un mensaje indicando que no hay estadísticas disponibles          |
 
 ---
 
@@ -471,23 +513,38 @@
 
 | Campo         | Descripción |
 |---------------|------------|
-| Historia N°   |            |
-| Yo como       |            |
-| Quiero        |            |
-| Para          |            |
+| Historia N°   |      HU-15      |
+| Yo como       |      Jugador     |
+| Quiero        |      acceder a un manual de usuario      |
+| Para          |      aprender a jugar      |
 
 ---
 
-## Escenario ___
+## Escenario 15.1
 
-**Escenario:**  
+**Escenario: Acceder al manual de usuario correctamente**  
 
 | Paso  | Descripción |
 |-------|------------|
-| Given |            |
-| And   |            |
-| When  |            |
-| Then  |            |
-| And   |            |
+| Given |   el jugador se encuentra en el menú principal del juego         |
+| And   |   el manual de usuario está disponible en el sistema         |
+| When  |   el jugador selecciona la opción para acceder al manual de usuario        |
+| Then  |   el sistema muestra la pantalla del manual de usuario         |
+| And   |   el jugador puede visualizar la explicación del juego, cómo jugar y el significado de los indicadores         |
 
 ---
+---
+
+## Escenario 15.2
+
+**Escenario: Intentar acceder al manual de usuario sin disponibilidad**  
+
+| Paso  | Descripción |
+|-------|------------|
+| Given |   el jugador se encuentra en el menú principal del juego         |
+| And   |   el manual de usuario no está disponible en el sistema         |
+| When  |   el jugador selecciona la opción para acceder al manual de usuario         |
+| Then  |   el sistema muestra un mensaje indicando que el manual no se encuentra disponible         |
+
+---
+
