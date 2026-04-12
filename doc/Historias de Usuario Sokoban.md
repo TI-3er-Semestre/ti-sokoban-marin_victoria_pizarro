@@ -98,29 +98,53 @@
 | And   |       los contadores de movimientos, empujes y tiempo son visibles     |
 
 ---
+## Escenario 3.2 
+**Escenario: Error al cargar nivel
+
+| Paso  | Descripción |
+|-------|------------|
+| Given |       el jugador esta en el menu de seleccion de niveles     |
+| And   |    El archivo del nivel esta danado o no disponible       |
+| When  |      El jugador intenta iniciar el nivel     |
+| Then  |      El sistema muestra un error indicando qu no se puedo cargar el  el nivel    |
+| And   |       la vista permanece en la seleccion de niveles     |
+
 
 ## Historia de Usuario N° 4
 
 | Campo         | Descripción |
 |---------------|------------|
-| Historia N°   |            |
-| Yo como       |            |
-| Quiero        |            |
-| Para          |            |
+| Historia N°   |     HU-04       |
+| Yo como       |    Jugador        |
+| Quiero        |     dexplazarme en el tablero en 4 direcciones        |
+| Para          |        avanzar dentro del nivel    |
 
 ---
 
-## Escenario ___
+## Escenario 4.1
 
-**Escenario:**  
+**Escenario: Movimeinto valido del jugador **  
 
 | Paso  | Descripción |
 |-------|------------|
-| Given |            |
-| And   |            |
-| When  |            |
-| Then  |            |
-| And   |            |
+| Given |      El jugador se encuentra en una posicion valida      |
+| And   |    Existe una celda libre en la direccion seleccionada        |
+| When  |      el jugador presiona una tecla direccion      |
+| Then  |  El jugador se mueve a una nueva celda          |
+| And   |     El contador de movimientos aumenta a 1       |
+
+---
+## Escenario 4.2
+
+**Escenario: Movimiento invalido del jugador **  
+
+| Paso  | Descripción |
+|-------|------------|
+| Given |    El jugador esta junto a un obstaculo        |
+| And   |     no hya una celda libre en la direccion seleccionada       |
+| When  |     El jugador intenta moverse       |
+| Then  |    el Jugador permanece en la misma posicion        |
+| And   |    El contador de movimientos no cambia        |
 
 ---
 
@@ -128,24 +152,39 @@
 
 | Campo         | Descripción |
 |---------------|------------|
-| Historia N°   |            |
-| Yo como       |            |
-| Quiero        |            |
-| Para          |            |
+| Historia N°   |       HU-05     |
+| Yo como       |    Jugador        |
+| Quiero        |    Empujar cajas dentro del tablero        |
+| Para          |    ubicarlas en las posiciones obejtivo        |
 
 ---
 
-## Escenario ___
+## Escenario 5.1
 
 **Escenario:**  
 
 | Paso  | Descripción |
 |-------|------------|
-| Given |            |
-| And   |            |
-| When  |            |
-| Then  |            |
-| And   |            |
+| Given |  El jugador esta junto a una caja          |
+| And   |   Existe una celda libre detras de la caja         |
+| When  |       El jugador intenta mover la caja     |
+| Then  |      La caja se dezplaza a la celda libre      |
+| And   |    El jugador ocupa la posicion anterior de la caja        |
+| And   |    Los contadores de movimiento y empujes aumentan        |
+
+---
+## Escenario 5.2
+
+**Escenario: Empuje invalido de la caja **  
+
+| Paso  | Descripción |
+|-------|------------|
+| Given |  El jugador esta junto a una caja          |
+| And   |     no hay espacio libre detras de la caja       |
+| When  |    el jugador intenta empujarla        |
+| Then  |          La caja no se mueve  |
+| And   |      El jugador permanece en su posicion      |
+| And   |    Los contadores de empuje y movimiento no cambian       |
 
 ---
 
