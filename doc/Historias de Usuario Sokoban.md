@@ -50,7 +50,7 @@
 
 ## Escenario 2.1
 
-**Escenario: Aceeso al menu principal**  
+**Escenario: Acceso al menu principal**  
 
 | Paso  | Descripción |
 |-------|------------|
@@ -61,6 +61,17 @@
 | And   |        el jugador visualiza las opciones disponebles    |
 
 ---
+## Escenario 2.2
+**Escenario: Acceso al menu principal con partida activa**  
+
+| Paso  | Descripción |
+|-------|------------|
+| Given |      El jugador ha iniciado sesion en el sistema      |
+| And   |  Existe una partida previamente guardada          |
+| When  |   El sistema muestra el menu principal         |
+| Then  |       se habilita la opcion de continuar partida     |
+| And   |      el jugador puede seleccionar, entre continuar o elegir un nuevo juego      |
+
 
 
 ## Historia de Usuario N° 3
@@ -68,23 +79,23 @@
 | Campo         | Descripción |
 |---------------|------------|
 | Historia N°   |       HU-03     |
-| Yo como       |            |
-| Quiero        |            |
-| Para          |            |
+| Yo como       |    Jugador        |
+| Quiero        |    iniciar el nivel y visualizar el tablero       |
+| Para          |       interactuar con el juego     |
 
 ---
 
-## Escenario ___
+## Escenario 3.1
 
-**Escenario:**  
+**Escenario: Visualizacion del tablero del nivel**  
 
 | Paso  | Descripción |
 |-------|------------|
-| Given |            |
-| And   |            |
-| When  |            |
-| Then  |            |
-| And   |            |
+| Given |       el jugador esta en el menu de seleccion de niveles     |
+| And   |     selecciona un nivel disponible       |
+| When  |      el sistema carga el nivel desde el archivo      |
+| Then  |       se muestra el tablero con sus elementos     |
+| And   |       los contadores de movimientos, empujes y tiempo son visibles     |
 
 ---
 
