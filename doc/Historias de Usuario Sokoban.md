@@ -4,26 +4,37 @@
 
 | Campo         | Descripción |
 |---------------|------------|
-| Historia N°   |            |
-| Yo como       |            |
-| Quiero        |            |
-| Para          |            |
+| Historia N°   |   HU-01         |
+| Yo como       |       jugador     |
+| Quiero        |  registrarme en el sistema usando los datos          |
+| Para          |     poder acceder al juego       |
 
 ---
 
 ## Escenario ___
 
-**Escenario:**  
+**Escenario: Registro exitoso del jugador**  
 
 | Paso  | Descripción |
 |-------|------------|
-| Given |            |
-| And   |            |
-| When  |            |
-| Then  |            |
-| And   |            |
+| Given |       el jugador se encuentra en la pantalla de registro     |
+| And   |        todos los campos obligatorios de resgitro estan disponibles    |
+| When  |        el jugador ingresa sus datos correctamente y confirma    |
+| Then  |     el sistema resgistra el jugador en el sistema       |
+| And   |       la vista cambia al menu principal     |
 
 ---
+
+**Escenario: Registro con datos imcompletos**  
+
+| Paso  | Descripción |
+|-------|------------|
+| Given |       el jugador se encuentra en la pantalla de registro     |
+| And   |        por lo menos un campo obligatorio esta vacio    |
+| When  |        el jugador intenta registrarse   |
+| Then  |     el sistema muestra un mensaje de error     |
+| And   |      El registro no se completa    |
+
 
 ## Historia de Usuario N° 2
 
