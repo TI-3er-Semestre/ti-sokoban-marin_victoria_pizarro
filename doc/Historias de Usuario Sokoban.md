@@ -11,7 +11,7 @@
 
 ---
 
-## Escenario ___
+## Escenario 1.1
 
 **Escenario: Registro exitoso del jugador**  
 
@@ -24,6 +24,7 @@
 | And   |       la vista cambia al menu principal     |
 
 ---
+## Escenario 1.2
 
 **Escenario: Registro con datos imcompletos**  
 
@@ -40,32 +41,33 @@
 
 | Campo         | Descripción |
 |---------------|------------|
-| Historia N°   |            |
-| Yo como       |            |
-| Quiero        |            |
-| Para          |            |
+| Historia N°   |   HU-02         |
+| Yo como       |    Jugador        |
+| Quiero        |    acceder al menu principal        |
+| Para          |    navegar entre las opciones del juego        |
 
 ---
 
-## Escenario ___
+## Escenario 2.1
 
-**Escenario:**  
+**Escenario: Aceeso al menu principal**  
 
 | Paso  | Descripción |
 |-------|------------|
-| Given |            |
-| And   |            |
-| When  |            |
-| Then  |            |
-| And   |            |
+| Given |    El jugador ha compplpetado el registro        |
+| And   |      no hay una partida activa      |
+| When  |       el sistema finaliza el registro     |
+| Then  |  se muestra el menu principal          |
+| And   |        el jugador visualiza las opciones disponebles    |
 
 ---
+
 
 ## Historia de Usuario N° 3
 
 | Campo         | Descripción |
 |---------------|------------|
-| Historia N°   |            |
+| Historia N°   |       HU-03     |
 | Yo como       |            |
 | Quiero        |            |
 | Para          |            |
