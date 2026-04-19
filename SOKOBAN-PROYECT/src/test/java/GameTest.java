@@ -20,7 +20,7 @@ public class GameTest {
      * El jugador esta en (2,2) y las celdas adyacentes están libres.
      */
     private void setupStage1() {
-        // Arrange
+
         board = new Board(5,5);
 
         // Bordes de muro
@@ -30,11 +30,22 @@ public class GameTest {
                     board.setCell(x, y, new Cell(CellType.WALL, false));
                 } else {
                     board.setCell(x, y, new Cell(CellType.FLOOR, false));
-
                 }
             }
-
         }
+
+
+        player = new Player(new Position(2,2));
+
+
+        level = new Level(1, board);
+        user = new User("test","test@test.com","user","avatar", Difficulty.EASY);
+
+        game = new Game(level, user);
+
+        game.startGame();
+
+        player.setPosition(new Position(2,2));
     }
     /**
      * setupStage2:
@@ -104,19 +115,16 @@ public class GameTest {
             }
 
 
-            player = new Player(new Position(2,2));
-            level = new Level(1, board);
-            user = new User("test","test@test.com","user","avatar", Difficulty.EASY);
-            game = new Game(level, user);
-
-        // Objetivos con cajas (nivel COMPLETO)
+        // objetivos con cajas
         board.setCell(2, 2, new Cell(CellType.GOAL, true));
         board.setCell(3, 2, new Cell(CellType.GOAL, true));
 
-        Level level = new Level(1, board);
-        User user = new User("Juan", "juan@mail.com", "juan123", "avatar.png", Difficulty.EASY);
+        player = new Player(new Position(2,2));
+        level = new Level(1, board);
+        user = new User("Juan", "juan@mail.com", "juan123", "avatar.png", Difficulty.EASY);
 
         game = new Game(level, user);
+        game.startGame();
 
     }
 
@@ -138,16 +146,15 @@ public class GameTest {
             }
         }
 
-        // Un goal con caja (correcto)
         board.setCell(2, 2, new Cell(CellType.GOAL, true));
-
-        // Una caja fuera de objetivo
         board.setCell(3, 2, new Cell(CellType.FLOOR, true));
 
-        Level level = new Level(1, board);
-        User user = new User("Juan", "juan@mail.com", "juan123", "avatar.png", Difficulty.EASY);
+        player = new Player(new Position(2,2));
+        level = new Level(1, board);
+        user = new User("Juan", "juan@mail.com", "juan123", "avatar.png", Difficulty.EASY);
 
         game = new Game(level, user);
+        game.startGame();
     }
 
 
