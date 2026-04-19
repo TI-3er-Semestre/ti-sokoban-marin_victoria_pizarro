@@ -8,12 +8,16 @@ public class Menu {
 
 
     public Menu(GameController controller) {
+
         this.controller = controller;
     }
 
-
+    /**
+     * Muestra el menú principal.
+     */
     public void showMenu() {
-
+        System.out.println("1. Start Game");
+        System.out.println("2. Select Level");
     }
 
 
