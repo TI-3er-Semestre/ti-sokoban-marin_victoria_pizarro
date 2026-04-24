@@ -1,7 +1,7 @@
 package model;
 import structures.CustomIterator;
 
-public class Level {
+public class Level implements Comparable<Level> {
 
     private int id;
     private Board board;
@@ -11,7 +11,10 @@ public class Level {
         this.id = id;
         this.board = board;
     }
-
+    @Override
+    public int compareTo(Level other) {
+        return Integer.compare(this.id, other.id);
+    }
     /**
      * Carga un nivel desde una representación compacta.
      * @param data cadena con los datos del nivel
