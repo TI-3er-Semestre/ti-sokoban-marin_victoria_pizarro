@@ -210,4 +210,18 @@ public class LinkedList<T extends Comparable<T>> implements Iterable<T> {
     public Node<T> getFirst()  { return first;  }
     public Node<T> getLast()   { return last;   }
     public int     getLength() { return length; }
+
+    public Node<T> addLast(T data) {
+        Node<T> newNode = new Node<>(data);
+        if (first == null) {
+            first = newNode;
+            last = newNode;
+        } else {
+            newNode.setPrev(last);
+            last.setNext(newNode);
+            last = newNode;
+        }
+        length++;
+        return newNode;
+    }
 }
