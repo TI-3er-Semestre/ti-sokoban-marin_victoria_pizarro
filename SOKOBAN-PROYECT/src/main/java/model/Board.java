@@ -1,17 +1,44 @@
 package model;
+import structures.LinkedList;
 
 public class Board {
 
     private int width;
     private int height;
     private Cell[][] grid;
+    private LinkedList<Box> boxes;
 
     // Constructor
     public Board(int width, int height) {
         this.width = width;
         this.height = height;
         this.grid = new Cell[width][height];
+        this.boxes = new LinkedList<>();
     }
+
+    /**
+     * Agrega una caja al tablero, tanto en la lista de cajas como en la celda correspondiente.
+     * @param box caja a agregar
+     */
+    public void addBox(Box box) {
+        boxes.add(box);
+        int x = box.getPosition().getX();
+        int y = box.getPosition().getY();
+        Cell cell = getCell(x, y);
+        if (cell != null) {
+            cell.setHasBox(true);
+        }
+    }
+
+    /**
+     * Retorna la lista enlazada de cajas del tablero.
+     * Usada por Level.isCompleted() para verificar condición de victoria.
+     * @return lista enlazada de cajas
+     */
+    public LinkedList<Box> getBoxes() {
+        return boxes;
+    }
+
     /**
      * Obtiene la celda en una posición específica del tablero.
      * @param x coordenada horizontal

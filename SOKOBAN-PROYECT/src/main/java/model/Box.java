@@ -1,6 +1,6 @@
 package model;
 
-public class Box {
+public class Box implements Comparable<Box> {
 
     private Position position;
 
@@ -31,6 +31,17 @@ public class Box {
 
         position.setX(x);
         position.setY(y);
+    }
+
+    @Override
+
+    public int compareTo(Box other){
+
+        int comparacionX = Integer.compare(this.position.getX(),other.position.getX());
+        if(comparacionX != 0){
+            return comparacionX;
+        }
+        return Integer.compare(this.position.getY(),other.position.getY());
     }
 
     // Getters y setters
