@@ -224,4 +224,5 @@ public class LinkedList<T extends Comparable<T>> implements Iterable<T> {
         length++;
         return newNode;
     }
+
 }

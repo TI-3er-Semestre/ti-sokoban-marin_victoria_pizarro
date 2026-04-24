@@ -12,8 +12,22 @@ public class Position {
     }
 
 
+    /**
+     * Compara si dos posiciones son iguales.
+     * @param other posición a comparar
+     * @return true si ambas posiciones coinciden
+     */
     public boolean isSamePosition(Position other) {
-        return false;
+
+        boolean equals = false;
+
+        if (other != null) {
+            if (this.x == other.x && this.y == other.y) {
+                equals = true;
+            }
+        }
+
+        return equals;
     }
 
     public int getX() {
