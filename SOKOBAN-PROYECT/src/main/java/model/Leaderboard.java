@@ -325,6 +325,45 @@ public class Leaderboard {
 
         return null;
     }
+    public GameStats binarySearchByTime(double time) {
+        GameStats[] arr = sortByTime();
+        // bisqueda binaria por tiempo
+        int left = 0, right = arr.length - 1;
+
+        while (left <= right) {
+            int mid = (left + right) / 2;
+
+            if (arr[mid].getTime() == time)
+                return arr[mid];
+
+            if (arr[mid].getTime() < time)
+                left = mid + 1;
+            else
+                right = mid - 1;
+        }
+
+        return null;
+    }
+    public GameStats binarySearchByLevel(int levelId) {
+        GameStats[] arr = sortByLevel();
+        // busqueda binaria por nivel
+
+        int left = 0, right = arr.length - 1;
+
+        while (left <= right) {
+            int mid = (left + right) / 2;
+
+            if (arr[mid].getLevelId() == levelId)
+                return arr[mid];
+
+            if (arr[mid].getLevelId() < levelId)
+                left = mid + 1;
+            else
+                right = mid - 1;
+        }
+
+        return null;
+    }
 
 
 
