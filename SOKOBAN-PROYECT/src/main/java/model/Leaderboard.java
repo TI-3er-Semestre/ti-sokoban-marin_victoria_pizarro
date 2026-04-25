@@ -17,6 +17,7 @@ public class Leaderboard {
 
     /**
      * agrega una nueva estadistica al final de la lista
+     *
      * @param stat la estadistica a agregar
      */
 
@@ -35,6 +36,7 @@ public class Leaderboard {
 
     /**
      * convierte la lista interna a un arreglo de Gamestats
+     *
      * @return arreglo con elementos en el mismo orden que la Lista
      */
 
@@ -54,11 +56,12 @@ public class Leaderboard {
 
     /**
      * ordena la estadistica por numero de movimientos usando el algoritno merge sort
+     *
      * @return un arreglo ordenado de game stats segn getmoves
      */
-    public GameStats[] sortByMoves(){
+    public GameStats[] sortByMoves() {
         GameStats[] arr = toArray();
-        mergeSort(arr, 0,arr.length - 1);
+        mergeSort(arr, 0, arr.length - 1);
         return arr;
     }
 
@@ -67,21 +70,25 @@ public class Leaderboard {
         mergeSortByLevel(arr, 0, arr.length - 1);
         return arr;
     }
-    public GameStats[] sortByScore(){
+
+    public GameStats[] sortByScore() {
         GameStats[] arr = toArray();
-        mergeSortByScore(arr, 0, arr.length-1);
+        mergeSortByScore(arr, 0, arr.length - 1);
         return arr;
     }
+
     public GameStats[] sortByPushes() {
         GameStats[] arr = toArray();
         mergeSortByPushes(arr, 0, arr.length - 1);
         return arr;
     }
+
     public GameStats[] sortByTime() {
         GameStats[] arr = toArray();
         mergeSortByTime(arr, 0, arr.length - 1);
         return arr;
     }
+
     private void mergeSortByTime(GameStats[] arr, int left, int right) {
         if (left < right) {
             int mid = (left + right) / 2;
@@ -92,6 +99,7 @@ public class Leaderboard {
             mergeByTime(arr, left, mid, right);
         }
     }
+
     private void mergeByTime(GameStats[] arr, int left, int mid, int right) {
 
         int n1 = mid - left + 1;
@@ -130,6 +138,7 @@ public class Leaderboard {
             mergeByPushes(arr, left, mid, right);
         }
     }
+
     private void mergeByPushes(GameStats[] arr, int left, int mid, int right) {
 
         int n1 = mid - left + 1;
@@ -159,7 +168,6 @@ public class Leaderboard {
     }
 
 
-
     private void mergeSortByScore(GameStats[] arr, int left, int right) {
         if (left < right) {
             int mid = (left + right) / 2;
@@ -171,33 +179,31 @@ public class Leaderboard {
         }
     }
 
-    private void mergeByScore(GameStats[] arr, int left, int mid, int right){
-        int n1 = mid -left + 1;
+    private void mergeByScore(GameStats[] arr, int left, int mid, int right) {
+        int n1 = mid - left + 1;
         int n2 = right - mid;
 
         GameStats[] L = new GameStats[n1];
         GameStats[] R = new GameStats[n2];
-        for (int i = 0; i < n1; i ++ )
-            L[i] = arr[left+i];
+        for (int i = 0; i < n1; i++)
+            L[i] = arr[left + i];
 
-        for (int j = 0; j < n2; j ++)
-            R[j] = arr[mid +1 + j];
+        for (int j = 0; j < n2; j++)
+            R[j] = arr[mid + 1 + j];
 
 
+        int i = 0, j = 0, k = left;
 
-        int i = 0, j =0, k = left;
-
-        while( i < n1 && j< n2){
-            if (L[i].calculateScore() >= R[j].calculateScore()){
+        while (i < n1 && j < n2) {
+            if (L[i].calculateScore() >= R[j].calculateScore()) {
                 arr[k++] = L[i++];
-            }else{
-                arr[k++] = R[j ++];
+            } else {
+                arr[k++] = R[j++];
             }
 
         }
-        while (i < n1 ) arr[k++] = L[i++];
-        while (j<n2) arr[k++] = R[j++];
-
+        while (i < n1) arr[k++] = L[i++];
+        while (j < n2) arr[k++] = R[j++];
 
 
     }
@@ -244,8 +250,9 @@ public class Leaderboard {
 
     /**
      * metodo recursivo de ordenaminto por mezcla
-     * @param arr arreglo a ordenar
-     * @param left indice izquierd
+     *
+     * @param arr   arreglo a ordenar
+     * @param left  indice izquierd
      * @param right indice derecho
      */
     private void mergeSort(GameStats[] arr, int left, int right) {
@@ -260,13 +267,14 @@ public class Leaderboard {
     }
 
     /**
-     *  fusiona 2 subarreglos ordenados en un solo arreglo orden dado
-     * @param arr arreglo que contiene los subarreglos
-     * @param left inicio del primer subarreglo
-     * @param mid fin del primer subaarrelgo
+     * fusiona 2 subarreglos ordenados en un solo arreglo orden dado
+     *
+     * @param arr   arreglo que contiene los subarreglos
+     * @param left  inicio del primer subarreglo
+     * @param mid   fin del primer subaarrelgo
      * @param right fin del segundo subarreglo
      */
-    private void merge(GameStats[]arr, int left, int mid, int right){
+    private void merge(GameStats[] arr, int left, int mid, int right) {
         // calcular el tamano en subArreglos que voy a unir
         int n1 = mid - left + 1;
         int n2 = right - mid;
@@ -275,15 +283,15 @@ public class Leaderboard {
         GameStats[] R = new GameStats[n2];
 
 
-        for  (int i = 0; i < n1; i++)
+        for (int i = 0; i < n1; i++)
             L[i] = arr[left + i];
 
         for (int j = 0; j < n2; j++)
             R[j] = arr[mid + 1 + j];
 
-        int i = 0, j=0, k = left;
+        int i = 0, j = 0, k = left;
 
-        while (i<n1 && j<n2) {
+        while (i < n1 && j < n2) {
             if (L[i].getMoves() <= R[j].getMoves()) {
                 arr[k++] = L[i++];
             } else {
@@ -292,16 +300,37 @@ public class Leaderboard {
 
             }
         }
-        while(i < n1) {
-                arr[k++] = L[i++];
-            }
+        while (i < n1) {
+            arr[k++] = L[i++];
+        }
         while (j < n2) arr[k++] = R[j++];
+    }
+    public GameStats binarySearchByScore(double score) {
+        GameStats[] arr = sortByScore();
+
+        int left = 0, right = arr.length - 1;
+
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            double midScore = arr[mid].calculateScore();
+
+            if (Math.abs(midScore - score) < 0.0001)
+                return arr[mid];
+
+            if (midScore < score)
+                right = mid - 1;
+            else
+                left = mid + 1;
         }
 
-
-
-
+        return null;
     }
+
+
+
+}
+
+
 
 
 
