@@ -375,7 +375,7 @@ Frames apilados en el peor caso: 1
 | `isEmpty()`      | O(1)                | O(1)                 | O(1)     |
 | `size()`         | O(1)                | O(1)                 | O(1)     |
 
-*El peor caso O(n) ocurre cuando todas las claves colisionan en la misma cubeta.
+El peor caso O(n) ocurre cuando todas las claves colisionan en la misma cubeta.
 Con una función `hashCode()` bien distribuida y un factor de carga α = n/c < 1,
-todas las operaciones de búsqueda e inserción son efectivamente O(1).*
+todas las operaciones de búsqueda e inserción son efectivamente O(1).
 
