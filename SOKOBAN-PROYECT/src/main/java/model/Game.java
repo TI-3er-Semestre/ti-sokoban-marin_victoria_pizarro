@@ -5,7 +5,7 @@ import structures.LinkedList;
 import structures.Stack;
 
 public class Game {
-    private Stack<Position> history;
+    private Stack<position> history;
 
     private Board board;
     private Player player;
