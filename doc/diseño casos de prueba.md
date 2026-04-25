@@ -18,6 +18,15 @@
 | setupStage12 | PlayerTest | Jugador inicializado en una posición conocida (2,2). |
 | setupStage13 | PositionTest | Dos posiciones: una igual (2,2) vs (2,2) y otra diferente (2,2) vs (3,2). |
 | setupStage14 | GameStatsTest | Estadísticas inicializadas en cero (movimientos y empujes) y luego modificadas. |
+| setupStage15 | PriorityQueueTest | Cola vacía con capacidad 5. |
+| setupStage16 | PriorityQueueTest | Cola con tres resultados insertados: 10 movimientos, 5 movimientos y 8 movimientos. |
+| setupStage17 | PriorityQueueTest | Cola llena (capacidad 3) con resultados de 5, 8 y 12 movimientos. |
+| setupStage18 | PriorityQueueTest | Cola llena (capacidad 3) con resultados de 5, 7 y 10 movimientos. |
+| setupStage19 | GameResultTest | GameResult con usuario "juan123", nivel 1, 10 movimientos, 3 empujes y 120 segundos. |
+| setupStage20 | LeaderboardTest | Leaderboard vacío para el nivel 1. |
+| setupStage21 | LeaderboardTest | Leaderboard con 3 resultados ya agregados: 10, 15 y 20 movimientos. |
+| setupStage22 | LeaderboardTest | Leaderboard lleno (top 5) con resultados de 5, 7, 8, 9 y 10 movimientos. |
+
 
 ---
 
@@ -125,3 +134,51 @@ Validar el registro de estadísticas del juego.
 | GameStats | addMove() | setupStage14 | No aplica | El contador de movimientos aumenta en 1. |
 | GameStats | addPush() | setupStage14 | No aplica | El contador de empujes aumenta en 1. |
 | GameStats | reset() | setupStage14 | No aplica | Los contadores se reinician a cero. |
+
+### Objetivo: Validar que `insert()` agrega correctamente y mantiene la propiedad del Min-Heap.
+
+| Clase | Método | Escenario | Valores de Entrada | Resultado esperado |
+|---|---|---|---|---|
+| PriorityQueue | insert() | setupStage15 | GameResult con 10 movimientos | cantidadActual=1, peekMin() retorna el resultado insertado |
+| PriorityQueue | insert() | setupStage16 | GameResult con 3 movimientos | cantidadActual=4, peekMin() retorna el resultado de 3 movimientos |
+| PriorityQueue | insert() | setupStage17 | GameResult con 6 movimientos | cantidadActual sigue en 3, el resultado se ignora silenciosamente |
+
+---
+
+### Objetivo: Validar que `extractMin()` extrae el mejor resultado y reorganiza el heap correctamente.
+
+| Clase | Método | Escenario | Valores de Entrada | Resultado esperado |
+|---|---|---|---|---|
+| PriorityQueue | extractMin() | setupStage16 | — | Retorna el resultado de 5 movimientos, cantidadActual=2 |
+| PriorityQueue | extractMin() | setupStage15 | — | Retorna null, la cola sigue vacía |
+| PriorityQueue | extractMin() | setupStage16 | Extraer los 3 elementos uno a uno | Salen en orden: 5, 8, 10 movimientos. Cola vacía al final |
+
+---
+
+### Objetivo: Validar que `tryAdd()` solo permite entrar al top-K resultados que lo merezcan.
+
+| Clase | Método | Escenario | Valores de Entrada | Resultado esperado |
+|---|---|---|---|---|
+| PriorityQueue | tryAdd() | setupStage15 | GameResult con 10 movimientos | cantidadActual=1, resultado insertado directamente |
+| PriorityQueue | tryAdd() | setupStage18 | GameResult con 3 movimientos | El resultado de 10 mov es reemplazado, cantidadActual sigue en 3 |
+| PriorityQueue | tryAdd() | setupStage18 | GameResult con 25 movimientos | La cola no se modifica, cantidadActual sigue en 3 |
+
+---
+
+### Objetivo: Validar que `GameResult` almacena correctamente los datos y los expone bien.
+
+| Clase | Método | Escenario | Valores de Entrada | Resultado esperado |
+|---|---|---|---|---|
+| GameResult | getPlayerName() | setupStage19 | — | Retorna "juan123" |
+| GameResult | getMoves() | setupStage19 | — | Retorna 10 |
+| GameResult | compareTo() | setupStage19 | GameResult con 5 movimientos | Retorna positivo porque 10 > 5 |
+
+---
+
+### Objetivo: Validar que `Leaderboard` gestiona correctamente el top-K de resultados.
+
+| Clase | Método | Escenario | Valores de Entrada | Resultado esperado |
+|---|---|---|---|---|
+| Leaderboard | addResult() | setupStage20 | GameResult con 10 movimientos | getMejoresResultados().getSize()==1 |
+| Leaderboard | addResult() | setupStage22 | GameResult con 3 movimientos | El peor resultado es reemplazado, tamaño sigue en 5 |
+| Leaderboard | addResult() | setupStage22 | GameResult con 50 movimientos | La cola no se modifica, tamaño sigue en 5 |
