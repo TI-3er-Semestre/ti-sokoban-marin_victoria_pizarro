@@ -77,6 +77,49 @@ public class Leaderboard {
         mergeSortByPushes(arr, 0, arr.length - 1);
         return arr;
     }
+    public GameStats[] sortByTime() {
+        GameStats[] arr = toArray();
+        mergeSortByTime(arr, 0, arr.length - 1);
+        return arr;
+    }
+    private void mergeSortByTime(GameStats[] arr, int left, int right) {
+        if (left < right) {
+            int mid = (left + right) / 2;
+
+            mergeSortByTime(arr, left, mid);
+            mergeSortByTime(arr, mid + 1, right);
+
+            mergeByTime(arr, left, mid, right);
+        }
+    }
+    private void mergeByTime(GameStats[] arr, int left, int mid, int right) {
+
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+
+        GameStats[] L = new GameStats[n1];
+        GameStats[] R = new GameStats[n2];
+
+        for (int i = 0; i < n1; i++)
+            L[i] = arr[left + i];
+
+        for (int j = 0; j < n2; j++)
+            R[j] = arr[mid + 1 + j];
+
+        int i = 0, j = 0, k = left;
+
+        while (i < n1 && j < n2) {
+            if (L[i].getTime() <= R[j].getTime()) {
+                arr[k++] = L[i++];
+            } else {
+                arr[k++] = R[j++];
+            }
+        }
+
+        while (i < n1) arr[k++] = L[i++];
+        while (j < n2) arr[k++] = R[j++];
+    }
+
     private void mergeSortByPushes(GameStats[] arr, int left, int right) {
         if (left < right) {
             int mid = (left + right) / 2;
