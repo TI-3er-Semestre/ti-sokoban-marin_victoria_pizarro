@@ -96,15 +96,27 @@ public class Game {
         if (nextCell == null || !nextCell.isWalkable()) {
             return;
         }
-
+        // valida caja sin moverla
+        Box box = null;
+        // validar sin modificar
 
         if (nextCell.hasBox()) {
-            Box box = findBoxAt(newX, newY);
+            box = findBoxAt(newX, newY);
             if (box == null || !canPushBox(box, offsetX, offsetY)) {
                 return;
             }
+
+        }// guardar estado
+        history.push(new GameState(
+                new Position(currentX, currentY),
+                copyBoxes()
+        ));
+        // aplicar cambios
+        if (box != null) {
             pushBox(box, offsetX, offsetY);
         }
+
+
 
 
         player.getPosition().setX(newX);
@@ -202,6 +214,30 @@ public class Game {
     public void undoMove() {
         if (!history.isEmpty()) {
             GameState prev = history.pop();
+
+            // retaurar al jiugador
+            player.setPosition(prev.getPlayerPosition());
+            // restaurar las cajas
+            LinkedList<Box> prevBoxes = prev.getBoxes();
+            //limpiar el tablero actual
+            structures.CustomIterator<Box> it = board.getBoxes().iterator();
+            while(it.hasNext()){
+                Box b = it.next().getData();
+                board.getCell(
+                        b.getPosition().getX(),
+                        b.getPosition().getY()).setHasBox(false);
+            }
+            // asignar cajas anteriores
+            board.setBoxes(prevBoxes);
+            // marcar cajas en el tablero
+            structures.CustomIterator<Box> it2 = prevBoxes.iterator();
+            while (it2.hasNext()){
+                Box b = it2.next().getData();
+                board.getCell(b.getPosition().getX(), b.getPosition().getY()).setHasBox(true);
+            }
+
+
+
 
 
         }

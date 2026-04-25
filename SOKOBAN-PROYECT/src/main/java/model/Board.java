@@ -15,6 +15,10 @@ public class Board {
         this.grid = new Cell[width][height];
         this.boxes = new LinkedList<>();
     }
+    public void setBoxes(LinkedList<Box> boxes) {
+        this.boxes = boxes;
+    }
+
 
     /**
      * Agrega una caja al tablero, tanto en la lista de cajas como en la celda correspondiente.
