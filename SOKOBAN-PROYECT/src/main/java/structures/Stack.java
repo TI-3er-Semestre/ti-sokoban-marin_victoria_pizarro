@@ -14,9 +14,6 @@ public class Stack<E> {
         top = null;
         size = 0;
     }
-    public boolean isEmpty() {
-        return top == null;
-    }
     // insewerta un Elemento en la cima, complejidad O(1)
 
 
@@ -39,6 +36,32 @@ public class Stack<E> {
 
         size--;
         return data;
+    }
+    // retorna el elemento en  la cima sin eliminarlo, complejidad O(1)
+    public E peek(){
+        if (isEmpty()){
+            return null;
+        }
+        return top.getData();
+    }
+    // verifica si la pila esta vacia
+    public boolean isEmpty() {
+        return top == null;
+    }
+
+    public int size(){
+        return size;
+    }
+    // muestra la pila de arriba hacia abajo
+    public String display(){
+        StringBuilder sb = new StringBuilder();
+        Node<E> current = top;
+
+        while (current != null ){
+            sb.append(current.getData()).append("\n");
+            current = current.getNext();
+        }
+        return  sb.toString();
     }
 
 
