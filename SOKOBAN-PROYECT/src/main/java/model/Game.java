@@ -2,8 +2,10 @@ package model;
 
 import structures.BinarySearchTree;
 import structures.LinkedList;
+import structures.Stack;
 
 public class Game {
+    private Stack<Position> history;
 
     private Board board;
     private Player player;
@@ -57,6 +59,7 @@ public class Game {
         this.player = new Player(new Position(1,1));
         this.stats = new GameStats(currentLevel.getId());
         this.isFinished = false;
+        history = new Stack<>();
     }
 
 
@@ -84,7 +87,7 @@ public class Game {
 
         int currentX = player.getPosition().getX();
         int currentY = player.getPosition().getY();
-
+        history.push(new Position(currentX, currentY));
         int newX = currentX + offsetX;
         int newY = currentY + offsetY;
 
@@ -170,6 +173,13 @@ public class Game {
     public void updateGame() {
         if (checkWin()) {
             isFinished = true;
+        }
+    }
+    // metodo deshacer movimiento
+    public void undoMove() {
+        if (!history.isEmpty()) {
+            Position prev = history.pop();
+            player.setPosition(prev);
         }
     }
 
