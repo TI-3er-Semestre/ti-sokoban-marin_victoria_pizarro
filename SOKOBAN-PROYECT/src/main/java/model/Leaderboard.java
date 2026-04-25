@@ -7,5 +7,20 @@ public class Leaderboard {
 
     public Leaderboard() {
             results = new LinkedList<>();
+
+
     }
+    public void add(GameStats stat){
+        results.add(stat);
+
+    }
+    public LinkedList<GameStats> getResults(){
+        return results;
+    }
+    public void displayRanking(){
+        System.out.println(results.display());
+    }
+
+
+
 }
