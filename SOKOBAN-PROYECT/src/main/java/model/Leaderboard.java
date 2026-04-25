@@ -1,35 +1,49 @@
 package model;
 
+import structures.LinkedList;
 import structures.PriorityQueue;
 
 /**
- * Leaderboard por nivel usando una cola de prioridad.
- * Mantiene el top-K de mejores resultados (menos movimientos) por nivel.
- * Cuando llega un nuevo resultado, automáticamente decide si entra al top-K
- * o se descarta, comparándolo contra el peor resultado actual.
+ * Leaderboard del juego que combina dos responsabilidades:
+ *
+ * 1. HISTORIAL COMPLETO (LinkedList + MergeSort):
+ *    Guarda todas las partidas jugadas en una lista enlazada y permite
+ *    ordenarlas por distintos criterios usando MergeSort.
+ *    Usado para la pantalla de estadísticas generales.
+ *
+ * 2. TOP-K (PriorityQueue):
+ *    Mantiene los mejores K resultados por nivel usando una cola de prioridad
+ *    (Min-Heap). Solo entran al top-K los resultados con menos movimientos.
+ *    Usado para el ranking rápido por nivel.
  */
 public class Leaderboard {
 
+    // ── Top-K con cola de prioridad ───────────────────────────────────────────
     private static final int TOP_K = 5;
     private PriorityQueue mejoresResultados;
     private int levelId;
 
+    // ── Historial completo con lista enlazada ─────────────────────────────────
+    private LinkedList<GameStats> historialCompleto;
+
     /**
      * Constructor: inicializa el leaderboard para un nivel específico.
-     * Crea una cola de prioridad vacía con capacidad para el top-K.
+     * Crea tanto la cola de prioridad para el top-K como la lista
+     * enlazada para el historial completo de partidas.
      *
      * @param levelId id del nivel al que pertenece este leaderboard
      */
     public Leaderboard(int levelId) {
         this.levelId = levelId;
         this.mejoresResultados = new PriorityQueue(TOP_K);
+        this.historialCompleto = new LinkedList<>();
     }
 
+    // MÉTODOS DEL TOP-K (PriorityQueue)
     /**
      * Intenta agregar un nuevo resultado al top-K del leaderboard.
-     * Delega completamente en tryAdd() de la cola de prioridad, que internamente
-     * decide si el resultado es suficientemente bueno para entrar al top-K
-     * o si simplemente se descarta porque hay mejores resultados ya guardados.
+     * Delega en tryAdd() de la cola de prioridad, que internamente decide
+     * si el resultado merece entrar al top-K o se descarta.
      *
      * @param resultado el resultado de la partida recién terminada
      */
@@ -38,29 +52,23 @@ public class Leaderboard {
     }
 
     /**
-     * Imprime en consola el leaderboard ordenado de mejor a peor resultado.
-     *
-     * Como la cola de prioridad no tiene recorrido directo sin destruirse,
-     * el proceso es:
-     *   1. Extraer todos los resultados a un arreglo temporal (copiaTemporalResultados).
-     *   2. Imprimir cada resultado con su posición en el ranking.
-     *   3. Reinsertar todos de vuelta a la cola para no perder los datos.
+     * Imprime en consola el top-K ordenado de mejor a peor resultado.
+     * Extrae los resultados a un arreglo temporal para no destruir la cola,
+     * los imprime y los reinserta.
      */
-    public void printLeaderboard() {
-        System.out.println("=== Leaderboard - Level " + levelId + " ===");
+    public void printTopK() {
+        System.out.println("=== Top-" + TOP_K + " Leaderboard - Level " + levelId + " ===");
 
-        // Arreglo temporal para guardar los resultados mientras vaciamos la cola
-        // sin perder los datos permanentemente
+        // Arreglo temporal para no perder los datos al vaciar la cola
         GameResult[] copiaTemporalResultados = new GameResult[mejoresResultados.getSize()];
         int cantidadGuardada = 0;
 
-        // Paso 1: extraer todos los resultados de la cola al arreglo temporal
+        // Paso 1: extraer todos a arreglo temporal
         while (!mejoresResultados.isEmpty()) {
             copiaTemporalResultados[cantidadGuardada++] = mejoresResultados.extractMin();
         }
 
-        // Paso 2: imprimir cada resultado con su posición en el ranking
-        // y al mismo tiempo reinsertarlo en la cola para no perder los datos
+        // Paso 2: imprimir y reinsertar
         for (int i = 0; i < cantidadGuardada; i++) {
             System.out.println((i + 1) + ". " + copiaTemporalResultados[i].toString());
             mejoresResultados.insert(copiaTemporalResultados[i]);
@@ -68,23 +76,248 @@ public class Leaderboard {
     }
 
     /**
-     * Retorna el id del nivel al que pertenece este leaderboard.
-     * Útil para identificar a qué nivel corresponden los resultados mostrados.
-     *
-     * @return id del nivel
-     */
-    public int getLevelId() {
-        return levelId;
-    }
-
-    /**
      * Retorna la cola de prioridad con los mejores resultados.
-     * Útil si desde otra clase (como GameController) se necesita
-     * acceder directamente a los resultados guardados.
      *
      * @return cola de prioridad con el top-K de resultados
      */
     public PriorityQueue getMejoresResultados() {
         return mejoresResultados;
+    }
+
+    // MÉTODOS DEL HISTORIAL COMPLETO (LinkedList + MergeSort)
+
+    /**
+     * Agrega una nueva estadística al historial completo de partidas.
+     * Se guarda en la lista enlazada sin importar si entra al top-K o no.
+     *
+     * @param stat la estadística de la partida a agregar
+     */
+    public void addStats(GameStats stat) {
+        historialCompleto.add(stat);
+    }
+
+    /**
+     * Retorna la lista enlazada con el historial completo de partidas.
+     *
+     * @return lista enlazada de GameStats
+     */
+    public LinkedList<GameStats> getHistorialCompleto() {
+        return historialCompleto;
+    }
+
+    /**
+     * Muestra el historial completo de partidas en consola.
+     */
+    public void displayHistorial() {
+        System.out.println("=== Historial Completo - Level " + levelId + " ===");
+        System.out.println(historialCompleto.display());
+    }
+
+    /**
+     * Convierte la lista enlazada interna a un arreglo de GameStats.
+     * Usado internamente por los métodos de ordenamiento.
+     *
+     * @return arreglo con todos los elementos del historial
+     */
+    private GameStats[] toArray() {
+        GameStats[] arr = new GameStats[historialCompleto.getLength()];
+        int i = 0;
+        structures.CustomIterator<GameStats> it = historialCompleto.iterator();
+        while (it.hasNext()) {
+            arr[i++] = it.next().getData();
+        }
+        return arr;
+    }
+
+    /**
+     * Ordena el historial por número de movimientos (ascendente).
+     * @return arreglo ordenado de GameStats
+     */
+    public GameStats[] sortByMoves() {
+        GameStats[] arr = toArray();
+        mergeSort(arr, 0, arr.length - 1);
+        return arr;
+    }
+
+    /**
+     * Ordena el historial por nivel (ascendente).
+     * @return arreglo ordenado de GameStats
+     */
+    public GameStats[] sortByLevel() {
+        GameStats[] arr = toArray();
+        mergeSortByLevel(arr, 0, arr.length - 1);
+        return arr;
+    }
+
+    /**
+     * Ordena el historial por puntaje (descendente, mayor primero).
+     * @return arreglo ordenado de GameStats
+     */
+    public GameStats[] sortByScore() {
+        GameStats[] arr = toArray();
+        mergeSortByScore(arr, 0, arr.length - 1);
+        return arr;
+    }
+
+    /**
+     * Ordena el historial por empujes (ascendente).
+     * @return arreglo ordenado de GameStats
+     */
+    public GameStats[] sortByPushes() {
+        GameStats[] arr = toArray();
+        mergeSortByPushes(arr, 0, arr.length - 1);
+        return arr;
+    }
+
+    /**
+     * Ordena el historial por tiempo (ascendente).
+     * @return arreglo ordenado de GameStats
+     */
+    public GameStats[] sortByTime() {
+        GameStats[] arr = toArray();
+        mergeSortByTime(arr, 0, arr.length - 1);
+        return arr;
+    }
+
+    // =========================================================================
+    // MÉTODOS PRIVADOS DE MERGESORT
+    // =========================================================================
+
+    private void mergeSort(GameStats[] arr, int left, int right) {
+        if (left < right) {
+            int mid = (left + right) / 2;
+            mergeSort(arr, left, mid);
+            mergeSort(arr, mid + 1, right);
+            merge(arr, left, mid, right);
+        }
+    }
+
+    private void merge(GameStats[] arr, int left, int mid, int right) {
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+        GameStats[] L = new GameStats[n1];
+        GameStats[] R = new GameStats[n2];
+        for (int i = 0; i < n1; i++) L[i] = arr[left + i];
+        for (int j = 0; j < n2; j++) R[j] = arr[mid + 1 + j];
+        int i = 0, j = 0, k = left;
+        while (i < n1 && j < n2) {
+            if (L[i].getMoves() <= R[j].getMoves()) arr[k++] = L[i++];
+            else arr[k++] = R[j++];
+        }
+        while (i < n1) arr[k++] = L[i++];
+        while (j < n2) arr[k++] = R[j++];
+    }
+
+    private void mergeSortByLevel(GameStats[] arr, int left, int right) {
+        if (left < right) {
+            int mid = (left + right) / 2;
+            mergeSortByLevel(arr, left, mid);
+            mergeSortByLevel(arr, mid + 1, right);
+            mergeByLevel(arr, left, mid, right);
+        }
+    }
+
+    private void mergeByLevel(GameStats[] arr, int left, int mid, int right) {
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+        GameStats[] L = new GameStats[n1];
+        GameStats[] R = new GameStats[n2];
+        for (int i = 0; i < n1; i++) L[i] = arr[left + i];
+        for (int j = 0; j < n2; j++) R[j] = arr[mid + 1 + j];
+        int i = 0, j = 0, k = left;
+        while (i < n1 && j < n2) {
+            if (L[i].getLevelId() <= R[j].getLevelId()) arr[k++] = L[i++];
+            else arr[k++] = R[j++];
+        }
+        while (i < n1) arr[k++] = L[i++];
+        while (j < n2) arr[k++] = R[j++];
+    }
+
+    private void mergeSortByScore(GameStats[] arr, int left, int right) {
+        if (left < right) {
+            int mid = (left + right) / 2;
+            mergeSortByScore(arr, left, mid);
+            mergeSortByScore(arr, mid + 1, right);
+            mergeByScore(arr, left, mid, right);
+        }
+    }
+
+    private void mergeByScore(GameStats[] arr, int left, int mid, int right) {
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+        GameStats[] L = new GameStats[n1];
+        GameStats[] R = new GameStats[n2];
+        for (int i = 0; i < n1; i++) L[i] = arr[left + i];
+        for (int j = 0; j < n2; j++) R[j] = arr[mid + 1 + j];
+        int i = 0, j = 0, k = left;
+        while (i < n1 && j < n2) {
+            if (L[i].calculateScore() >= R[j].calculateScore()) arr[k++] = L[i++];
+            else arr[k++] = R[j++];
+        }
+        while (i < n1) arr[k++] = L[i++];
+        while (j < n2) arr[k++] = R[j++];
+    }
+
+    private void mergeSortByPushes(GameStats[] arr, int left, int right) {
+        if (left < right) {
+            int mid = (left + right) / 2;
+            mergeSortByPushes(arr, left, mid);
+            mergeSortByPushes(arr, mid + 1, right);
+            mergeByPushes(arr, left, mid, right);
+        }
+    }
+
+    private void mergeByPushes(GameStats[] arr, int left, int mid, int right) {
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+        GameStats[] L = new GameStats[n1];
+        GameStats[] R = new GameStats[n2];
+        for (int i = 0; i < n1; i++) L[i] = arr[left + i];
+        for (int j = 0; j < n2; j++) R[j] = arr[mid + 1 + j];
+        int i = 0, j = 0, k = left;
+        while (i < n1 && j < n2) {
+            if (L[i].getPushes() <= R[j].getPushes()) arr[k++] = L[i++];
+            else arr[k++] = R[j++];
+        }
+        while (i < n1) arr[k++] = L[i++];
+        while (j < n2) arr[k++] = R[j++];
+    }
+
+    private void mergeSortByTime(GameStats[] arr, int left, int right) {
+        if (left < right) {
+            int mid = (left + right) / 2;
+            mergeSortByTime(arr, left, mid);
+            mergeSortByTime(arr, mid + 1, right);
+            mergeByTime(arr, left, mid, right);
+        }
+    }
+
+    private void mergeByTime(GameStats[] arr, int left, int mid, int right) {
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+        GameStats[] L = new GameStats[n1];
+        GameStats[] R = new GameStats[n2];
+        for (int i = 0; i < n1; i++) L[i] = arr[left + i];
+        for (int j = 0; j < n2; j++) R[j] = arr[mid + 1 + j];
+        int i = 0, j = 0, k = left;
+        while (i < n1 && j < n2) {
+            if (L[i].getTime() <= R[j].getTime()) arr[k++] = L[i++];
+            else arr[k++] = R[j++];
+        }
+        while (i < n1) arr[k++] = L[i++];
+        while (j < n2) arr[k++] = R[j++];
+    }
+
+    // =========================================================================
+    // GETTERS GENERALES
+    // =========================================================================
+
+    /**
+     * Retorna el id del nivel al que pertenece este leaderboard.
+     *
+     * @return id del nivel
+     */
+    public int getLevelId() {
+        return levelId;
     }
 }

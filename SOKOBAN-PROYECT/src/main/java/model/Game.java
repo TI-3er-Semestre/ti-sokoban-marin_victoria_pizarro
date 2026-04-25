@@ -2,6 +2,8 @@ package model;
 
 import structures.BinarySearchTree;
 import structures.LinkedList;
+import structures.Queue;
+import structures.HashTable;
 
 public class Game {
 
@@ -13,7 +15,9 @@ public class Game {
     private boolean isFinished;
     private BinarySearchTree<GameStats> statsTree;
     private LinkedList<Level> levels;
-
+    private Queue<String> moveHistory;
+    private HashTable<Integer, Level> levelsTable;
+    private HashTable<String, Box> boxMap;
 
     public Game(Level level, User user) {
         this.currentLevel = level;
@@ -21,31 +25,35 @@ public class Game {
         this.isFinished = false;
         this.statsTree = new BinarySearchTree<>();
         this.levels = new LinkedList<>();
-        this.levels.add(level);
+        this.moveHistory = new Queue<>();
+        this.levelsTable = new HashTable<>(10);
+        this.boxMap      = new HashTable<>(50);
+
+        levels.add(level);
+        levelsTable.put(level.getId(), level);
     }
     /**
-     * Agrega un nivel a la lista de niveles disponibles.
+     * Agrega un nivel a la lista enlazada y a la tabla hash de niveles.
+     * Ambas estructuras se mantienen sincronizadas.
      * @param level nivel a agregar
      */
     public void addLevel(Level level) {
         levels.add(level);
+        levelsTable.put(level.getId(), level);
     }
 
     /**
-     * Cambia el nivel actual por el nivel con el id indicado.
-     * Recorre la lista enlazada buscando el nivel correspondiente.
-     * @param levelId id del nivel a cargar
+     * Carga el nivel con el id dado usando la tabla hash
+     * Si el nivel existe, lo establece como nivel actual e inicia el juego.
+     * @param levelId identificador del nivel a cargar
      * @return true si el nivel fue encontrado y cargado, false si no existe
      */
     public boolean loadLevel(int levelId) {
-        structures.CustomIterator<Level> iterator = levels.iterator();
-        while (iterator.hasNext()) {
-            Level level = iterator.next().getData();
-            if (level.getId() == levelId) {
-                this.currentLevel = level;
-                startGame();
-                return true;
-            }
+        Level level = levelsTable.get(levelId);
+        if (level != null) {
+            this.currentLevel = level;
+            startGame();
+            return true;
         }
         return false;
     }
@@ -57,6 +65,17 @@ public class Game {
         this.player = new Player(new Position(1,1));
         this.stats = new GameStats(currentLevel.getId());
         this.isFinished = false;
+
+        this.moveHistory = new Queue<>();
+        this.boxMap      = new HashTable<>(50);
+
+
+        structures.CustomIterator<Box> it = board.getBoxes().iterator();
+        while (it.hasNext()) {
+            Box box = it.next().getData();
+            String key = boxKey(box.getPosition().getX(), box.getPosition().getY());
+            boxMap.put(key, box);
+        }
     }
 
 
@@ -105,26 +124,22 @@ public class Game {
         }
 
 
+        moveHistory.enqueue(direction);
+
         player.getPosition().setX(newX);
         player.getPosition().setY(newY);
         stats.addMove();
+
     }
 
     /**
-     * Busca la caja ubicada en la posición indicada recorriendo la lista del tablero.
-     * @param x coordenada X
-     * @param y coordenada Y
-     * @return la caja en esa posición, o null si no se encuentra
+     * Busca la caja en la posición dada usando la tabla hash
+     * @param x coordenada X de la posición
+     * @param y coordenada Y de la posición
+     * @return la caja en esa posición, o null si no hay ninguna
      */
     private Box findBoxAt(int x, int y) {
-        structures.CustomIterator<Box> iterator = board.getBoxes().iterator();
-        while (iterator.hasNext()) {
-            Box box = iterator.next().getData();
-            if (box.getPosition().getX() == x && box.getPosition().getY() == y) {
-                return box;
-            }
-        }
-        return null;
+        return boxMap.get(boxKey(x, y));
     }
 
     /**
@@ -158,10 +173,21 @@ public class Game {
         board.getCell(oldX, oldY).setHasBox(false);
         board.getCell(newX, newY).setHasBox(true);
 
+        boxMap.remove(boxKey(oldX, oldY));
         box.getPosition().setX(newX);
         box.getPosition().setY(newY);
+        boxMap.put(boxKey(newX, newY), box);
 
         stats.addPush();
+    }
+    /**
+     * Genera la clave string para la tabla hash de cajas a partir de coordenadas.
+     * @param x coordenada X
+     * @param y coordenada Y
+     * @return clave en formato "x,y"
+     */
+    private String boxKey(int x, int y) {
+        return x + "," + y;
     }
 
     /**
@@ -193,6 +219,8 @@ public class Game {
      * Guarda las estadísticas de la partida actual en el árbol binario.
      * El árbol ordena automáticamente por puntaje (mayor a menor).
      */
+
+
     public void saveGame() {
         if (stats != null) {
             statsTree.addNode(stats);
@@ -205,7 +233,16 @@ public class Game {
      * @return árbol binario de búsqueda con las estadísticas registradas
      */
     public BinarySearchTree<GameStats> getStatsTree() {
+
         return statsTree;
+    }
+
+    /**
+     * Retorna la cola con el historial de movimientos del jugador.
+     * @return cola FIFO con los movimientos en orden de ejecución
+     */
+    public Queue<String> getMoveHistory() {
+        return moveHistory;
     }
 
     /**
