@@ -56,6 +56,7 @@ public class GameController {
 
     /**
      * Maneja la entrada del usuario.
+     *
      * @param input tecla ingresada (w,a,s,d)
      */
     public void handleInput(String input) {
@@ -65,8 +66,10 @@ public class GameController {
             game.movePlayer(direction);
         }
     }
+
     /**
      * Convierte las teclas del usuario en direcciones del juego.
+     *
      * @param input tecla ingresada
      * @return dirección equivalente o null si es inválida
      */
@@ -84,6 +87,7 @@ public class GameController {
                 return null;
         }
     }
+
     /**
      * Actualiza el juego.
      */
@@ -93,8 +97,9 @@ public class GameController {
 
     /**
      * Inicia un nuevo juego.
+     *
      * @param level nivel
-     * @param user usuario
+     * @param user  usuario
      */
     public void start(Level level, User user) {
         game = new Game(level, user);
@@ -116,5 +121,4 @@ public class GameController {
     public Game getGame() {
         return game;
     }
-
 }
