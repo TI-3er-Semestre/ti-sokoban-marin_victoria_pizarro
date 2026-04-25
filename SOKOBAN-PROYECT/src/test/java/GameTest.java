@@ -69,6 +69,8 @@ public class GameTest {
 
         // Caja en (3,2)
         board.setCell(3,2, new Cell(CellType.FLOOR,true));
+        Box box = new Box(new Position(3,2));
+        board.addBox(box);
     }
     /**
      * setupStage4:
@@ -93,6 +95,8 @@ public class GameTest {
 
         // Otra caja bloqueando
         board.setCell(4,2, new Cell(CellType.FLOOR,true));
+        Box box2 = new Box(new Position(4,2));
+        board.addBox(box2);
     }
 
     /**
@@ -306,13 +310,14 @@ public class GameTest {
 
         // Arrange
         setupStage3();
-        Box box = new Box(new Position(3,2));
+
 
         // Act
-        game.pushBox(box, "RIGHT");
+        game.movePlayer("RIGHT");
 
         // Assert
-        Assertions.assertTrue(true);
+        Assertions.assertTrue(board.getCell(4,2).hasBox());
+        Assertions.assertFalse(board.getCell(3,2).hasBox());
     }
 
     /**
@@ -324,13 +329,13 @@ public class GameTest {
 
         // Arrange
         setupStage4();
-        Box box = new Box(new Position(3,2));
+
 
         // Act
-        game.pushBox(box, "RIGHT");
+        game.movePlayer("RIGHT");
 
         // Assert
-        Assertions.assertTrue(true);
+        Assertions.assertTrue(board.getCell(3,2).hasBox());
     }
 
     /**
@@ -342,13 +347,13 @@ public class GameTest {
 
         // Arrange
         setupStage5();
-        Box box = new Box(new Position(3,2));
+
 
         // Act
-        game.pushBox(box, "RIGHT");
+        game.movePlayer("RIGHT");
 
         // Assert
-        Assertions.assertTrue(true);
+        Assertions.assertTrue(board.getCell(3,2).hasBox());
     }
 
 
