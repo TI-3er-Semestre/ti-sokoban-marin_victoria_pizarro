@@ -87,7 +87,6 @@ public class Game {
 
         int currentX = player.getPosition().getX();
         int currentY = player.getPosition().getY();
-        history.push(new Position(currentX, currentY));
         int newX = currentX + offsetX;
         int newY = currentY + offsetY;
 
@@ -106,6 +105,7 @@ public class Game {
             }
             pushBox(box, offsetX, offsetY);
         }
+        history.push(new Position(currentX, currentY));
 
 
         player.getPosition().setX(newX);
