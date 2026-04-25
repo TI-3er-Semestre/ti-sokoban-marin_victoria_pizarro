@@ -61,6 +61,26 @@ public class Leaderboard {
         mergeSort(arr, 0,arr.length - 1);
         return arr;
     }
+    public GameStats[] sortByUsername() {
+        GameStats[] arr = toArray();
+        mergeSortByUsername(arr, 0, arr.length - 1);
+        return arr;
+    }
+    private void mergeSortByUsername(GameStats[] arr, int left, int right) {
+        if (left < right) {
+            int mid = (left + right) / 2;
+
+            mergeSortByUsername(arr, left, mid);
+            mergeSortByUsername(arr, mid + 1, right);
+
+            mergeByUsername(arr, left, mid, right);
+        }
+    }
+    private void mergeByUsername(GameStats[] arr, int left, int mid, int right){
+
+    }
+
+
 
     /**
      * metodo recursivo de ordenaminto por mezcla
