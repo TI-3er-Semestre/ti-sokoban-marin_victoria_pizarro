@@ -5,7 +5,7 @@ import structures.LinkedList;
 import structures.Stack;
 
 public class Game {
-    private Stack<position> history;
+    private Stack<GameState> history;
 
     private Board board;
     private Player player;
@@ -105,7 +105,6 @@ public class Game {
             }
             pushBox(box, offsetX, offsetY);
         }
-        history.push(new Position(currentX, currentY));
 
 
         player.getPosition().setX(newX);
@@ -145,6 +144,30 @@ public class Game {
     }
 
     /**
+     * crea una copia de la lista de cajas del tablero
+     * @return una nueva linkedlist con copia de todas las cajas
+     * el tablero original no se modifica
+     * la lista retorna el mismo tabmano que board.getboses
+     * cada caja copiada tiene las mismas coordenadas que su original
+     *
+     */
+
+
+
+    private LinkedList<Box> copyBoxes() {
+        LinkedList<Box> copy = new LinkedList<>();
+        structures.CustomIterator<Box> it = board.getBoxes().iterator();
+
+        while (it.hasNext()) {
+            Box b = it.next().getData();
+            Position pos = new Position(b.getPosition().getX(), b.getPosition().getY());
+            copy.add(new Box(pos));
+        }
+
+        return copy;
+    }
+
+    /**
      * Empuja una caja a la celda destino.
      * Solo llamar después de verificar con canPushBox().
      * @param box     caja a mover
@@ -178,8 +201,9 @@ public class Game {
     // metodo deshacer movimiento
     public void undoMove() {
         if (!history.isEmpty()) {
-            Position prev = history.pop();
-            player.setPosition(prev);
+            GameState prev = history.pop();
+
+
         }
     }
 
