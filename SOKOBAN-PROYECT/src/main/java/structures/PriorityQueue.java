@@ -35,9 +35,7 @@ public class PriorityQueue {
         this.cantidadActual = 0;
     }
 
-    // =========================================================================
-    // MÉTODOS PRIVADOS DE NAVEGACIÓN EN EL HEAP
-    // =========================================================================
+    // MÉTODOS PRIVADOS HEAP
 
     /**
      * Retorna el índice del padre del nodo en la posición dada.
@@ -75,9 +73,8 @@ public class PriorityQueue {
         return 2 * indicePadre + 2;
     }
 
-    // =========================================================================
-    // MÉTODOS PRIVADOS DE MANTENIMIENTO DEL HEAP
-    // =========================================================================
+
+    // MÉTODOS PRIVADOS HEAP
 
     /**
      * Compara dos nodos del heap y determina si el primero tiene mayor prioridad.
@@ -196,9 +193,7 @@ public class PriorityQueue {
         return indicePeor;
     }
 
-    // =========================================================================
     // OPERACIONES PÚBLICAS
-    // =========================================================================
 
     /**
      * Inserta un nuevo resultado en la cola de prioridad.
