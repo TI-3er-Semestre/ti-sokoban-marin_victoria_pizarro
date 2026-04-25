@@ -14,6 +14,33 @@ public class Stack<E> {
         top = null;
         size = 0;
     }
+    public boolean isEmpty() {
+        return top == null;
+    }
+    // insewerta un Elemento en la cima, complejidad O(1)
+
+
+    public void push(E data){
+        Node<E> newNode = new Node<>(data);
+        newNode.setNext(top);
+        top = newNode;
+
+        size ++;
+    }
+    // elimina y retorna el elemento en la cima, complejidad O(1)
+
+    public E pop() {
+        if (isEmpty()) {
+            return null;
+        }
+
+        E data = top.getData();
+        top = top.getNext();
+
+        size--;
+        return data;
+    }
+
 
 
 }
