@@ -63,23 +63,53 @@ public class Leaderboard {
     }
     public GameStats[] sortByUsername() {
         GameStats[] arr = toArray();
-        mergeSortByUsername(arr, 0, arr.length - 1);
         return arr;
     }
-    private void mergeSortByUsername(GameStats[] arr, int left, int right) {
+
+    public GameStats[] sortByLevel() {
+        GameStats[] arr = toArray();
+        mergeSortByLevel(arr, 0, arr.length - 1);
+        return arr;
+    }
+
+    private void mergeSortByLevel(GameStats[] arr, int left, int right) {
         if (left < right) {
             int mid = (left + right) / 2;
 
-            mergeSortByUsername(arr, left, mid);
-            mergeSortByUsername(arr, mid + 1, right);
+            mergeSortByLevel(arr, left, mid);
+            mergeSortByLevel(arr, mid + 1, right);
 
-            mergeByUsername(arr, left, mid, right);
+            mergeByLevel(arr, left, mid, right);
         }
     }
-    private void mergeByUsername(GameStats[] arr, int left, int mid, int right){
 
+    private void mergeByLevel(GameStats[] arr, int left, int mid, int right) {
+
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+
+        GameStats[] L = new GameStats[n1];
+        GameStats[] R = new GameStats[n2];
+
+        for (int i = 0; i < n1; i++)
+            L[i] = arr[left + i];
+
+        for (int j = 0; j < n2; j++)
+            R[j] = arr[mid + 1 + j];
+
+        int i = 0, j = 0, k = left;
+
+        while (i < n1 && j < n2) {
+            if (L[i].getLevelId() <= R[j].getLevelId()) {
+                arr[k++] = L[i++];
+            } else {
+                arr[k++] = R[j++];
+            }
+        }
+
+        while (i < n1) arr[k++] = L[i++];
+        while (j < n2) arr[k++] = R[j++];
     }
-
 
 
     /**
