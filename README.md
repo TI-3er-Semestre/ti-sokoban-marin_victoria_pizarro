@@ -128,16 +128,16 @@ Completitud =
 
 **Iteración 14: <commit-sha>**
 
-Densidad de errores-fallos =
+Densidad de errores-fallos = 0
 
-Confiabilidad =
+Confiabilidad = 1
 
-Completitud =
+Completitud = 2.8
 
 **Iteración 15: <commit-sha>**
 
-Densidad de errores-fallos =
+Densidad de errores-fallos = 0
 
-Confiabilidad =
+Confiabilidad = 1
 
-Completitud =
+Completitud = 2.9
