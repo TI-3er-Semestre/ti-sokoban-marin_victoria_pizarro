@@ -1,5 +1,6 @@
 package model;
 import structures.LinkedList;
+import structures.Node;
 
 public class Board {
 
@@ -64,7 +65,25 @@ public class Board {
      */
     public void setCell(int x, int y, Cell cell) {
         if (isInside(x, y)) {
+            Cell previous = grid[x][y];
+            if (previous != null && previous.hasBox()) {
+                // Buscar la caja en (x, y) y eliminarla de la lista
+                Node<Box> current = boxes.getFirst();
+                while (current != null) {
+                    Box box = current.getData();
+                    if (box.getPosition().getX() == x && box.getPosition().getY() == y) {
+                        boxes.delete(box);  // compareTo encuentra la caja exacta
+                        break;
+                    }
+                    current = current.getNext();
+                }
+            }
+
             grid[x][y] = cell;
+
+            if (cell.hasBox()) {
+                boxes.add(new Box(new Position(x, y)));
+            }
         }
     }
     /**
