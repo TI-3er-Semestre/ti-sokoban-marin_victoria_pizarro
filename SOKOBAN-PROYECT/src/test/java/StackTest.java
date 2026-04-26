@@ -52,5 +52,50 @@ public class StackTest {
         assertEquals(2, stack.size()); // no elimina
     }
 
+    /** TestIsEmpty
+     *  verifica que el metodo isEmpty() refleje correctamente si la pila tiene elementos o no
+     *  - una pila recien creada debe estar vacia  (isEmpty() => true).
+     * - Después de insertar al menos un elemento con push(), la pila no debe estar vacía (isEmpty() => false).
+     * Este metodo no modifica pila
+     */
+    @Test
+    void testIsEmpty() {
+        Stack<Integer> stack = new Stack<>();
+
+        assertTrue(stack.isEmpty());
+
+        stack.push(1);
+
+        assertFalse(stack.isEmpty());
+    }
+
+    /** TestPopEmpty
+     * comprubea el comportamiento de pop() cuando se invoca sobre una pila sin elementos
+     * - Si la pila está vacía, pop() debe retornar null (en lugar de lanzar una excepción).
+     * - El tamano permanece en 0 y la pila sigue vacía después de la operación.
+     *
+     */
+
+    @Test
+    void testPopEmpty() {
+        Stack<Integer> stack = new Stack<>();
+
+        assertNull(stack.pop());
+    }
+
+    /** testEmpty
+     *  asegura el comportamiento de peek() cuando la pila no contiene elementos
+     *  - Sobre una pila vacía, peek() debe retornar null.
+     *
+     */
+
+    @Test
+    void testPeekEmpty() {
+        Stack<Integer> stack = new Stack<>();
+
+        assertNull(stack.peek());
+    }
+
+
 
 }
