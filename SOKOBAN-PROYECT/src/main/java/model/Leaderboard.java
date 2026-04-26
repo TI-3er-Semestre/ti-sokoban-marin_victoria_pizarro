@@ -183,6 +183,12 @@ public class Leaderboard {
     // MÉTODOS PRIVADOS DE MERGESORT
     // =========================================================================
 
+    /**
+     * ordena un subarreglo por numero de movimeintos, usando merge sort
+     * @param arr arreglo de estadisticas de partida
+     * @param left indice izquierdo del subarreglo
+     * @param right indice derecho del subarreglo
+     */
     private void mergeSort(GameStats[] arr, int left, int right) {
         if (left < right) {
             int mid = (left + right) / 2;
@@ -191,6 +197,14 @@ public class Leaderboard {
             merge(arr, left, mid, right);
         }
     }
+
+    /**
+     * combina 2 subarreglos adyacentes ordenados por moviemiento en uno solo ordenado
+     * @param arr arreglo que contienen los subarreglos
+     * @param left limite izquierdo del primer subarreglo
+     * @param mid limite derecho del primer subarreg;p
+     * @param right limite derecho del segundo subarreglo
+     */
 
     private void merge(GameStats[] arr, int left, int mid, int right) {
         int n1 = mid - left + 1;
@@ -216,6 +230,13 @@ public class Leaderboard {
             mergeByLevel(arr, left, mid, right);
         }
     }
+    /**
+     * combina 2 subareeglos ordenados por nivel en uno solo ordenado
+     *
+     * @param arr arreglo
+     * @param left inicio del primer subarreglo
+     * @param right fun del segundo subarreglo
+     */
 
     private void mergeByLevel(GameStats[] arr, int left, int mid, int right) {
         int n1 = mid - left + 1;
@@ -233,6 +254,13 @@ public class Leaderboard {
         while (j < n2) arr[k++] = R[j++];
     }
 
+    /**
+     * ordena un subarreglo por puntake( mayor a menor) usando Merge sort
+     * @param arr arreglo de eestadisticas
+     * @param left indice izquierdo
+     * @param right indice derecho
+     */
+
     private void mergeSortByScore(GameStats[] arr, int left, int right) {
         if (left < right) {
             int mid = (left + right) / 2;
@@ -241,6 +269,14 @@ public class Leaderboard {
             mergeByScore(arr, left, mid, right);
         }
     }
+
+    /**
+     * combina 2 subarreglos ordenados por puntaje(decendente) en uno solo
+     * @param arr arreglo
+     * @param left indice izquierdo
+     * @param mid punto medio
+     * @param right limite derecho
+     */
 
     private void mergeByScore(GameStats[] arr, int left, int mid, int right) {
         int n1 = mid - left + 1;
@@ -258,6 +294,13 @@ public class Leaderboard {
         while (j < n2) arr[k++] = R[j++];
     }
 
+    /**
+     *  ordena un subarreglo por numero de empujes, menor a mayor
+     * @param arr arreglo
+     * @param left izquierda
+     * @param right derecha
+     */
+
     private void mergeSortByPushes(GameStats[] arr, int left, int right) {
         if (left < right) {
             int mid = (left + right) / 2;
@@ -266,6 +309,14 @@ public class Leaderboard {
             mergeByPushes(arr, left, mid, right);
         }
     }
+
+    /**
+     * combina 2 subarreglos ordenados por empujes,
+     * @param arr arreglo
+     * @param left izquierda
+     * @param mid medio
+     * @param right derecha
+     */
 
     private void mergeByPushes(GameStats[] arr, int left, int mid, int right) {
         int n1 = mid - left + 1;
@@ -283,6 +334,13 @@ public class Leaderboard {
         while (j < n2) arr[k++] = R[j++];
     }
 
+    /**
+     * ordena un subarreglo por tiempo, menor a mayor
+     * @param arr arreglo
+     * @param left izquierda
+     * @param right derecha
+     */
+
     private void mergeSortByTime(GameStats[] arr, int left, int right) {
         if (left < right) {
             int mid = (left + right) / 2;
@@ -291,6 +349,14 @@ public class Leaderboard {
             mergeByTime(arr, left, mid, right);
         }
     }
+
+    /**
+     * combina 2 subarreglos ordenados por tiempo
+     * @param arr arreglo
+     * @param left izquierda
+     * @param mid medio
+     * @param right derecha
+     */
 
     private void mergeByTime(GameStats[] arr, int left, int mid, int right) {
         int n1 = mid - left + 1;
@@ -306,6 +372,84 @@ public class Leaderboard {
         }
         while (i < n1) arr[k++] = L[i++];
         while (j < n2) arr[k++] = R[j++];
+    }
+    // binarios traidos desde la rama busqueda binaria
+
+    /**
+     * busca una estadistica, cuyo porcentaje sea aprox igual al valor dado
+     * @param score puntaje a buscar
+     * @return el GameStats con puntaje aproximado
+     */
+    public GameStats binarySearchByScore(double score) {
+        GameStats[] arr = sortByScore();
+
+        int left = 0, right = arr.length - 1;
+
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            double midScore = arr[mid].calculateScore();
+
+            if (Math.abs(midScore - score) < 0.0001)
+                return arr[mid];
+
+            if (midScore < score)
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+
+        return null;
+    }
+
+    /**\
+     * busca una estadistica con tiempo exactamente igual al valo dado
+     * @param time tiempo a buscar
+     * @return GameStats con getTime() == time, o null si no existe
+     */
+    public GameStats binarySearchByTime(double time) {
+        GameStats[] arr = sortByTime();
+        // bisqueda binaria por tiempo
+        int left = 0, right = arr.length - 1;
+
+        while (left <= right) {
+            int mid = (left + right) / 2;
+
+            if (arr[mid].getTime() == time)
+                return arr[mid];
+
+            if (arr[mid].getTime() < time)
+                left = mid + 1;
+            else
+                right = mid - 1;
+        }
+
+        return null;
+    }
+
+    /**
+     * busca una estadistica con identificador de nivel exactamente igual
+     * @param levelId identificador del nivel a buscar
+     * @return GameStats con getLevelId() == levelId, o null si no existe
+     */
+    public GameStats binarySearchByLevel(int levelId) {
+        GameStats[] arr = sortByLevel();
+        // busqueda binaria por nivel
+
+        int left = 0, right = arr.length - 1;
+
+        while (left <= right) {
+            int mid = (left + right) / 2;
+
+            if (arr[mid].getLevelId() == levelId)
+                return arr[mid];
+
+            if (arr[mid].getLevelId() < levelId)
+                left = mid + 1;
+            else
+                right = mid - 1;
+        }
+
+        return null;
     }
 
     // =========================================================================
