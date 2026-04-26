@@ -63,6 +63,7 @@ public class Stack<E> {
         return size;
     }
     // muestra la pila de arriba hacia abajo
+    // COMPLEJIDAD ESPACIAL
     // display() => O(n)
     //ya que se almacenan en n nodos de memoria
     public String display(){
