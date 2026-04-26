@@ -96,6 +96,43 @@ public class StackTest {
         assertNull(stack.peek());
     }
 
+    /** testDisplay
+     * verifica que el metoo display() genera una representacion textual del contenido
+     * de la pila que inluy todos los metodos almacenados
+     * - display() debe devolver un String que contenga cada elemento de la pila
+     * - En el ejemplo con push(1) y luego push(2), la cadena resultante debe
+     *   contener tanto "2" (cima) como "1" (base).
+     */
+    @Test
+    void testDisplay() {
+        Stack<Integer> stack = new Stack<>();
+
+        stack.push(1);
+        stack.push(2);
+
+        String result = stack.display();
+
+        assertTrue(result.contains("2"));
+        assertTrue(result.contains("1"));
+    }
+
+    /** testGeneric
+     * Comprueba que la clase Stack es generica, es decir que pueda manejar cualquier tipo de dato
+     * integer,string,object
+     * - Se puede instanciar Stack<String> y operar con cadenas correctamente
+     * - El metodo push() acepta el tipo definido.
+     */
+
+    @Test
+    void testGeneric() {
+        Stack<String> stack = new Stack<>();
+
+        stack.push("A");
+        stack.push("B");
+
+        assertEquals("B", stack.pop());
+    }
+
 
 
 }
