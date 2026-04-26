@@ -87,6 +87,7 @@ public class HashTable<K, V> {
                 } else {
                     prev.setNext(head.getNext());
                 }
+                size--;
                 return head.getValue();
             }
             prev = head;
