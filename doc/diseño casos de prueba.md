@@ -30,6 +30,7 @@
 | setupStage24  | QueueTest      | Cola vacía, sin ningún elemento. |
 | setupStage25  | HashTableTest  | Tabla hash con tres entradas: "nivel1"=100, "nivel2"=200, "nivel3"=300. Capacidad 10. |
 | setupStage26  | HashTableTest  | Tabla hash vacía con capacidad 10, sin ninguna entrada. |
+| setupStage27 | StackTest       |  pila vacia |
 
 
 ---
@@ -268,3 +269,46 @@ Validar que `clear()` vacía completamente la tabla hash.
 | Clase      | Método    | Escenario    | Valores de Entrada | Resultado esperado |
 |------------|-----------|--------------|--------------------|--------------------|
 | HashTable  | clear()   | setupStage25  | —                  | isEmpty()==true, size()==0, get("nivel1")==null. |
+
+### Objetivo de la Prueba
+Validar que push() inserta correctamente elementos en la pila y que size() se actualiza.
+| Clase      | Método    | Escenario    | Valores de Entrada | Resultado esperado |
+|------------|-----------|--------------|--------------------|--------------------|
+| Stack  | push(E), size()  | setupStage27  | push(10), push(20)             | size()==2, isEmpty()==false |
+
+## objetivo de la prueba;
+Validar que pop() elimina y retorna el elemento en la cima respetando el orden LIFO.
+| Clase      | Método    | Escenario    | Valores de Entrada | Resultado esperado |
+|------------|-----------|--------------|--------------------|--------------------|
+| Stack  | pop() | setupStage28 ([10,20])  | push(10), push(20)             | retorna 20, size()==1|
+| Stack  | pop() | setupStage27 ([vacia)  | push(10), push(20)             | retorna null, size()==0 |
+
+## objetivo de la prueba;
+Validar que peek() retorna el elemento en la cima sin modificar la pila
+| Clase      | Método    | Escenario    | Valores de Entrada | Resultado esperado |
+|------------|-----------|--------------|--------------------|--------------------|
+| Stack  | peek() | setupStage28 ([10,20])  | push(10), push(20)             | retorna 20, size()==2|
+| Stack  | peek() | setupStage27 ([vacia)  | push(10), push(20)             | retorna null |
+
+## objetivo de la prueba;
+Validar que isEmpty() detecta correctamente si la pila está vacía o no.
+| Clase      | Método    | Escenario    | Valores de Entrada | Resultado esperado |
+|------------|-----------|--------------|--------------------|--------------------|
+| Stack  | isEmpty() | setupStage27 (vacia)  |          | True|
+| Stack  | isEmpty() | setupStage27 + push(1)  |              | False |
+
+## objetivo de la prueba;
+Validar que display() muestra correctamente todos los elementos de la pila.
+| Clase      | Método    | Escenario    | Valores de Entrada | Resultado esperado |
+|------------|-----------|--------------|--------------------|--------------------|
+| Stack  | display() | setupStage28 ([10,20])  |          | String contiene "20" y "10"|
+
+## objetivo de la prueba;
+Validar que la estructura Stack funciona correctamente con diferentes tipos de datos.
+| Clase      | Método    | Escenario    | Valores de Entrada | Resultado esperado |
+|------------|-----------|--------------|--------------------|--------------------|
+| Stack  | push.pop | pila String  |   push("A"), push("B")       | pop() retorna "B"|
+
+
+
+
