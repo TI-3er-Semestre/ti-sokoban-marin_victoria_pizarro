@@ -2,11 +2,14 @@ package model;
 
 import structures.BinarySearchTree;
 import structures.LinkedList;
+
+import structures.Stack;
+
 import structures.Queue;
 import structures.HashTable;
 
 public class Game {
-
+    private Stack<GameState> history;
     private Board board;
     private Player player;
     private Level currentLevel;
@@ -66,6 +69,9 @@ public class Game {
         this.stats = new GameStats(currentLevel.getId());
         this.isFinished = false;
 
+        history = new Stack<>();
+
+
         this.moveHistory = new Queue<>();
         this.boxMap      = new HashTable<>(50);
 
@@ -76,6 +82,7 @@ public class Game {
             String key = boxKey(box.getPosition().getX(), box.getPosition().getY());
             boxMap.put(key, box);
         }
+
     }
 
 
@@ -103,7 +110,6 @@ public class Game {
 
         int currentX = player.getPosition().getX();
         int currentY = player.getPosition().getY();
-
         int newX = currentX + offsetX;
         int newY = currentY + offsetY;
 
@@ -113,18 +119,30 @@ public class Game {
         if (nextCell == null || !nextCell.isWalkable()) {
             return;
         }
-
+        // valida caja sin moverla
+        Box box = null;
+        // validar sin modificar
 
         if (nextCell.hasBox()) {
-            Box box = findBoxAt(newX, newY);
+            box = findBoxAt(newX, newY);
             if (box == null || !canPushBox(box, offsetX, offsetY)) {
                 return;
             }
+
+        }// guardar estado
+        history.push(new GameState(
+                new Position(currentX, currentY),
+                copyBoxes()
+        ));
+        // aplicar cambios
+        if (box != null) {
             pushBox(box, offsetX, offsetY);
         }
 
 
+
         moveHistory.enqueue(direction);
+
 
         player.getPosition().setX(newX);
         player.getPosition().setY(newY);
@@ -154,6 +172,30 @@ public class Game {
         int targetX = box.getPosition().getX() + offsetX;
         int targetY = box.getPosition().getY() + offsetY;
         return board.isFree(targetX, targetY);
+    }
+
+    /**
+     * crea una copia de la lista de cajas del tablero
+     * @return una nueva linkedlist con copia de todas las cajas
+     * el tablero original no se modifica
+     * la lista retorna el mismo tabmano que board.getboses
+     * cada caja copiada tiene las mismas coordenadas que su original
+     *
+     */
+
+
+
+    private LinkedList<Box> copyBoxes() {
+        LinkedList<Box> copy = new LinkedList<>();
+        structures.CustomIterator<Box> it = board.getBoxes().iterator();
+
+        while (it.hasNext()) {
+            Box b = it.next().getData();
+            Position pos = new Position(b.getPosition().getX(), b.getPosition().getY());
+            copy.add(new Box(pos));
+        }
+
+        return copy;
     }
 
     /**
@@ -196,6 +238,45 @@ public class Game {
     public void updateGame() {
         if (checkWin()) {
             isFinished = true;
+        }
+    }
+    // metodo deshacer movimiento
+    public void undoMove() {
+        if (!history.isEmpty()) {
+            GameState prev = history.pop();
+
+            // retaurar al jiugador
+            player.setPosition(prev.getPlayerPosition());
+            // restaurar las cajas
+            LinkedList<Box> prevBoxes = prev.getBoxes();
+            //limpiar el tablero actual
+            structures.CustomIterator<Box> it = board.getBoxes().iterator();
+            while(it.hasNext()){
+                Box b = it.next().getData();
+                board.getCell(
+                        b.getPosition().getX(),
+                        b.getPosition().getY()).setHasBox(false);
+            }
+            // asignar cajas anteriores
+            board.setBoxes(prevBoxes);
+            // marcar cajas en el tablero
+            structures.CustomIterator<Box> it2 = prevBoxes.iterator();
+            while (it2.hasNext()){
+                Box b = it2.next().getData();
+                board.getCell(b.getPosition().getX(), b.getPosition().getY()).setHasBox(true);
+            }
+            boxMap = new HashTable<>(50);
+
+            structures.CustomIterator<Box> it3 = prevBoxes.iterator();
+            while (it3.hasNext()) {
+                Box b = it3.next().getData();
+                boxMap.put(boxKey(b.getPosition().getX(), b.getPosition().getY()), b);
+            }
+
+
+
+
+
         }
     }
 
