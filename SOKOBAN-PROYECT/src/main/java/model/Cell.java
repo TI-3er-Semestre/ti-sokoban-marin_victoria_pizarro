@@ -11,30 +11,44 @@ public class Cell {
         this.hasBox = hasBox;
     }
 
-
+    /**
+     * Indica si la celda es caminable.
+     * @return true si es FLOOR o GOAL
+     */
     public boolean isWalkable() {
-        return false;
+        return type == CellType.FLOOR || type == CellType.GOAL;
     }
 
-
+    /**
+     * Indica si la celda es un objetivo.
+     * @return true si es tipo GOAL
+     */
     public boolean isGoal() {
-        return false;
+
+        return type == CellType.GOAL;
     }
 
 
     public CellType getType() {
+
         return type;
     }
 
     public void setType(CellType type) {
+
         this.type = type;
     }
-
+    /**
+     * Indica si la celda contiene una caja.
+     * @return true si hay una caja
+     */
     public boolean hasBox() {
-        return false;
+
+        return hasBox;
     }
 
     public void setHasBox(boolean hasBox) {
-        this.hasBox = hasBox;
+
+            this.hasBox = hasBox;
     }
 }

@@ -17,9 +17,12 @@ public class User {
         this.difficulty = difficulty;
     }
 
-
+    /**
+     * Registra al usuario en el sistema.
+     */
     public void register() {
 
+        System.out.println("User: " + username + " Registrado con Exito");
     }
 
 

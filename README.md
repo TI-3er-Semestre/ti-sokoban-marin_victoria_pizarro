@@ -19,3 +19,125 @@ directa.
 - Jhoan Marin - A00411015
 - Dylan Pizarro - A00414402
 - Juan Camilo Victoria - A00412499
+
+
+**Iteración 1: <commit-sha>**
+
+Densidad de errores-fallos =
+
+Confiabilidad = 
+
+Completitud = 
+
+
+**Iteración 2: <commit-sha>**
+
+Densidad de errores-fallos = 
+
+Confiabilidad = 
+
+Completitud = 
+
+**Iteración 3: <commit-sha>**
+
+Densidad de errores-fallos =
+
+Confiabilidad =
+
+Completitud =
+
+**Iteración 4: <commit-sha>**
+
+Densidad de errores-fallos =
+
+Confiabilidad =
+
+Completitud =
+
+**Iteración 5: <commit-sha>**
+
+Densidad de errores-fallos =
+
+Confiabilidad =
+
+Completitud =
+
+**Iteración 6: <commit-sha>**
+
+Densidad de errores-fallos =
+
+Confiabilidad =
+
+Completitud =
+
+**Iteración 7: <commit-sha>**
+
+Densidad de errores-fallos =
+
+Confiabilidad =
+
+Completitud =
+
+**Iteración 8: <commit-sha>**
+
+Densidad de errores-fallos =
+
+Confiabilidad =
+
+Completitud =
+
+**Iteración 9: <commit-sha>**
+
+Densidad de errores-fallos =
+
+Confiabilidad =
+
+Completitud =
+
+**Iteración 10: <commit-sha>**
+
+Densidad de errores-fallos =
+
+Confiabilidad =
+
+Completitud =
+
+**Iteración 11: <commit-sha>**
+
+Densidad de errores-fallos =
+
+Confiabilidad =
+
+Completitud =
+
+**Iteración 12: <commit-sha>**
+
+Densidad de errores-fallos =
+
+Confiabilidad =
+
+Completitud =
+
+**Iteración 13: <commit-sha>**
+
+Densidad de errores-fallos =
+
+Confiabilidad =
+
+Completitud =
+
+**Iteración 14: <commit-sha>**
+
+Densidad de errores-fallos = 0
+
+Confiabilidad = 1
+
+Completitud = 2.8
+
+**Iteración 15: <commit-sha>**
+
+Densidad de errores-fallos = 0
+
+Confiabilidad = 1
+
+Completitud = 2.9
