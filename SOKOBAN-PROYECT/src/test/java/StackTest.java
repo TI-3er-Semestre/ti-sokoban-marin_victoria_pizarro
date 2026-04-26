@@ -3,6 +3,36 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StackTest {
+    private Stack<Integer> stack;
+    /**
+     * setupStage1:
+     * Pila vacía
+     */
+    private void setupStage1() {
+        stack = new Stack<>();
+    }
+
+    /**
+     * setupStage2:
+     * Pila con [10, 20] (20 en la cima)
+     */
+    private void setupStage2() {
+        stack = new Stack<>();
+        stack.push(10);
+        stack.push(20);
+    }
+
+    /**
+     * setupStage3:
+     * Pila con [1, 2, 3] (3 en la cima)
+     */
+    private void setupStage3() {
+        stack = new Stack<>();
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+    }
+
 
     @Test
     // verifica que al insertar elementos con push(), el tamano de la pila
