@@ -6,6 +6,7 @@ package structures;
  */
 public class Stack<E> {
 
+
     private Node<E> top;   // cima de la pila
     private int size;
 
@@ -15,6 +16,9 @@ public class Stack<E> {
         size = 0;
     }
     // insewerta un Elemento en la cima, complejidad O(1)
+    // pus (E data) => O(1)
+    // se crea un nodo y se ajustan 2 referencias, to y next
+    // no depende del tamano de la pila
 
 
     public void push(E data){
@@ -25,6 +29,7 @@ public class Stack<E> {
         size ++;
     }
     // elimina y retorna el elemento en la cima, complejidad O(1)
+    // no hay recorrido
 
     public E pop() {
         if (isEmpty()) {
@@ -38,6 +43,7 @@ public class Stack<E> {
         return data;
     }
     // retorna el elemento en  la cima sin eliminarlo, complejidad O(1)
+    // solo retorna el dato del nodo en la cima
     public E peek(){
         if (isEmpty()){
             return null;
@@ -45,14 +51,21 @@ public class Stack<E> {
         return top.getData();
     }
     // verifica si la pila esta vacia
+    // solo compara si el top es null, O(1)
     public boolean isEmpty() {
         return top == null;
     }
+    // size() => O(1)
+    // retorna una variable almacenada
+
 
     public int size(){
         return size;
     }
     // muestra la pila de arriba hacia abajo
+    // COMPLEJIDAD ESPACIAL
+    // display() => O(n)
+    //ya que se almacenan en n nodos de memoria
     public String display(){
         StringBuilder sb = new StringBuilder();
         Node<E> current = top;
