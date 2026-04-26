@@ -366,7 +366,7 @@ public class PriorityQueueTest {
         leaderboard.addResult(nuevoResultado);
 
         // Assert
-        Assertions.assertEquals(1, leaderboard.getMejoresResultados().getSize());
+        Assertions.assertEquals(1, leaderboard.getBestResults().getSize());
     }
 
     /**
@@ -384,8 +384,8 @@ public class PriorityQueueTest {
         leaderboard.addResult(resultadoMejor);
 
         // Assert
-        Assertions.assertEquals(5, leaderboard.getMejoresResultados().getSize());
-        Assertions.assertEquals(3, leaderboard.getMejoresResultados().peekMin().getMoves());
+        Assertions.assertEquals(5, leaderboard.getBestResults().getSize());
+        Assertions.assertEquals(3, leaderboard.getBestResults().peekMin().getMoves());
     }
 
     /**
@@ -398,12 +398,12 @@ public class PriorityQueueTest {
         setupStage22();
         user = new User("Malo", "malo@mail.com", "malo1", "avatar.png", Difficulty.EASY);
         GameResult resultadoPeor = new GameResult(user, 1, 50, 10, 300);
-        int tamanoAntes = leaderboard.getMejoresResultados().getSize();
+        int tamanoAntes = leaderboard.getBestResults().getSize();
 
         // Act
         leaderboard.addResult(resultadoPeor);
 
         // Assert
-        Assertions.assertEquals(tamanoAntes, leaderboard.getMejoresResultados().getSize());
+        Assertions.assertEquals(tamanoAntes, leaderboard.getBestResults().getSize());
     }
 }
