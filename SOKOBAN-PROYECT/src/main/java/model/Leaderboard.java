@@ -374,6 +374,12 @@ public class Leaderboard {
         while (j < n2) arr[k++] = R[j++];
     }
     // binarios traidos desde la rama busqueda binaria
+
+    /**
+     * busca una estadistica, cuyo porcentaje sea aprox igual al valor dado
+     * @param score puntaje a buscar
+     * @return el GameStats con puntaje aproximado
+     */
     public GameStats binarySearchByScore(double score) {
         GameStats[] arr = sortByScore();
 
@@ -394,6 +400,12 @@ public class Leaderboard {
 
         return null;
     }
+
+    /**\
+     * busca una estadistica con tiempo exactamente igual al valo dado
+     * @param time tiempo a buscar
+     * @return GameStats con getTime() == time, o null si no existe
+     */
     public GameStats binarySearchByTime(double time) {
         GameStats[] arr = sortByTime();
         // bisqueda binaria por tiempo
@@ -413,6 +425,12 @@ public class Leaderboard {
 
         return null;
     }
+
+    /**
+     * busca una estadistica con identificador de nivel exactamente igual
+     * @param levelId identificador del nivel a buscar
+     * @return GameStats con getLevelId() == levelId, o null si no existe
+     */
     public GameStats binarySearchByLevel(int levelId) {
         GameStats[] arr = sortByLevel();
         // busqueda binaria por nivel
