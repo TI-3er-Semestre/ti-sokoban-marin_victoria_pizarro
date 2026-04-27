@@ -404,3 +404,27 @@ Total por frame 2;
 Frames 1;
 Espacio tola 1;
 
+### 2 `pop()` 
+### Complejidad Temporal: O(1)
+El metodo, Berifica si esta vacia, Guarda el dato del nodo top, Mueve el top al siguiente nodo.
+No hay recorridos.
+
+| Caso           | Comportamiento                                         | Complejidad |
+|----------------|--------------------------------------------------------|-------------|
+| Mejor caso     | Pila vacia                                    | O(1)        |
+| Caso promedio  | Elimina el Top                                    | O(1)        |
+| Peor caso      |  igual                                     | O(1)        |
+
+## complejidad espacial O(1)
+no se crean estructuras adiciaonales
+
+| Tipo      | Variable   | Cantidad de valores atómicos |
+|-----------|------------|------------------------------|
+| Entrada   |    ——      | 0                            |
+| Auxiliar  |  data    |                  1              |
+| Salida    | data        | 1                            |
+
+Total: 2 Valores
+Espacio total O(1)
+ ### 3 `peek()`
+ ### Complejidad Temporal O(1)
