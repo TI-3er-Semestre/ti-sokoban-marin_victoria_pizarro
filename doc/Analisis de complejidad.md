@@ -404,7 +404,7 @@ Total por frame 2;
 Frames 1;
 Espacio tola 1;
 
-### 2 `pop()` 
+## 2 `pop()` 
 ### Complejidad Temporal: O(1)
 El metodo, Berifica si esta vacia, Guarda el dato del nodo top, Mueve el top al siguiente nodo.
 No hay recorridos.
@@ -426,5 +426,32 @@ no se crean estructuras adiciaonales
 
 Total: 2 Valores
 Espacio total O(1)
- ### 3 `peek()`
+ ## 3 `peek()`
  ### Complejidad Temporal O(1)
+ Solo accede al dato del nodo en `Top`.
+ | Caso           | Comportamiento                                         | Complejidad |
+|----------------|--------------------------------------------------------|-------------|
+| Todos     | Acceso directo                                    | O(1)        |
+### Complejidad Espacial O(1)
+No se crea valores adiccionales significativas
+
+## 4 `isEmpty1`
+
+### Complejidad Temporal O(1)
+| Caso           |    Complejidad |
+|----------------|-------------|
+| Todos       | O(1)        |
+
+### Complejidad Espacial O(1)
+
+## 5 'Size()'
+### Complejidad Temporal O(1)
+Retorna una variable ya almacenada
+| Caso           |    Complejidad |
+|----------------|-------------|
+| Todos       | O(1)        |
+### Complejidad Espacial O(1)
+
+## 6 `Dispaly()`
+
+
