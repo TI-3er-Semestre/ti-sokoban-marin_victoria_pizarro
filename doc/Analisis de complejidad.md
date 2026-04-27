@@ -452,6 +452,34 @@ Retorna una variable ya almacenada
 | Todos       | O(1)        |
 ### Complejidad Espacial O(1)
 
-## 6 `Dispaly()`
+## 6 `Display()`
+### Complejidad Temporal O(1)
+Recorre todos los nodos `top` hasta el final
+| Caso           | Comportamiento                                         | Complejidad |
+|----------------|--------------------------------------------------------|-------------|
+| Mejor caso     | Pila vacia                                    | O(1)        |
+| Caso promedio  | Recorre n/2 nodos en promedio                                    | O(n)        |
+| Peor caso      |  Recorre todos los nodos                                     | O(n)        |
+
+## Complejidad espacial O(n)
+Se construye un `StringBuilder` con todos los elementos
+| Tipo      | Variable   | Cantidad de valores atómicos |
+|-----------|------------|------------------------------|
+| Entrada   |    ——      | 0                            |
+| Auxiliar  |     current       |          1                    |
+| Auxiliar  |  sb   |                  n             |
+| Salida    | String final       | n                           |\
+Total proporcional a n
+Espacio Total O(n)
+## Resumen General — HashTable
+
+| Método           | Temporal |               Espacial |
+|------------------|---------------------|----------------------|
+| `push()`          | O(1)                 | O(1)     |
+| `popp()`          | O(1)                 | O(1)     |
+| `peek()`       | O(1)                | O(1)     |
+| `isEmpty()`  | O(1)                | O(1)     |
+| `Size()`        | O(1)                 | O(1)     |
+| `Display()`      | O(n)                | | O(n)     |
 
 
