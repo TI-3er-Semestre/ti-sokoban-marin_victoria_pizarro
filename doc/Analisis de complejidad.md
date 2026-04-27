@@ -379,3 +379,28 @@ El peor caso O(n) ocurre cuando todas las claves colisionan en la misma cubeta.
 Con una función `hashCode()` bien distribuida y un factor de carga α = n/c < 1,
 todas las operaciones de búsqueda e inserción son efectivamente O(1).
 
+# Análisis de Complejidad — Stack
+
+## 1. `push(E data)`
+### Complejidad Temporal: O(1)
+El metodo crea un nuevo nodo, ajusta la referencia `next` y actualiza `top`
+
+
+| Caso           | Comportamiento                                         | Complejidad |
+|----------------|--------------------------------------------------------|-------------|
+| Mejor caso     | inserccion directa                                     | O(1)        |
+| Caso promedio  | igual al mejor caso                                     | O(1)        |
+| Peor caso      | Igual al mejor caso                                     | O(1)        |
+
+### Complejidad espacial O(1)
+se crea un solo nuevo nodo
+| Tipo      | Variable   | Cantidad de valores atómicos |
+|-----------|------------|------------------------------|
+| Entrada   |  data       | 1                            |
+| Auxiliar  | newnode    |                  1              |
+| Salida    | ——         | 0                            |
+
+Total por frame 2;
+Frames 1;
+Espacio tola 1;
+
