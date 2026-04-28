@@ -379,3 +379,107 @@ El peor caso O(n) ocurre cuando todas las claves colisionan en la misma cubeta.
 Con una función `hashCode()` bien distribuida y un factor de carga α = n/c < 1,
 todas las operaciones de búsqueda e inserción son efectivamente O(1).
 
+# Análisis de Complejidad — Stack
+
+## 1. `push(E data)`
+### Complejidad Temporal: O(1)
+El metodo crea un nuevo nodo, ajusta la referencia `next` y actualiza `top`
+
+
+| Caso           | Comportamiento                                         | Complejidad |
+|----------------|--------------------------------------------------------|-------------|
+| Mejor caso     | inserccion directa                                     | O(1)        |
+| Caso promedio  | igual al mejor caso                                     | O(1)        |
+| Peor caso      | Igual al mejor caso                                     | O(1)        |
+
+### Complejidad espacial O(1)
+se crea un solo nuevo nodo
+| Tipo      | Variable   | Cantidad de valores atómicos |
+|-----------|------------|------------------------------|
+| Entrada   |  data       | 1                            |
+| Auxiliar  | newnode    |                  1              |
+| Salida    | ——         | 0                            |
+
+Total por frame 2;
+Frames 1;
+Espacio tola 1;
+
+## 2 `pop()` 
+### Complejidad Temporal: O(1)
+El metodo, Berifica si esta vacia, Guarda el dato del nodo top, Mueve el top al siguiente nodo.
+No hay recorridos.
+
+| Caso           | Comportamiento                                         | Complejidad |
+|----------------|--------------------------------------------------------|-------------|
+| Mejor caso     | Pila vacia                                    | O(1)        |
+| Caso promedio  | Elimina el Top                                    | O(1)        |
+| Peor caso      |  igual                                     | O(1)        |
+
+## complejidad espacial O(1)
+no se crean estructuras adiciaonales
+
+| Tipo      | Variable   | Cantidad de valores atómicos |
+|-----------|------------|------------------------------|
+| Entrada   |    ——      | 0                            |
+| Auxiliar  |  data    |                  1              |
+| Salida    | data        | 1                            |
+
+Total: 2 Valores
+Espacio total O(1)
+ ## 3 `peek()`
+ ### Complejidad Temporal O(1)
+ Solo accede al dato del nodo en `Top`.
+ | Caso           | Comportamiento                                         | Complejidad |
+|----------------|--------------------------------------------------------|-------------|
+| Todos     | Acceso directo                                    | O(1)        |
+### Complejidad Espacial O(1)
+No se crea valores adiccionales significativas
+
+## 4 `isEmpty1`
+
+### Complejidad Temporal O(1)
+| Caso           |    Complejidad |
+|----------------|-------------|
+| Todos       | O(1)        |
+
+### Complejidad Espacial O(1)
+
+## 5 'Size()'
+### Complejidad Temporal O(1)
+Retorna una variable ya almacenada
+| Caso           |    Complejidad |
+|----------------|-------------|
+| Todos       | O(1)        |
+### Complejidad Espacial O(1)
+
+## 6 `Display()`
+### Complejidad Temporal O(1)
+Recorre todos los nodos `top` hasta el final
+| Caso           | Comportamiento                                         | Complejidad |
+|----------------|--------------------------------------------------------|-------------|
+| Mejor caso     | Pila vacia                                    | O(1)        |
+| Caso promedio  | Recorre n/2 nodos en promedio                                    | O(n)        |
+| Peor caso      |  Recorre todos los nodos                                     | O(n)        |
+
+## Complejidad espacial O(n)
+Se construye un `StringBuilder` con todos los elementos
+| Tipo      | Variable   | Cantidad de valores atómicos |
+|-----------|------------|------------------------------|
+| Entrada   |    ——      | 0                            |
+| Auxiliar  |     current       |          1                    |
+| Auxiliar  |  sb   |                  n             |
+| Salida    | String final       | n                           |\
+Total proporcional a n
+Espacio Total O(n)
+## Resumen General — HashTable
+
+| Método           | Temporal |               Espacial |
+|------------------|---------------------|----------------------|
+| `push()`          | O(1)                 | O(1)     |
+| `popp()`          | O(1)                 | O(1)     |
+| `peek()`       | O(1)                | O(1)     |
+| `isEmpty()`  | O(1)                | O(1)     |
+| `Size()`        | O(1)                 | O(1)     |
+| `Display()`      | O(n)                | | O(n)     |
+
+

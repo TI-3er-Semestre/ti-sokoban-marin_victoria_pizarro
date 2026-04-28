@@ -21,38 +21,38 @@ directa.
 - Juan Camilo Victoria - A00412499
 
 
-**Iteración 1: <commit-sha>**
+**Iteración 1: <d514c16>**
 
-Densidad de errores-fallos =
+Densidad de errores-fallos = 0.33
 
-Confiabilidad = 
+Confiabilidad = 0.67
 
-Completitud = 
+Completitud = 1.6
 
 
-**Iteración 2: <commit-sha>**
+**Iteración 2: <e47db6e>**
 
-Densidad de errores-fallos = 
+Densidad de errores-fallos = 0.24
 
-Confiabilidad = 
+Confiabilidad = 0.76
 
-Completitud = 
+Completitud = 1.6
 
-**Iteración 3: <commit-sha>**
+**Iteración 3: <9639443>**
 
-Densidad de errores-fallos =
+Densidad de errores-fallos = 0.21
 
-Confiabilidad =
+Confiabilidad = 0.79
 
-Completitud =
+Completitud = 1.6
 
-**Iteración 4: <commit-sha>**
+**Iteración 4: <50e6766>**
 
-Densidad de errores-fallos =
+Densidad de errores-fallos = 0.21
 
-Confiabilidad =
+Confiabilidad = 0.79
 
-Completitud =
+Completitud = 1.6
 
 **Iteración 5: <commit-sha>**
 
@@ -62,69 +62,70 @@ Confiabilidad =
 
 Completitud =
 
-**Iteración 6: <commit-sha>**
 
-Densidad de errores-fallos =
+**Iteración 6: <a35d50b>**
 
-Confiabilidad =
+Densidad de errores-fallos = 0.03
 
-Completitud =
+Confiabilidad = 0.97
 
-**Iteración 7: <commit-sha>**
+Completitud = 2.9
 
-Densidad de errores-fallos =
+**Iteración 7: <419e8ec>**
 
-Confiabilidad =
+Densidad de errores-fallos =0.03
 
-Completitud =
+Confiabilidad = 0.97
 
-**Iteración 8: <commit-sha>**
+Completitud = 2.9
 
-Densidad de errores-fallos =
+**Iteración 8: <fde0f39>**
 
-Confiabilidad =
+Densidad de errores-fallos = 0.03
 
-Completitud =
+Confiabilidad = 0.97
 
-**Iteración 9: <commit-sha>**
+Completitud = 2.9
 
-Densidad de errores-fallos =
+**Iteración 9: <aca0bda>**
 
-Confiabilidad =
+Densidad de errores-fallos = 0.04
 
-Completitud =
+Confiabilidad = 0.96
 
-**Iteración 10: <commit-sha>**
+Completitud = 2.7
 
-Densidad de errores-fallos =
+**Iteración 10: <Iteración: 2ee999f>**
 
-Confiabilidad =
+Densidad de errores-fallos = 0.04
 
-Completitud =
+Confiabilidad = 0.96
 
-**Iteración 11: <commit-sha>**
+Completitud = 2.6
 
-Densidad de errores-fallos =
+**Iteración 11: <42c6c06>**
 
-Confiabilidad =
+Densidad de errores-fallos = 0.04
 
-Completitud =
+Confiabilidad = 0.96
 
-**Iteración 12: <commit-sha>**
+Completitud = 2.6
 
-Densidad de errores-fallos =
+**Iteración 12: <15f934e>**
 
-Confiabilidad =
+Densidad de errores-fallos = 0.02
 
-Completitud =
+Confiabilidad = 0.98
 
-**Iteración 13: <commit-sha>**
+Completitud = 2.6
 
-Densidad de errores-fallos =
+**Iteración 13: <Iteración: 28cef82>**
 
-Confiabilidad =
+Densidad de errores-fallos = 0
 
-Completitud =
+Confiabilidad = 1
+
+Completitud = 2.6
 
 **Iteración 14: <commit-sha>**
 
