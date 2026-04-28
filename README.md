@@ -54,40 +54,32 @@ Confiabilidad = 0.79
 
 Completitud = 1.6
 
-**Iteración 5: <commit-sha>**
+**Iteración 5: <a35d50bf>**
 
-Densidad de errores-fallos =
+Densidad de errores-fallos = 0.13
 
-Confiabilidad =
+Confiabilidad =0.87
 
-Completitud =
+Completitud = 1.9
 
 
-**Iteración 6: <a35d50b>**
+**Iteración 6: <42c6c06>**
 
-Densidad de errores-fallos = 0.03
+Densidad de errores-fallos = 0.04
 
-Confiabilidad = 0.97
+Confiabilidad = 0.96
 
-Completitud = 2.9
+Completitud = 2.6
 
-**Iteración 7: <419e8ec>**
+**Iteración 7: <2ee999f>**
 
-Densidad de errores-fallos =0.03
+Densidad de errores-fallos =0.04
 
-Confiabilidad = 0.97
+Confiabilidad = 0.96
 
-Completitud = 2.9
+Completitud = 2.6
 
-**Iteración 8: <fde0f39>**
-
-Densidad de errores-fallos = 0.03
-
-Confiabilidad = 0.97
-
-Completitud = 2.9
-
-**Iteración 9: <aca0bda>**
+**Iteración 8: <aca0bda>**
 
 Densidad de errores-fallos = 0.04
 
@@ -95,21 +87,29 @@ Confiabilidad = 0.96
 
 Completitud = 2.7
 
-**Iteración 10: <Iteración: 2ee999f>**
+**Iteración 9: <fde0f39>**
 
-Densidad de errores-fallos = 0.04
+Densidad de errores-fallos = 0.03
 
-Confiabilidad = 0.96
+Confiabilidad = 0.97
 
-Completitud = 2.6
+Completitud = 2.9
 
-**Iteración 11: <42c6c06>**
+**Iteración 10: <a35d50b>**
 
-Densidad de errores-fallos = 0.04
+Densidad de errores-fallos = 0.03
 
-Confiabilidad = 0.96
+Confiabilidad = 0.97
 
-Completitud = 2.6
+Completitud = 2.9
+
+**Iteración 11: <419e8ec>**
+
+Densidad de errores-fallos = 0.03
+
+Confiabilidad = 0.97
+
+Completitud = 2.9
 
 **Iteración 12: <15f934e>**
 
@@ -119,7 +119,7 @@ Confiabilidad = 0.98
 
 Completitud = 2.6
 
-**Iteración 13: <Iteración: 28cef82>**
+**Iteración 13: <28cef82>**
 
 Densidad de errores-fallos = 0
 
