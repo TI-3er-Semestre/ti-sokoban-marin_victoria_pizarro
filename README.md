@@ -21,7 +21,7 @@ directa.
 - Juan Camilo Victoria - A00412499
 
 
-**Iteración 1: <d514c16>**
+**Iteración 1: d514c16**
 
 Densidad de errores-fallos = 0.33
 
@@ -30,7 +30,7 @@ Confiabilidad = 0.67
 Completitud = 1.6
 
 
-**Iteración 2: <e47db6e>**
+**Iteración 2: e47db6e**
 
 Densidad de errores-fallos = 0.24
 
@@ -54,7 +54,7 @@ Confiabilidad = 0.79
 
 Completitud = 1.6
 
-**Iteración 5: <a35d50bf>**
+**Iteración 5: a35d50bf**
 
 Densidad de errores-fallos = 0.13
 
@@ -79,7 +79,7 @@ Confiabilidad = 0.96
 
 Completitud = 2.6
 
-**Iteración 8: <aca0bda>**
+**Iteración 8: aca0bda**
 
 Densidad de errores-fallos = 0.04
 
@@ -87,7 +87,7 @@ Confiabilidad = 0.96
 
 Completitud = 2.7
 
-**Iteración 9: <fde0f39>**
+**Iteración 9: fde0f39**
 
 Densidad de errores-fallos = 0.03
 
@@ -95,7 +95,7 @@ Confiabilidad = 0.97
 
 Completitud = 2.9
 
-**Iteración 10: <a35d50b>**
+**Iteración 10: a35d50b**
 
 Densidad de errores-fallos = 0.03
 
