@@ -31,7 +31,11 @@
 | setupStage25  | HashTableTest  | Tabla hash con tres entradas: "nivel1"=100, "nivel2"=200, "nivel3"=300. Capacidad 10. |
 | setupStage26  | HashTableTest  | Tabla hash vacía con capacidad 10, sin ninguna entrada. |
 | setupStage27 | StackTest       |  pila vacia |
-
+| setupStage29  | BFSAutoTest  | Tablero 3x3 con muros en toda la periferia. La celda (1,1) es GOAL y ya tiene una caja encima. El GameState inicial se construye directamente con la caja sobre el goal. |
+| setupStage30  | BFSAutoTest  | Tablero 5x3 con muros en toda la periferia. Jugador en (1,1), caja en (2,1), goal en (3,1). Un único empuje a la derecha resuelve el nivel. |
+| setupStage31  | BFSAutoTest  | Tablero 5x3 con muros en toda la periferia. Goal en (1,1), caja en (2,1), jugador en (3,1). Un único empuje a la izquierda resuelve el nivel. |
+| setupStage32  | BFSAutoTest  | Tablero 3x3 con muros en toda la periferia. Goal en (0,1), caja en (1,1), muro en (2,1). La caja no tiene solución porque el jugador no puede posicionarse detrás de ella. |
+| setupStage33  | BFSAutoTest  | Tablero 5x5 con muros en la periferia e interior 3x3 caminable. Goal en (2,1), caja en (2,2), jugador en (1,3). BFS debe encontrar la secuencia óptima incluyendo el reposicionamiento del jugador. |
 
 ---
 
@@ -308,6 +312,55 @@ Validar que la estructura Stack funciona correctamente con diferentes tipos de d
 | Clase      | Método    | Escenario    | Valores de Entrada | Resultado esperado |
 |------------|-----------|--------------|--------------------|--------------------|
 | Stack  | push.pop | pila String  |   push("A"), push("B")       | pop() retorna "B"|
+
+### Objetivo de la Prueba:
+Validar que BFSAuto detecta correctamente cuando el nivel ya está resuelto sin necesidad de movimientos.
+
+| Clase      | Método  | Escenario    | Valores de Entrada | Resultado esperado |
+|------------|---------|--------------|--------------------|--------------------|
+| BFSAuto    | solve() | setupStage29 | estadoInicial      | Retorna una lista no nula con longitud 0. |
+
+---
+
+### Objetivo de la Prueba:
+Validar que BFSAuto encuentra la solución óptima de un solo empuje hacia la derecha.
+
+| Clase      | Método  | Escenario    | Valores de Entrada | Resultado esperado |
+|------------|---------|--------------|--------------------|--------------------|
+| BFSAuto    | solve() | setupStage30 | estadoInicial      | Retorna lista no nula con longitud 1. |
+| BFSAuto    | solve() | setupStage30 | estadoInicial      | El único movimiento de la lista es "RIGHT". |
+| BFSAuto    | solve() | setupStage30 | estadoInicial      | Al aplicar la solución sobre Game, checkWin() retorna true. |
+
+---
+
+### Objetivo de la Prueba:
+Validar que BFSAuto encuentra la solución óptima de un solo empuje hacia la izquierda.
+
+| Clase      | Método  | Escenario    | Valores de Entrada | Resultado esperado |
+|------------|---------|--------------|--------------------|--------------------|
+| BFSAuto    | solve() | setupStage31 | estadoInicial      | Retorna lista no nula con longitud 1. |
+| BFSAuto    | solve() | setupStage31 | estadoInicial      | El único movimiento de la lista es "LEFT". |
+
+---
+
+### Objetivo de la Prueba:
+Validar que BFSAuto retorna null cuando no existe ninguna solución posible.
+
+| Clase      | Método  | Escenario    | Valores de Entrada | Resultado esperado |
+|------------|---------|--------------|--------------------|--------------------|
+| BFSAuto    | solve() | setupStage32 | estadoInicial      | Retorna null. |
+
+---
+
+### Objetivo de la Prueba:
+Validar que BFSAuto encuentra y aplica correctamente una solución que requiere reposicionamiento del jugador, y que dicha solución es óptima.
+
+| Clase      | Método  | Escenario    | Valores de Entrada | Resultado esperado |
+|------------|---------|--------------|--------------------|--------------------|
+| BFSAuto    | solve() | setupStage33 | estadoInicial      | Retorna lista no nula con longitud mayor a 0. |
+| BFSAuto    | solve() | setupStage33 | estadoInicial      | Al aplicar la solución sobre Game, checkWin() retorna true. |
+| BFSAuto    | solve() | setupStage33 | estadoInicial      | Aplicando (longitud - 1) movimientos, checkWin() retorna false (optimalidad garantizada por BFS). |
+
 
 
 
