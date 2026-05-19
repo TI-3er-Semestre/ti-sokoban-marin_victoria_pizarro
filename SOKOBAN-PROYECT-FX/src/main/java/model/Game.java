@@ -1,12 +1,6 @@
 package model;
 
-import structures.BinarySearchTree;
-import structures.LinkedList;
-
-import structures.Stack;
-
-import structures.Queue;
-import structures.HashTable;
+import structures.*;
 
 public class Game {
     private Stack<GameState> history;

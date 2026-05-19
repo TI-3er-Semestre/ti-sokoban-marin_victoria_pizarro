@@ -1,5 +1,6 @@
-import structures.Stack;
 import org.junit.jupiter.api.Test;
+import structures.Stack;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StackTest {
