@@ -5,49 +5,20 @@ import structures.HashTable;
 import structures.LinkedList;
 import structures.CustomIterator;
 
-/**
- * Solucionador automático del Sokoban usando BFS (Breadth-First Search).
- *
- * ── Qué es el grafo de estados ────────────────────────────────────────────────
- * Cada NODO  = un GameState { posición jugador + posiciones de cajas }
- * Cada ARISTA = un movimiento válido (UP, DOWN, LEFT, RIGHT)
- *
- * BFS explora nivel por nivel (primero todos los estados a distancia 1,
- * luego a distancia 2, etc.), lo que garantiza que la primera solución
- * encontrada tiene el MENOR número de movimientos posible.
- *
- * ── Estructuras propias usadas ────────────────────────────────────────────────
- *   Queue<GameState>           → cola BFS (FIFO)
- *   HashTable<String, Boolean> → tabla de visitados (transposición)
- *   LinkedList<String>         → lista de movimientos solución
- *   LinkedList<Box>            → posiciones de cajas por estado
- *
- * ── Complejidad temporal ──────────────────────────────────────────────────────
- * O(b^d) donde b = factor de ramificación (máx. 4 direcciones)
- *              d = profundidad de la solución óptima
- *
- * ── Complejidad espacial ──────────────────────────────────────────────────────
- * ┌──────────────────────────────────┬─────────────────────┬──────────────────────────┐
- * │ Tipo                             │ Variable            │ Cant. valores atómicos   │
- * ├──────────────────────────────────┼─────────────────────┼──────────────────────────┤
- * │ Queue<GameState> (máx. b^d nodos)│ colaBFS             │ b^d × (2 + 2n)           │
- * │ HashTable<String, Boolean>       │ visitados           │ b^d entradas             │
- * │ LinkedList<String> (d pasos)     │ solucion            │ d                        │
- * └──────────────────────────────────┴─────────────────────┴──────────────────────────┘
- * donde n = número de cajas en el nivel.
- */
+
+
 public class BFSAuto {
 
-    /** Tablero del nivel — solo lectura, para validar movimientos y celdas goal. */
+
     private Board board;
 
-    /** Direcciones posibles en orden consistente. */
+
     private static final String[] DIRECTIONS = {"UP", "DOWN", "LEFT", "RIGHT"};
 
     // ── Constructor ───────────────────────────────────────────────────────────
 
     /**
-     * @param board tablero del nivel a resolver (no se modifica durante BFS)
+     * @param board tablero del nivel a resolver
      */
     public BFSAuto(Board board) {
         this.board = board;
@@ -56,18 +27,6 @@ public class BFSAuto {
     // ── solve ─────────────────────────────────────────────────────────────────
 
     /**
-     * Ejecuta BFS desde el estado inicial del juego.
-     *
-     * Algoritmo:
-     *   1. Encolar estado inicial.
-     *   2. Marcar estado inicial como visitado.
-     *   3. Mientras la cola no esté vacía:
-     *      a. Desencolar estado actual.
-     *      b. Si es estado objetivo → reconstruir camino y retornar.
-     *      c. Para cada dirección: generar estado siguiente.
-     *      d. Si el estado siguiente no fue visitado → encolar y marcar.
-     *   4. Si la cola se vacía sin solución → retornar null.
-     *
      * @param estadoInicial estado del juego al momento de llamar al solver
      * @return LinkedList<String> con los movimientos en orden ("UP","DOWN",...),
      *         o null si no hay solución
@@ -116,13 +75,6 @@ public class BFSAuto {
     // ── isGoalState ───────────────────────────────────────────────────────────
 
     /**
-     * Verifica si todas las cajas del estado están sobre celdas objetivo.
-     *
-     * Replica exactamente la lógica de Level.isCompleted() pero sobre
-     * el estado simulado (no el tablero real).
-     *
-     * Complejidad: O(n) donde n = número de cajas.
-     *
      * @param estado estado a verificar
      * @return true si todas las cajas están en celdas GOAL
      */
@@ -145,22 +97,6 @@ public class BFSAuto {
     // ── applyMove ─────────────────────────────────────────────────────────────
 
     /**
-     * Simula la aplicación de un movimiento sobre un estado y retorna
-     * el nuevo estado resultante SIN modificar el tablero real.
-     *
-     * Lógica (igual que Game.movePlayer, pero sobre copias):
-     *   1. Calcular (newX, newY) = posición jugador + offset de dirección.
-     *   2. Si la celda destino no es caminable → null (movimiento inválido).
-     *   3. Si hay una caja en (newX, newY):
-     *      a. Calcular (boxNewX, boxNewY) = posición caja + mismo offset.
-     *      b. Si esa celda no está libre (board.isFree) → null.
-     *      c. Si hay otra caja simulada ahí → null.
-     *      d. Si está libre → construir lista con la caja movida.
-     *   4. Si no hay caja → copiar lista sin cambios.
-     *   5. Retornar nuevo GameState con parent=estadoActual y move=direction.
-     *
-     * Complejidad: O(n) por buildBoxes (copia de cajas).
-     *
      * @param estado    estado actual del que se parte
      * @param direction dirección a aplicar
      * @return nuevo GameState, o null si el movimiento es inválido
@@ -220,13 +156,9 @@ public class BFSAuto {
         return new GameState(nuevaPosicionJugador, nuevasCajas, estado, direction);
     }
 
-    // ── findBoxAt ─────────────────────────────────────────────────────────────
+    // findBoxAt
 
     /**
-     * Busca si hay una caja en (x, y) dentro de la lista simulada.
-     *
-     * Complejidad: O(n) donde n = número de cajas.
-     *
      * @param cajas lista de cajas del estado simulado
      * @param x     coordenada X a buscar
      * @param y     coordenada Y a buscar
@@ -247,15 +179,6 @@ public class BFSAuto {
     // ── buildBoxes ────────────────────────────────────────────────────────────
 
     /**
-     * Construye una nueva LinkedList<Box> copiando las cajas actuales,
-     * reemplazando cajaVieja por una nueva caja en cajaNuevaPos si se indica.
-     *
-     * Si cajaVieja == null, simplemente clona todas las cajas.
-     * Usa add() (inserción ordenada por compareTo de Box) para que
-     * generateKey() sea siempre determinista.
-     *
-     * Complejidad: O(n) donde n = número de cajas.
-     *
      * @param cajasActuales  lista de cajas del estado padre
      * @param cajaVieja      caja a reemplazar (null si no hay empuje)
      * @param cajaNuevaPos   posición nueva de la caja (null si no hay empuje)
@@ -285,17 +208,9 @@ public class BFSAuto {
         return resultado;
     }
 
-    // ── reconstructPath ───────────────────────────────────────────────────────
+    // reconstructPath
 
     /**
-     * Reconstruye la secuencia de movimientos desde el estado goal
-     * hasta el estado raíz siguiendo la cadena de parentState.
-     *
-     * Como se recorre goal → raíz, los movimientos quedan invertidos.
-     * Se usa Stack propia para invertirlos y obtener el orden correcto.
-     *
-     * Complejidad: O(d) donde d = profundidad de la solución.
-     *
      * @param estadoFinal estado objetivo desde el que se reconstruye
      * @return LinkedList<String> con movimientos en orden de ejecución
      */
@@ -321,11 +236,10 @@ public class BFSAuto {
     /**
      * Construye el GameState inicial a partir del estado actual de Game.
      *
-     * Uso desde el controlador:
+     * Uso desde el controlado:
      *   BFSAuto solver = new BFSAuto(game.getBoard());
      *   GameState inicial = solver.buildInitialState(game);
      *   LinkedList<String> solucion = solver.solve(inicial);
-     *
      * @param game instancia del juego con el estado actual
      * @return GameState raíz listo para pasarle a solve()
      */

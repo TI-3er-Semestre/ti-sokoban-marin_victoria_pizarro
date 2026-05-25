@@ -45,7 +45,7 @@ public class Leaderboard {
      * Delega en tryAdd() de la cola de prioridad, que internamente decide
      * si el resultado merece entrar al top-K o se descarta.
      *
-     * @param resultado el resultado de la partida recién terminada
+     * @param result el resultado de la partida recién terminada
      */
     public void addResult(GameResult result) {
         bestResults.tryAdd(result);
