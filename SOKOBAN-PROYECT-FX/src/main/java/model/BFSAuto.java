@@ -5,55 +5,88 @@ import structures.HashTable;
 import structures.LinkedList;
 import structures.CustomIterator;
 
-
-
 public class BFSAuto {
-
 
     private Board board;
 
 
+    private FloydWarshall fw;
+
+
+    private Position[] goalPositions;
+    private int goalCount;
+
     private static final String[] DIRECTIONS = {"UP", "DOWN", "LEFT", "RIGHT"};
 
-    // ── Constructor ───────────────────────────────────────────────────────────
 
     /**
      * @param board tablero del nivel a resolver
      */
     public BFSAuto(Board board) {
         this.board = board;
+        this.fw = null;
+        this.goalPositions = null;
+        this.goalCount = 0;
     }
 
-    // ── solve ─────────────────────────────────────────────────────────────────
+
+    /**
+     *
+     * @param board tablero del nivel a resolver
+     * @param fw    instancia ya construida de FloydWarshall para ese tablero
+     */
+    public BFSAuto(Board board, FloydWarshall fw) {
+        this.board = board;
+        this.fw = fw;
+
+
+        int count = 0;
+        for (int x = 0; x < board.getWidth(); x++) {
+            for (int y = 0; y < board.getHeight(); y++) {
+                Cell cell = board.getCell(x, y);
+                if (cell != null && cell.isGoal()) {
+                    count++;
+                }
+            }
+        }
+
+        // Segunda pasada: guardarlos en el array.
+        this.goalCount = count;
+        this.goalPositions = new Position[count];
+        int idx = 0;
+        for (int x = 0; x < board.getWidth(); x++) {
+            for (int y = 0; y < board.getHeight(); y++) {
+                Cell cell = board.getCell(x, y);
+                if (cell != null && cell.isGoal()) {
+                    goalPositions[idx] = new Position(x, y);
+                    idx++;
+                }
+            }
+        }
+    }
+
 
     /**
      * @param estadoInicial estado del juego al momento de llamar al solver
      * @return LinkedList<String> con los movimientos en orden ("UP","DOWN",...),
-     *         o null si no hay solución
+     *         o null si no hay solucion
      */
     public LinkedList<String> solve(GameState estadoInicial) {
 
-        // Cola BFS — usa nuestra Queue propia (FIFO con nodos enlazados)
         Queue<GameState> colaBFS = new Queue<>();
-
-        // Tabla de transposición — evita re-explorar estados ya visitados
         HashTable<String, Boolean> visitados = new HashTable<>(1024);
 
-        // Encolar estado raíz
         colaBFS.enqueue(estadoInicial);
         visitados.put(estadoInicial.generateKey(), true);
 
-        // ── Bucle BFS principal ──────────────────────────────────────────────
         while (!colaBFS.isEmpty()) {
 
             GameState estadoActual = colaBFS.dequeue();
 
-            // ¿Llegamos al objetivo?
             if (isGoalState(estadoActual)) {
                 return reconstructPath(estadoActual);
             }
 
-            // Expandir las 4 direcciones
             for (String direction : DIRECTIONS) {
                 GameState estadoSiguiente = applyMove(estadoActual, direction);
 
@@ -61,6 +94,17 @@ public class BFSAuto {
                     String clave = estadoSiguiente.generateKey();
 
                     if (!visitados.containsKey(clave)) {
+
+                        //Poda
+                        if (fw != null) {
+                            Position[] cajasPos = boxesToPositionArray(estadoSiguiente.getBoxes());
+                            int h = fw.computeHeuristic(cajasPos, cajasPos.length,
+                                    goalPositions, goalCount);
+                            if (h == FloydWarshall.INF) {
+                                continue;
+                            }
+                        }
+
                         visitados.put(clave, true);
                         colaBFS.enqueue(estadoSiguiente);
                     }
@@ -68,15 +112,13 @@ public class BFSAuto {
             }
         }
 
-        // Sin solución
         return null;
     }
 
-    // ── isGoalState ───────────────────────────────────────────────────────────
 
     /**
      * @param estado estado a verificar
-     * @return true si todas las cajas están en celdas GOAL
+     * @return true si todas las cajas estan en celdas GOAL
      */
     private boolean isGoalState(GameState estado) {
         CustomIterator<Box> it = estado.getBoxes().iterator();
@@ -94,16 +136,14 @@ public class BFSAuto {
         return true;
     }
 
-    // ── applyMove ─────────────────────────────────────────────────────────────
 
     /**
      * @param estado    estado actual del que se parte
-     * @param direction dirección a aplicar
-     * @return nuevo GameState, o null si el movimiento es inválido
+     * @param direction direccion a aplicar
+     * @return nuevo GameState, o null si el movimiento es invalido
      */
     private GameState applyMove(GameState estado, String direction) {
 
-        // Calcular offset
         int offsetX = 0;
         int offsetY = 0;
         switch (direction.toUpperCase()) {
@@ -118,37 +158,28 @@ public class BFSAuto {
         int newX    = playerX + offsetX;
         int newY    = playerY + offsetY;
 
-        // Validar celda destino del jugador
         Cell celdaDestino = board.getCell(newX, newY);
         if (celdaDestino == null || !celdaDestino.isWalkable()) {
             return null;
         }
 
-        // Buscar si hay una caja simulada en (newX, newY)
         Box cajaEnDestino = findBoxAt(estado.getBoxes(), newX, newY);
-
-        // Construir nueva lista de cajas
         LinkedList<Box> nuevasCajas;
 
         if (cajaEnDestino != null) {
-            // Hay caja — verificar si se puede empujar
             int boxNewX = newX + offsetX;
             int boxNewY = newY + offsetY;
 
-            // Celda destino de la caja debe ser caminable (sin muro ni borde)
             if (!board.isFree(boxNewX, boxNewY)) {
                 return null;
             }
-            // No debe haber otra caja simulada en el destino
             if (findBoxAt(estado.getBoxes(), boxNewX, boxNewY) != null) {
                 return null;
             }
 
-            // Construir lista con la caja movida
             nuevasCajas = buildBoxes(estado.getBoxes(), cajaEnDestino,
                     new Position(boxNewX, boxNewY));
         } else {
-            // Sin caja — copiar lista sin cambios
             nuevasCajas = buildBoxes(estado.getBoxes(), null, null);
         }
 
@@ -156,13 +187,11 @@ public class BFSAuto {
         return new GameState(nuevaPosicionJugador, nuevasCajas, estado, direction);
     }
 
-    // findBoxAt
-
     /**
      * @param cajas lista de cajas del estado simulado
      * @param x     coordenada X a buscar
      * @param y     coordenada Y a buscar
-     * @return la Box encontrada, o null si no hay caja en esa posición
+     * @return la Box encontrada, o null si no hay caja en esa posicion
      */
     private Box findBoxAt(LinkedList<Box> cajas, int x, int y) {
         CustomIterator<Box> it = cajas.iterator();
@@ -176,12 +205,10 @@ public class BFSAuto {
         return null;
     }
 
-    // ── buildBoxes ────────────────────────────────────────────────────────────
-
     /**
-     * @param cajasActuales  lista de cajas del estado padre
-     * @param cajaVieja      caja a reemplazar (null si no hay empuje)
-     * @param cajaNuevaPos   posición nueva de la caja (null si no hay empuje)
+     * @param cajasActuales lista de cajas del estado padre
+     * @param cajaVieja     caja a reemplazar (null si no hay empuje)
+     * @param cajaNuevaPos  posicion nueva de la caja (null si no hay empuje)
      * @return nueva LinkedList<Box> con las cajas actualizadas
      */
     private LinkedList<Box> buildBoxes(LinkedList<Box> cajasActuales,
@@ -195,11 +222,9 @@ public class BFSAuto {
             if (cajaVieja != null
                     && box.getPosition().getX() == cajaVieja.getPosition().getX()
                     && box.getPosition().getY() == cajaVieja.getPosition().getY()) {
-                // Esta es la caja que se movió — insertar con nueva posición
                 resultado.add(new Box(new Position(cajaNuevaPos.getX(),
                         cajaNuevaPos.getY())));
             } else {
-                // Copiar la caja sin cambios
                 resultado.add(new Box(new Position(box.getPosition().getX(),
                         box.getPosition().getY())));
             }
@@ -208,11 +233,9 @@ public class BFSAuto {
         return resultado;
     }
 
-    // reconstructPath
-
     /**
      * @param estadoFinal estado objetivo desde el que se reconstruye
-     * @return LinkedList<String> con movimientos en orden de ejecución
+     * @return LinkedList<String> con movimientos en orden de ejecucion
      */
     private LinkedList<String> reconstructPath(GameState estadoFinal) {
         structures.Stack<String> pilaInversa = new structures.Stack<>();
@@ -231,17 +254,35 @@ public class BFSAuto {
         return camino;
     }
 
-    // ── buildInitialState ─────────────────────────────────────────────────────
+
+    /**
+     *
+     * @param cajas LinkedList de Box del estado simulado
+     * @return      Array con las posiciones de todas las cajas
+     */
+    private Position[] boxesToPositionArray(LinkedList<Box> cajas) {
+        Position[] result = new Position[cajas.getLength()];
+        CustomIterator<Box> it = cajas.iterator();
+        int i = 0;
+        while (it.hasNext()) {
+            Box box = it.next().getData();
+            result[i] = new Position(box.getPosition().getX(),
+                    box.getPosition().getY());
+            i++;
+        }
+        return result;
+    }
 
     /**
      * Construye el GameState inicial a partir del estado actual de Game.
      *
-     * Uso desde el controlado:
+     * Uso desde el controlador:
      *   BFSAuto solver = new BFSAuto(game.getBoard());
      *   GameState inicial = solver.buildInitialState(game);
      *   LinkedList<String> solucion = solver.solve(inicial);
+     *
      * @param game instancia del juego con el estado actual
-     * @return GameState raíz listo para pasarle a solve()
+     * @return GameState raiz listo para pasarle a solve()
      */
     public GameState buildInitialState(Game game) {
         Position posJugador = new Position(
