@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane
+    xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    prefWidth="1024" prefHeight="768"
+    styleClass="stats-background"
+    stylesheets="@../style/game.css">
+
+    <fx:define>
+        <ToggleGroup fx:id="levelTabGroup"/>
+    </fx:define>
+
+    <top>
+        <VBox style="-fx-background-color: #111111; -fx-padding: 14 16 10 16;" spacing="10">
+            <HBox alignment="CENTER_LEFT" spacing="0">
+                <Label styleClass="stats-heading" text="[ RANKING ]" HBox.hgrow="ALWAYS"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button styleClass="hud-button" text="↩ VOLVER"/>
+            </HBox>
+            <HBox spacing="6" alignment="CENTER_LEFT">
+                <ToggleButton fx:id="tabLevel1" styleClass="level-tab"
+                              text="NVL 1" toggleGroup="$levelTabGroup"
+                              selected="true" userData="1"/>
+                <ToggleButton fx:id="tabLevel2" styleClass="level-tab"
+                              text="NVL 2" toggleGroup="$levelTabGroup"
+                              userData="2"/>
+                <ToggleButton fx:id="tabLevel3" styleClass="level-tab"
+                              text="NVL 3" toggleGroup="$levelTabGroup"
+                              userData="3"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox style="-fx-padding: 12 16 12 16;" spacing="12">
+            <TableView fx:id="rankingTable" styleClass="rank-table"
+                       VBox.vgrow="ALWAYS"
+                       style="-fx-background-color: transparent;">
+                <columns>
+                    <TableColumn fx:id="colRank"       text="#"          prefWidth="60"/>
+                    <TableColumn fx:id="colPlayer"     text="JUGADOR"    prefWidth="220"/>
+                    <TableColumn fx:id="colMoves"      text="MOVS"       prefWidth="100"/>
+                    <TableColumn fx:id="colPushes"     text="EMPUJES"    prefWidth="110"/>
+                    <TableColumn fx:id="colTime"       text="TIEMPO"     prefWidth="120"/>
+                    <TableColumn fx:id="colDifficulty" text="DIFICULTAD" prefWidth="130"/>
+                </columns>
+                <placeholder>
+                    <Label text="Sin partidas registradas aún."
+                           style="-fx-text-fill: #555555; -fx-font-family: 'Courier New'; -fx-font-size: 13px;"/>
+                </placeholder>
+            </TableView>
+
+            <HBox style="-fx-background-color: #111111; -fx-border-color: #333333;
+                          -fx-border-width: 2; -fx-border-radius: 7;
+                          -fx-background-radius: 7; -fx-padding: 10 14 10 14;"
+                  spacing="20" alignment="CENTER_LEFT">
+                <Label style="-fx-text-fill: #888888; -fx-font-size: 10px; -fx-font-family: 'Courier New';"
+                       text="TU MEJOR MARCA:"/>
+                <Label fx:id="personalBestLabel"
+                       style="-fx-text-fill: #f0e060; -fx-font-size: 13px;
+                              -fx-font-weight: bold; -fx-font-family: 'Courier New';"
+                       text="—"/>
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>
