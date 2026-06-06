@@ -1,6 +1,13 @@
 package control;
 
 import model.*;
+import structures.LinkedList;
+import structures.CustomIterator;
+import structures.Queue;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 /**
  * Controlador del patrón MVC. Recibe entradas de la Vista, las traduce
@@ -18,6 +25,9 @@ public class SokobanController {
 
     /** Callback que la Vista registra cuando no se encuentra solución automática. */
     private Runnable onNoSolutionFound;
+
+    private Timeline autoTimeline;
+    private static final int ANIMATION_DELAY_MS = 400;
 
     /**
      * Crea el controlador MVC.
@@ -75,6 +85,7 @@ public class SokobanController {
      * @param keyInput tecla del teclado ("UP","DOWN","LEFT","RIGHT","W","A","S","D")
      */
     public void handleKeyInput(String keyInput) {
+        stopAutoSolve();
         String direction = mapKeyToDirection(keyInput);
         if (direction == null) return;
         gameController.handleInput(direction);
@@ -107,6 +118,7 @@ public class SokobanController {
      * Deshace el último movimiento del jugador.
      */
     public void undoMove() {
+        stopAutoSolve();
         gameController.getGame().undoMove();
         notifyBoardChanged();
     }
@@ -115,6 +127,7 @@ public class SokobanController {
      * Reinicia el nivel actual desde el principio.
      */
     public void resetLevel() {
+        stopAutoSolve();
         gameController.restart();
         notifyBoardChanged();
     }
@@ -128,6 +141,86 @@ public class SokobanController {
         boolean loaded = gameController.getGame().loadLevel(levelId);
         if (loaded) notifyBoardChanged();
         return loaded;
+    }
+
+    /**
+     * Resuelve el nivel automáticamente con BFS y anima la solución.
+     */
+    public void autoSolveBFS() {
+        Game game = gameController.getGame();
+        BFSAuto solver = new BFSAuto(game.getBoard());
+        animateSolution(solver.solve(solver.buildInitialState(game)));
+    }
+
+    /**
+     * Resuelve el nivel automáticamente con BFS + poda Floyd-Warshall.
+     */
+    public void autoSolveBFSWithFloyd() {
+        Game game = gameController.getGame();
+        FloydWarshall fw = new FloydWarshall(game.getBoard());
+        BFSAuto solver = new BFSAuto(game.getBoard(), fw);
+        animateSolution(solver.solve(solver.buildInitialState(game)));
+    }
+
+    /**
+     * Resuelve el nivel automáticamente con DFS y anima la solución.
+     */
+    public void autoSolveDFS() {
+        Game game = gameController.getGame();
+        DFSAuto solver = new DFSAuto(game.getBoard());
+        animateSolution(solver.solve(solver.buildInitialState(game)));
+    }
+
+    /**
+     * Resuelve el nivel automáticamente con DFS + poda Floyd-Warshall.
+     */
+    public void autoSolveDFSWithFloyd() {
+        Game game = gameController.getGame();
+        FloydWarshall fw = new FloydWarshall(game.getBoard());
+        DFSAuto solver = new DFSAuto(game.getBoard(), fw);
+        animateSolution(solver.solve(solver.buildInitialState(game)));
+    }
+
+    /**
+     * Anima la lista de movimientos de la solución paso a paso con Timeline de JavaFX.
+     * @param solution lista de movimientos a animar, o null si no hay solución
+     */
+    private void animateSolution(LinkedList<String> solution) {
+        if (solution == null) {
+            if (onNoSolutionFound != null) onNoSolutionFound.run();
+            return;
+        }
+
+        Queue<String> moveQueue = new Queue<>();
+        CustomIterator<String> it = solution.iterator();
+        while (it.hasNext()) moveQueue.enqueue(it.next().getData());
+
+        stopAutoSolve();
+        autoTimeline = new Timeline();
+        autoTimeline.setCycleCount(moveQueue.size());
+
+        KeyFrame keyFrame = new KeyFrame(Duration.millis(ANIMATION_DELAY_MS), event -> {
+            String move = moveQueue.dequeue();
+            if (move != null) {
+                gameController.handleInput(move);
+                gameController.update();
+                notifyBoardChanged();
+                checkAndNotifyWin();
+            }
+        });
+
+        autoTimeline.getKeyFrames().add(keyFrame);
+        autoTimeline.play();
+    }
+
+    /**
+     * Detiene la animación automática en curso.
+     */
+    public void stopAutoSolve() {
+        if (autoTimeline != null) {
+            autoTimeline.stop();
+            autoTimeline = null;
+        }
     }
 
     /**
