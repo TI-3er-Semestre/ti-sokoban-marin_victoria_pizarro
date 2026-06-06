@@ -32,10 +32,27 @@ public class Dijkstra {
         Cell cell = board.getCell(x, y);
         return cell != null && cell.isWalkable();
     }
+    private int getNodeId(int x, int y) {
+        return x * cols + y;
+    }
+    private int getMinDistanceNode(int[] dist, boolean[] visited){
+        int minDistance = INF;
+        int minNode = -1;
+        for (int i = 0; i < dist.length; i++){
+            if(!visited[i] && dist[i] < minDistance){
+                minDistance = dist[i];
+                minNode = i;
+            }
+        }
+        return  minNode;
+    }
 
 
     public int shortestDistance(Position start, Position goal){
         if (start == null  || goal == null){
+            return INF;
+        }
+        if(!isValidAndWalkable(start.getX(), start.getY()) || !isValidAndWalkable(goal.getX(), goal.getY())){
             return INF;
         }
 
@@ -51,14 +68,9 @@ public class Dijkstra {
         int goalId = goal.getX() * cols + goal.getY();
         dist[startId] = 0;
         while (true){
-            int current = -1;
-            int minDistance = INF;
-            for (int i = 0; i< totalNodes; i++){
-                if(!visited[i] && dist[i]< minDistance){
-                    minDistance = dist[i];
-                    current = i;
-                }
-            }
+            int current = getMinDistanceNode(dist, visited);
+
+
             if (current == -1){
                 break;
             }
@@ -70,7 +82,26 @@ public class Dijkstra {
             int y = current % cols;
 
 
+            if (x > 0  && isValidAndWalkable(x - 1, y)){
+                int neighborId = getNodeId(x - 1, y);
+                processNeighbor(current, neighborId, dist, visited);
+            }
+            if (x < rows -1 && isValidAndWalkable(x + 1, y)){
+                int neighborId = getNodeId(x + 1, y);
+                processNeighbor(current, neighborId, dist, visited);
+            }
+            if (y > 0 && isValidAndWalkable(x, y-1)){
+                int neighborId = getNodeId(x, y -1);
+                processNeighbor(current, neighborId, dist, visited);
+            }
+            if (y < cols -1 && isValidAndWalkable(x, y + 1)) {
+                int neighborId = getNodeId(x, y + 1);
+                processNeighbor(current, neighborId, dist, visited);
+            }
+
+
         }
+        return INF;
     }
 
 }
