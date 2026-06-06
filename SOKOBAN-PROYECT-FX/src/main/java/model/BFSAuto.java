@@ -6,7 +6,6 @@ import structures.LinkedList;
 import structures.CustomIterator;
 
 public class BFSAuto {
-    private int getCount;
 
     private Board board;
     private Dijkstra dijkstra;
@@ -27,9 +26,14 @@ public class BFSAuto {
     public BFSAuto(Board board, Dijkstra dijkstra) {
         this.board = board;
         this.fw = null;
-        this.goalPositions = null;
-        this.goalCount = 0;
         this.dijkstra = dijkstra;
+        loadGoalPositions();
+    }
+    public BFSAuto(Board board) {
+        this.board = board;
+        this.fw = null;
+        this.dijkstra = null;
+        loadGoalPositions();
     }
 
 
@@ -41,31 +45,9 @@ public class BFSAuto {
     public BFSAuto(Board board, FloydWarshall fw) {
         this.board = board;
         this.fw = fw;
+        this.dijkstra = null;
+        loadGoalPositions();
 
-
-        int count = 0;
-        for (int x = 0; x < board.getWidth(); x++) {
-            for (int y = 0; y < board.getHeight(); y++) {
-                Cell cell = board.getCell(x, y);
-                if (cell != null && cell.isGoal()) {
-                    count++;
-                }
-            }
-        }
-
-        // Segunda pasada: guardarlos en el array.
-        this.goalCount = count;
-        this.goalPositions = new Position[count];
-        int idx = 0;
-        for (int x = 0; x < board.getWidth(); x++) {
-            for (int y = 0; y < board.getHeight(); y++) {
-                Cell cell = board.getCell(x, y);
-                if (cell != null && cell.isGoal()) {
-                    goalPositions[idx] = new Position(x, y);
-                    idx++;
-                }
-            }
-        }
     }
 
 

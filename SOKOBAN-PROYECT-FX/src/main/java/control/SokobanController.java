@@ -161,6 +161,23 @@ public class SokobanController {
         BFSAuto solver = new BFSAuto(game.getBoard(), fw);
         animateSolution(solver.solve(solver.buildInitialState(game)));
     }
+    public void autoSolveBFSWithDijkstra() {
+        Game game = gameController.getGame();
+
+        Dijkstra dijkstra = new Dijkstra(game.getBoard());
+
+        BFSAuto solver = new BFSAuto(
+                game.getBoard(),
+                dijkstra
+        );
+
+        animateSolution(
+                solver.solve(
+                        solver.buildInitialState(game)
+                )
+        );
+    }
+
 
     /**
      * Resuelve el nivel automáticamente con DFS y anima la solución.
