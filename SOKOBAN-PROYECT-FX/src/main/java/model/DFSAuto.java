@@ -5,10 +5,7 @@ import structures.HashTable;
 import structures.LinkedList;
 import structures.CustomIterator;
 
-/**
- * Solver automático del Sokoban usando DFS con pila explícita.
- * Usa HashTable para evitar re-explorar estados y FloydWarshall opcional.
- */
+
 public class DFSAuto {
 
     private Board board;
@@ -20,7 +17,7 @@ public class DFSAuto {
     private static final int MAX_DEPTH = 500;
 
     /**
-     * Constructor sin FloydWarshall.
+     * Constructor sin Floyd-Warshall.
      * @param board tablero del nivel a resolver
      */
     public DFSAuto(Board board) {
@@ -30,7 +27,7 @@ public class DFSAuto {
     }
 
     /**
-     * Constructor con FloydWarshall.
+     * Constructor con Floyd-Warshall.
      * @param board tablero del nivel a resolver
      * @param fw    instancia de FloydWarshall para ese tablero
      */
@@ -45,7 +42,6 @@ public class DFSAuto {
      */
     private void loadGoalPositions() {
         int count = 0;
-
         for (int x = 0; x < board.getWidth(); x++) {
             for (int y = 0; y < board.getHeight(); y++) {
                 Cell cell = board.getCell(x, y);
@@ -67,41 +63,41 @@ public class DFSAuto {
 
     /**
      * Resuelve el nivel usando DFS iterativo con Stack.
-     * @param estadoInicial estado del juego al momento de llamar al solver
+     * @param initialState estado del juego al momento de llamar al solver
      * @return lista de movimientos en orden, o null si no hay solución
      */
-    public LinkedList<String> solve(GameState estadoInicial) {
-        Stack<GameState> pilaDFS = new Stack<>();
-        HashTable<String, Boolean> visitados = new HashTable<>(1024);
+    public LinkedList<String> solve(GameState initialState) {
+        Stack<GameState> dfStack = new Stack<>();
+        HashTable<String, Boolean> visited = new HashTable<>(1024);
 
-        pilaDFS.push(estadoInicial);
-        visitados.put(estadoInicial.generateKey(), true);
+        dfStack.push(initialState);
+        visited.put(initialState.generateKey(), true);
 
-        while (!pilaDFS.isEmpty()) {
-            GameState estadoActual = pilaDFS.pop();
+        while (!dfStack.isEmpty()) {
+            GameState current = dfStack.pop();
 
-            if (getDepth(estadoActual) > MAX_DEPTH) continue;
+            if (getDepth(current) > MAX_DEPTH) continue;
 
-            if (isGoalState(estadoActual)) {
-                return reconstructPath(estadoActual);
+            if (isGoalState(current)) {
+                return reconstructPath(current);
             }
 
 
             for (int i = DIRECTIONS.length - 1; i >= 0; i--) {
-                GameState estadoSiguiente = applyMove(estadoActual, DIRECTIONS[i]);
+                GameState next = applyMove(current, DIRECTIONS[i]);
 
-                if (estadoSiguiente != null) {
-                    String clave = estadoSiguiente.generateKey();
+                if (next != null) {
+                    String key = next.generateKey();
 
-                    if (!visitados.containsKey(clave)) {
+                    if (!visited.containsKey(key)) {
                         if (fw != null) {
-                            Position[] cajasPos = boxesToPositionArray(estadoSiguiente.getBoxes());
-                            int h = fw.computeHeuristic(cajasPos, cajasPos.length,
+                            Position[] boxPositions = boxesToPositionArray(next.getBoxes());
+                            int h = fw.computeHeuristic(boxPositions, boxPositions.length,
                                     goalPositions, goalCount);
                             if (h == FloydWarshall.INF) continue;
                         }
-                        visitados.put(clave, true);
-                        pilaDFS.push(estadoSiguiente);
+                        visited.put(key, true);
+                        dfStack.push(next);
                     }
                 }
             }
@@ -111,46 +107,41 @@ public class DFSAuto {
 
     /**
      * Cuenta los pasos desde la raíz hasta el estado dado.
-     * @param estado estado cuya profundidad se calcula
+     * @param state estado cuya profundidad se calcula
      * @return profundidad del estado
      */
-    private int getDepth(GameState estado) {
+    private int getDepth(GameState state) {
         int depth = 0;
-
-        GameState current = estado;
+        GameState current = state;
         while (current.getLastState() != null) {
             depth++;
             current = current.getLastState();
         }
-
         return depth;
     }
 
     /**
      * Verifica si todas las cajas están sobre celdas GOAL.
-     * @param estado estado a verificar
+     * @param state estado a verificar
      * @return true si el nivel está completado
      */
-    private boolean isGoalState(GameState estado) {
-        CustomIterator<Box> it = estado.getBoxes().iterator();
-
+    private boolean isGoalState(GameState state) {
+        CustomIterator<Box> it = state.getBoxes().iterator();
         while (it.hasNext()) {
             Box box = it.next().getData();
             Cell cell = board.getCell(box.getPosition().getX(), box.getPosition().getY());
             if (cell == null || !cell.isGoal()) return false;
         }
-
         return true;
     }
 
     /**
      * Aplica un movimiento a un estado y retorna el estado resultante.
-     * @param estado    estado actual
+     * @param state     estado actual
      * @param direction dirección a aplicar ("UP","DOWN","LEFT","RIGHT")
      * @return nuevo GameState, o null si el movimiento es inválido
      */
-    private GameState applyMove(GameState estado, String direction) {
-
+    private GameState applyMove(GameState state, String direction) {
         int offsetX = 0, offsetY = 0;
         switch (direction.toUpperCase()) {
             case "UP":    offsetY = -1; break;
@@ -159,106 +150,100 @@ public class DFSAuto {
             case "RIGHT": offsetX =  1; break;
         }
 
-        int newX = estado.getPlayerPosition().getX() + offsetX;
-        int newY = estado.getPlayerPosition().getY() + offsetY;
+        int newX = state.getPlayerPosition().getX() + offsetX;
+        int newY = state.getPlayerPosition().getY() + offsetY;
 
-        Cell celdaDestino = board.getCell(newX, newY);
-        if (celdaDestino == null || !celdaDestino.isWalkable()) return null;
+        Cell targetCell = board.getCell(newX, newY);
+        if (targetCell == null || !targetCell.isWalkable()) return null;
 
-        Box cajaEnDestino = findBoxAt(estado.getBoxes(), newX, newY);
-        LinkedList<Box> nuevasCajas;
+        Box boxAtTarget = findBoxAt(state.getBoxes(), newX, newY);
+        LinkedList<Box> updatedBoxes;
 
-        if (cajaEnDestino != null) {
+        if (boxAtTarget != null) {
             int boxNewX = newX + offsetX;
             int boxNewY = newY + offsetY;
             if (!board.isFree(boxNewX, boxNewY)) return null;
-            if (findBoxAt(estado.getBoxes(), boxNewX, boxNewY) != null) return null;
-            nuevasCajas = buildBoxes(estado.getBoxes(), cajaEnDestino, new Position(boxNewX, boxNewY));
+            if (findBoxAt(state.getBoxes(), boxNewX, boxNewY) != null) return null;
+            updatedBoxes = buildBoxes(state.getBoxes(), boxAtTarget, new Position(boxNewX, boxNewY));
         } else {
-            nuevasCajas = buildBoxes(estado.getBoxes(), null, null);
+            updatedBoxes = buildBoxes(state.getBoxes(), null, null);
         }
 
-        return new GameState(new Position(newX, newY), nuevasCajas, estado, direction);
+        return new GameState(new Position(newX, newY), updatedBoxes, state, direction);
     }
 
     /**
      * Busca una caja en las coordenadas dadas dentro de la lista de cajas.
-     * @param cajas lista de cajas del estado
+     * @param boxes lista de cajas del estado
      * @param x     coordenada X
      * @param y     coordenada Y
      * @return la caja encontrada, o null si no existe
      */
-    private Box findBoxAt(LinkedList<Box> cajas, int x, int y) {
-        CustomIterator<Box> it = cajas.iterator();
+    private Box findBoxAt(LinkedList<Box> boxes, int x, int y) {
+        CustomIterator<Box> it = boxes.iterator();
         while (it.hasNext()) {
             Box box = it.next().getData();
             if (box.getPosition().getX() == x && box.getPosition().getY() == y) return box;
         }
-
         return null;
     }
 
     /**
      * Copia la lista de cajas aplicando el desplazamiento a la caja empujada.
-     * @param cajasActuales lista de cajas del estado padre
-     * @param cajaVieja     caja empujada (null si no hubo empuje)
-     * @param cajaNuevaPos  nueva posición de la caja (null si no hubo empuje)
+     * @param currentBoxes lista de cajas del estado padre
+     * @param oldBox       caja empujada (null si no hubo empuje)
+     * @param newBoxPos    nueva posición de la caja (null si no hubo empuje)
      * @return nueva lista de cajas actualizada
      */
-    private LinkedList<Box> buildBoxes(LinkedList<Box> cajasActuales,
-                                       Box cajaVieja, Position cajaNuevaPos) {
-        LinkedList<Box> resultado = new LinkedList<>();
-        CustomIterator<Box> it = cajasActuales.iterator();
+    private LinkedList<Box> buildBoxes(LinkedList<Box> currentBoxes,
+                                       Box oldBox, Position newBoxPos) {
+        LinkedList<Box> result = new LinkedList<>();
+        CustomIterator<Box> it = currentBoxes.iterator();
         while (it.hasNext()) {
             Box box = it.next().getData();
-            if (cajaVieja != null
-                    && box.getPosition().getX() == cajaVieja.getPosition().getX()
-                    && box.getPosition().getY() == cajaVieja.getPosition().getY()) {
-                resultado.add(new Box(new Position(cajaNuevaPos.getX(), cajaNuevaPos.getY())));
-
+            if (oldBox != null
+                    && box.getPosition().getX() == oldBox.getPosition().getX()
+                    && box.getPosition().getY() == oldBox.getPosition().getY()) {
+                result.add(new Box(new Position(newBoxPos.getX(), newBoxPos.getY())));
             } else {
-                resultado.add(new Box(new Position(box.getPosition().getX(), box.getPosition().getY())));
+                result.add(new Box(new Position(box.getPosition().getX(), box.getPosition().getY())));
             }
         }
-
-        return resultado;
+        return result;
     }
 
     /**
      * Reconstruye la secuencia de movimientos desde el estado final hasta la raíz.
-     * @param estadoFinal estado objetivo encontrado
+     * @param finalState estado objetivo encontrado
      * @return lista de movimientos en orden de ejecución
      */
-    private LinkedList<String> reconstructPath(GameState estadoFinal) {
-
-        Stack<String> pilaInversa = new Stack<>();
-        GameState actual = estadoFinal;
-        while (actual.getMoveGenerated() != null) {
-            pilaInversa.push(actual.getMoveGenerated());
-            actual = actual.getLastState();
+    private LinkedList<String> reconstructPath(GameState finalState) {
+        Stack<String> reversedStack = new Stack<>();
+        GameState current = finalState;
+        while (current.getMoveGenerated() != null) {
+            reversedStack.push(current.getMoveGenerated());
+            current = current.getLastState();
         }
-        LinkedList<String> camino = new LinkedList<>();
-        while (!pilaInversa.isEmpty()) {
-            camino.addLast(pilaInversa.pop());
+        LinkedList<String> path = new LinkedList<>();
+        while (!reversedStack.isEmpty()) {
+            path.addLast(reversedStack.pop());
         }
-
-        return camino;
+        return path;
     }
 
     /**
      * Convierte la lista de cajas a un array de posiciones.
-     * @param cajas lista de cajas del estado
+     * @param boxes lista de cajas del estado
      * @return array de posiciones de las cajas
      */
-    private Position[] boxesToPositionArray(LinkedList<Box> cajas) {
-        Position[] result = new Position[cajas.getLength()];
-        CustomIterator<Box> it = cajas.iterator();
+    private Position[] boxesToPositionArray(LinkedList<Box> boxes) {
+        Position[] result = new Position[boxes.getLength()];
+        CustomIterator<Box> it = boxes.iterator();
         int i = 0;
         while (it.hasNext()) {
             Box box = it.next().getData();
             result[i++] = new Position(box.getPosition().getX(), box.getPosition().getY());
         }
-
         return result;
     }
 
@@ -268,20 +253,19 @@ public class DFSAuto {
      * @return GameState raíz listo para pasarle a solve()
      */
     public GameState buildInitialState(Game game) {
-        Position posJugador = new Position(
+        Position playerPos = new Position(
                 game.getPlayer().getPosition().getX(),
                 game.getPlayer().getPosition().getY()
-
         );
-        LinkedList<Box> cajasIniciales = new LinkedList<>();
+        LinkedList<Box> initialBoxes = new LinkedList<>();
         CustomIterator<Box> it = game.getBoard().getBoxes().iterator();
         while (it.hasNext()) {
             Box box = it.next().getData();
-            cajasIniciales.add(new Box(new Position(
+            initialBoxes.add(new Box(new Position(
                     box.getPosition().getX(),
                     box.getPosition().getY()
             )));
         }
-        return new GameState(posJugador, cajasIniciales, null, null);
+        return new GameState(playerPos, initialBoxes, null, null);
     }
 }
