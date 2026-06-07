@@ -6,6 +6,7 @@
 <BorderPane
     xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
+    fx:controller="control.StatsController"
     prefWidth="1024" prefHeight="768"
     styleClass="stats-background"
     stylesheets="@../style/game.css">
@@ -19,7 +20,7 @@
             <HBox alignment="CENTER_LEFT" spacing="0">
                 <Label styleClass="stats-heading" text="[ RANKING ]" HBox.hgrow="ALWAYS"/>
                 <Region HBox.hgrow="ALWAYS"/>
-                <Button styleClass="hud-button" text="↩ VOLVER"/>
+                <Button styleClass="hud-button" text="↩ VOLVER" onAction="#handleBack"/>
             </HBox>
             <HBox spacing="6" alignment="CENTER_LEFT">
                 <ToggleButton fx:id="tabLevel1" styleClass="level-tab"

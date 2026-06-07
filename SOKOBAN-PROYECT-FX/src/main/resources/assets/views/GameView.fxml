@@ -7,7 +7,7 @@
 <BorderPane
     xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
-    fx:controller="controller.GameController"
+    fx:controller="control.GameScreenController"
     prefWidth="1024" prefHeight="768"
     style="-fx-background-color: #5a7a8a;"
     stylesheets="@../style/game.css">
