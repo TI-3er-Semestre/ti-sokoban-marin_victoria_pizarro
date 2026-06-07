@@ -197,6 +197,18 @@ public class SokobanController {
         DFSAuto solver = new DFSAuto(game.getBoard(), fw);
         animateSolution(solver.solve(solver.buildInitialState(game)));
     }
+    public void autoSolveDFSWithDijkstra() {
+        Game game = gameController.getGame();
+        Dijkstra dijkstra =
+                new Dijkstra(game.getBoard());
+        DFSAuto solver =
+                new DFSAuto(game.getBoard(), dijkstra);
+        animateSolution(
+                solver.solve(
+                        solver.buildInitialState(game)
+                )
+        );
+    }
 
     /**
      * Anima la lista de movimientos de la solución paso a paso con Timeline de JavaFX.

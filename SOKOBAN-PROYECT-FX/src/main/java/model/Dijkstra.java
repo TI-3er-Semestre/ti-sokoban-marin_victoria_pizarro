@@ -1,5 +1,12 @@
 package model;
 
+/**
+ * Implementacion del algoritmo de Dijkstra sobre el tablero del juego
+ *
+ * permite calcular la distancia minima entre 2 posiciones caminables
+ * y generar una heurisitica basada en las distancias entre cajas y objetivos
+ */
+
 public class Dijkstra {
 
     public static final int INF = Integer.MAX_VALUE / 2;
@@ -22,6 +29,11 @@ public class Dijkstra {
             dist[neighborId] = newDistance;
         }
     }
+
+    /**
+     * Construye una instancia de dijkstra para el tablero dado
+     * @param board tablero sobre el cual se calcularan las distncias minimas
+     */
 
 
     public Dijkstra(Board board) {
@@ -50,6 +62,15 @@ public class Dijkstra {
         }
         return minNode;
     }
+
+    /**
+     * calcula la distancia minima entre dos psiciones utilizando
+     * el algoritmo dijkstra
+     * @param start posicion origen
+     * @param goal posiicon destina
+     * @return distancia minima entre ambas posiciones, o INF si no existe camino.
+     *
+     */
 
 
     public int shortestDistance(Position start, Position goal) {
@@ -108,6 +129,14 @@ public class Dijkstra {
         return INF;
     }
 
+    /**
+     * obtine la distancia minima entre dos posiciones
+     *
+     * @param from posicion origen
+     * @param to posicion destino
+     * @return distancia minima entre ambas posiciones
+     */
+
     public int getDistance(Position from, Position to) {
         return shortestDistance(from, to);
     }
@@ -115,6 +144,19 @@ public class Dijkstra {
     public int getDistance(int x1, int y1, int x2, int y2) {
         return shortestDistance(new Position(x1, y1), new Position(x2, y2));
     }
+
+    /**
+     * calcula una heuristica basada en la suma de las distancias minimas
+     * desde cada caja hasta el objetivo mas cercano
+     *
+     * si alguna caja no alcanza ningun objetivo retorna INF
+     *
+     * @param boxPositions posiciones actuales de las cajas
+     * @param boxCount cantidad de cajas
+     * @param goalPosition posiciones de los objestivos
+     * @param goalCount cantidad de objetivos
+     * @return suma de distancias minimas o INF si exisste una caja sin camino
+     */
 
     public int computeHeuristic(Position[] boxPositions, int boxCount,
                                 Position[] goalPosition, int goalCount) {

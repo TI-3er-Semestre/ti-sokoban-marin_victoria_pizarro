@@ -12,6 +12,7 @@ public class DFSAuto {
     private FloydWarshall fw;
     private Position[] goalPositions;
     private int goalCount;
+    private Dijkstra dijkstra;
 
     private static final String[] DIRECTIONS = {"UP", "DOWN", "LEFT", "RIGHT"};
     private static final int MAX_DEPTH = 500;
@@ -23,6 +24,7 @@ public class DFSAuto {
     public DFSAuto(Board board) {
         this.board = board;
         this.fw = null;
+        this.dijkstra = null;
         loadGoalPositions();
     }
 
@@ -34,6 +36,12 @@ public class DFSAuto {
     public DFSAuto(Board board, FloydWarshall fw) {
         this.board = board;
         this.fw = fw;
+        loadGoalPositions();
+    }
+    public DFSAuto(Board board, Dijkstra dijkstra) {
+        this.board = board;
+        this.fw = null;
+        this.dijkstra = dijkstra;
         loadGoalPositions();
     }
 
@@ -98,6 +106,21 @@ public class DFSAuto {
                         }
                         visited.put(key, true);
                         dfStack.push(next);
+                        if (dijkstra != null) {
+
+                            Position[] boxPositions =
+                                    boxesToPositionArray(next.getBoxes());
+
+                            int h = dijkstra.computeHeuristic(
+                                    boxPositions,
+                                    boxPositions.length,
+                                    goalPositions,
+                                    goalCount);
+
+                            if (h == Dijkstra.INF) {
+                                continue;
+                            }
+                        }
                     }
                 }
             }
