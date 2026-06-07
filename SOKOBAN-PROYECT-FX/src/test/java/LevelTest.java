@@ -30,7 +30,7 @@ public class LevelTest {
         // Una caja fuera de objetivo
         board.setCell(3, 2, new Cell(CellType.FLOOR, true));
 
-        level = new Level(1, board);
+        level = new Level(1, board, new Position(1,1));
     }
 
     /**
@@ -55,7 +55,7 @@ public class LevelTest {
         board.setCell(2, 2, new Cell(CellType.GOAL, true));
         board.setCell(3, 2, new Cell(CellType.GOAL, true));
 
-        level = new Level(1, board);
+        level = new Level(1, board, new Position(1,1));
     }
 
     //Test para verificar desde la clase Level que el nivel no está completo

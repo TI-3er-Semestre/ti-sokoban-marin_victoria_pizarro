@@ -5,12 +5,16 @@ public class Level implements Comparable<Level> {
 
     private int id;
     private Board board;
+    private Position playerStart;
 
 
-    public Level(int id, Board board) {
+    public Level(int id, Board board, Position playerStart) {
         this.id = id;
         this.board = board;
+
+        this.playerStart = playerStart;
     }
+
     @Override
     public int compareTo(Level other) {
         return Integer.compare(this.id, other.id);
@@ -53,5 +57,8 @@ public class Level implements Comparable<Level> {
     public Board getBoard() {
 
         return board;
+    }
+    public Position getPlayerStart() {
+        return playerStart;
     }
 }
