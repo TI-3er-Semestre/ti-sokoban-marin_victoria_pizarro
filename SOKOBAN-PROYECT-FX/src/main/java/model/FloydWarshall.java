@@ -28,6 +28,7 @@ public class FloydWarshall {
 
         dist = new int[V][V];
 
+        //Inicializa la matriz con diagonal en 0s y el resto INF
         for (int i = 0; i < V; i++) {
             for (int j = 0; j < V; j++) {
                 if (i == j) {
@@ -38,9 +39,16 @@ public class FloydWarshall {
             }
         }
 
+        //Posibilidades de moverse en x & y
+        // Índice 0 arriba: x-1, y sin cambio
+        //Índice 1 abajo: x+1, y sin cambio
+        //Índice 2 izquierda: x sin cambio, y-1
+        //Índice 3 derecha: x sin cambio, y+1
         int[] dx = {-1, 1,  0, 0};
         int[] dy = { 0, 0, -1, 1};
 
+        //Este for lo que hace es verificar que una celda sea caminable, si lo es lo que hace es
+        //Sacar el indice de la celda
         for (int x = 0; x < rows; x++) {
             for (int y = 0; y < cols; y++) {
 
@@ -51,7 +59,10 @@ public class FloydWarshall {
                 }
 
                 int cellId = x * cols + y;
-
+            //Hasta aqui.
+                //Este for lo que hace es verificar que las celdas vecinas sean caminables y esten dentro
+                //del tablero y si cumple las verificaciones pues añade una arista bidireccional
+                //ya que se conectan entre ellas y en Sokoban se puede moverse en varias direcciones
                 for (int d = 0; d < 4; d++) {
                     int nx = x + dx[d];
                     int ny = y + dy[d];
@@ -76,7 +87,10 @@ public class FloydWarshall {
             }
         }
 
-
+        /*
+        * k es el nodo intermedio. k / cols y k % cols convierten el índice lineal de vuelta a coordenadas 2D
+        * la operación inversa de cellId = x * cols + y.
+        * Si k es un muro, no puede ser intermediario de ningún camino, se salta.*/
         for (int k = 0; k < V; k++) {
 
             // Si k corresponde a una celda no caminable, no sirve como intermediario
@@ -87,9 +101,14 @@ public class FloydWarshall {
                 continue;
             }
 
+            /*
+            * Para cada par (i, j) pregunta: "¿ir de i a k y luego de k a j es más corto que
+            * el mejor camino conocido de i a j?" Si sí, actualiza.
+            * El if (dist[i][k] == INF) continue es una optimización
+            * si no hay camino de i a k, no tiene sentido revisar ningún j.
+            * El if (dist[k][j] != INF) evita sumar INF y desbordar.
+             */
             for (int i = 0; i < V; i++) {
-
-
                 if (dist[i][k] == INF) {
                     continue;
                 }
@@ -118,6 +137,10 @@ public class FloydWarshall {
      * @param to   Posicion destino.
      * @return     Pasos minimos, o INF si no hay camino.
      */
+    /*
+    * Convierte las dos posiciones a índices lineales y
+    * accede directamente a la matriz. O(1). No hace ningún cálculo
+    * */
     public int getDistance(Position from, Position to) {
         int idFrom = from.getX() * cols + from.getY();
         int idTo   = to.getX()   * cols + to.getY();
@@ -132,6 +155,11 @@ public class FloydWarshall {
      * @param y2 Coordenada Y destino.
      * @return   Pasos minimos, o INF si no hay camino.
      */
+
+    /*
+    * Misma logica que el de arriba pero sin recibir positions
+    * solo coordenadas exactas
+    * */
     public int getDistance(int x1, int y1, int x2, int y2) {
         int idFrom = x1 * cols + y1;
         int idTo   = x2 * cols + y2;
@@ -146,6 +174,14 @@ public class FloydWarshall {
      * @return              Suma de distancias minimas, o INF si hay caja atrapada.
      * Complejidad: O(B * G) donde B = cajas, G = objetivos.
      */
+
+    /*
+    * Para cada caja itera todos los objetivos buscando el más cercano. minDist arranca en INF
+    * y se actualiza cada vez que encuentra una distancia menor
+    * Si al terminar el loop interno minDist sigue siendo INF, esa caja no puede llegar a ningún objetivo
+    * retorna INF inmediatamente sin revisar las demás cajas. Si encuentra distancia, la suma al total
+    * El resultado es la suma de "distancia mínima de cada caja a su objetivo más cercano"
+    * */
     public int computeHeuristic(Position[] boxPositions, int boxCount,
                                 Position[] goalPositions, int goalCount) {
         int total = 0;

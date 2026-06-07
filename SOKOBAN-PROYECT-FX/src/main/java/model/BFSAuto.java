@@ -40,6 +40,7 @@ public class BFSAuto {
         this.fw = fw;
 
 
+        //Encuentra cuantos objetivos hay
         int count = 0;
         for (int x = 0; x < board.getWidth(); x++) {
             for (int y = 0; y < board.getHeight(); y++) {
@@ -51,6 +52,7 @@ public class BFSAuto {
         }
 
         // Segunda pasada: guardarlos en el array.
+        //aqui va buscando celda x celda y va encontrando los objetivos
         this.goalCount = count;
         this.goalPositions = new Position[count];
         int idx = 0;
