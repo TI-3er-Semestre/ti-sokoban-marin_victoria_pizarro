@@ -62,7 +62,7 @@ public class LevelLoader {
                 playerPosition = new Position(1, 1);
             }
 
-            return new Level(data.id, board);
+            return new Level(data.id, board, playerPosition );
 
         } catch (Exception e) {
             e.printStackTrace();

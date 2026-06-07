@@ -28,7 +28,7 @@ public class DFSAutoTest {
         board.setCell(1, 1, new Cell(CellType.GOAL, false));
         board.addBox(new Box(new Position(1, 1)));
 
-        level  = new Level(34, board);
+        level  = new Level(34, board, new Position(1,1));
         game   = new Game(level, null);
         game.startGame();
 
@@ -58,7 +58,7 @@ public class DFSAutoTest {
 
         board.addBox(new Box(new Position(2, 1)));
 
-        level  = new Level(35, board);
+        level  = new Level(35, board, new Position(1,1));
         game   = new Game(level, null);
         game.startGame();
         game.getPlayer().setPosition(new Position(1, 1));
@@ -86,7 +86,7 @@ public class DFSAutoTest {
 
         board.addBox(new Box(new Position(2, 1)));
 
-        level  = new Level(36, board);
+        level  = new Level(36, board, new Position(1,1));
         game   = new Game(level, null);
         game.startGame();
         game.getPlayer().setPosition(new Position(3, 1));
@@ -114,7 +114,7 @@ public class DFSAutoTest {
 
         board.addBox(new Box(new Position(1, 1)));
 
-        level  = new Level(37, board);
+        level  = new Level(37, board, new Position(1,1));
         game   = new Game(level, null);
         game.startGame();
 
@@ -146,7 +146,7 @@ public class DFSAutoTest {
         board.setCell(2, 1, new Cell(CellType.GOAL, false));
         board.addBox(new Box(new Position(2, 2)));
 
-        level  = new Level(38, board);
+        level  = new Level(38, board, new Position(1,1));
         game   = new Game(level, null);
         game.startGame();
         game.getPlayer().setPosition(new Position(1, 3));

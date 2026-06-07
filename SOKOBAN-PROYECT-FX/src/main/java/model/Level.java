@@ -8,10 +8,11 @@ public class Level implements Comparable<Level> {
     private Position playerStart;
 
 
-    public Level(int id, Board board) {
+    public Level(int id, Board board, Position playerStart) {
         this.id = id;
         this.board = board;
 
+        this.playerStart = playerStart;
     }
 
     @Override
