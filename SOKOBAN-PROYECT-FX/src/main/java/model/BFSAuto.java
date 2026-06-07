@@ -8,6 +8,7 @@ import structures.CustomIterator;
 public class BFSAuto {
 
     private Board board;
+    private Dijkstra dijkstra;
 
 
     private FloydWarshall fw;
@@ -22,11 +23,17 @@ public class BFSAuto {
     /**
      * @param board tablero del nivel a resolver
      */
+    public BFSAuto(Board board, Dijkstra dijkstra) {
+        this.board = board;
+        this.fw = null;
+        this.dijkstra = dijkstra;
+        loadGoalPositions();
+    }
     public BFSAuto(Board board) {
         this.board = board;
         this.fw = null;
-        this.goalPositions = null;
-        this.goalCount = 0;
+        this.dijkstra = null;
+        loadGoalPositions();
     }
 
 
@@ -38,31 +45,9 @@ public class BFSAuto {
     public BFSAuto(Board board, FloydWarshall fw) {
         this.board = board;
         this.fw = fw;
+        this.dijkstra = null;
+        loadGoalPositions();
 
-
-        int count = 0;
-        for (int x = 0; x < board.getWidth(); x++) {
-            for (int y = 0; y < board.getHeight(); y++) {
-                Cell cell = board.getCell(x, y);
-                if (cell != null && cell.isGoal()) {
-                    count++;
-                }
-            }
-        }
-
-        // Segunda pasada: guardarlos en el array.
-        this.goalCount = count;
-        this.goalPositions = new Position[count];
-        int idx = 0;
-        for (int x = 0; x < board.getWidth(); x++) {
-            for (int y = 0; y < board.getHeight(); y++) {
-                Cell cell = board.getCell(x, y);
-                if (cell != null && cell.isGoal()) {
-                    goalPositions[idx] = new Position(x, y);
-                    idx++;
-                }
-            }
-        }
     }
 
 
@@ -104,6 +89,21 @@ public class BFSAuto {
                                 continue;
                             }
                         }
+                        if (dijkstra != null) {
+                            Position[] cajaPos =
+                                    boxesToPositionArray(estadoSiguiente.getBoxes());
+
+                            int h = dijkstra.computeHeuristic(
+                                    cajaPos,
+                                    cajaPos.length,
+                                    goalPositions,
+                                    goalCount);
+
+                            if (h == Dijkstra.INF) {
+                                continue;
+                            }
+                        }
+
 
                         visitados.put(clave, true);
                         colaBFS.enqueue(estadoSiguiente);
@@ -301,5 +301,27 @@ public class BFSAuto {
         }
 
         return new GameState(posJugador, cajasIniciales, null, null);
+    }
+    private void loadGoalPositions() {
+        int count = 0;
+        for (int x = 0; x< board.getWidth(); x ++){
+            for (int y = 0; y< board.getHeight(); y++){
+                Cell cell = board.getCell(x, y);
+                if(cell != null && cell.isGoal()){
+                    count ++;
+                }
+            }
+        }
+        goalCount = count;
+        goalPositions = new Position[count];
+        int index = 0;
+        for (int x = 0; x < board.getWidth(); x ++){
+            for(int y = 0; y< board.getHeight(); y ++){
+                Cell cell = board.getCell(x, y);
+                if(cell != null && cell.isGoal()){
+                    goalPositions[index++] = new Position(x,y);
+                }
+            }
+        }
     }
 }
