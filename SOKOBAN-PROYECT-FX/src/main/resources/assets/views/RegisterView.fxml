@@ -57,14 +57,11 @@
         <Region style="-fx-background-color:#8a9ea8;-fx-border-color:#6a7e88;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
     </HBox>
 
-    <!-- Contenido principal centrado con padding para no chocar con los tiles -->
-    <VBox alignment="CENTER" pickOnBounds="false"
-          style="-fx-padding: 70 0 70 0;">
-
-        <!-- HBox: formulario izquierda + preview derecha -->
+    <!-- Contenido principal -->
+    <VBox alignment="CENTER" pickOnBounds="false" style="-fx-padding: 70 0 70 0;">
         <HBox alignment="CENTER" spacing="24">
 
-            <!-- ══ IZQUIERDA: formulario ══ -->
+            <!-- IZQUIERDA: formulario -->
             <VBox spacing="9" prefWidth="360"
                   style="-fx-background-color: #2c2c2c;
                          -fx-border-color: #111111; -fx-border-width: 3;
@@ -72,8 +69,7 @@
                          -fx-effect: dropshadow(gaussian,#111111,0,0,0,6);
                          -fx-padding: 18;">
 
-                <Label text="[ NUEVO JUGADOR ]"
-                       maxWidth="Infinity" alignment="CENTER"
+                <Label text="[ NUEVO JUGADOR ]" maxWidth="Infinity" alignment="CENTER"
                        style="-fx-text-fill: #f0e060; -fx-font-size: 15px;
                               -fx-font-weight: bold; -fx-font-family: 'Courier New';"/>
 
@@ -116,18 +112,14 @@
                                       -fx-padding: 5 10 5 10;"/>
                 </VBox>
 
-                <!-- Avatar -->
+                <!-- Avatar — sin style inline para que el controller pueda cambiar el borde -->
                 <VBox spacing="5">
                     <Label text="AVATAR"
                            style="-fx-text-fill: #aaaaaa; -fx-font-size: 10px; -fx-font-family: 'Courier New';"/>
                     <HBox spacing="6">
                         <ToggleButton fx:id="avatar1"
                                       toggleGroup="$avatarGroup"
-                                      selected="true" userData="player_05.png"
-                                      style="-fx-background-color: #1a1a1a;
-                                             -fx-border-color: #f0e060; -fx-border-width: 3;
-                                             -fx-border-radius: 8; -fx-background-radius: 8;
-                                             -fx-padding: 3; -fx-cursor: hand;">
+                                      selected="true" userData="player_05.png">
                             <graphic>
                                 <ImageView fitWidth="44" fitHeight="44"
                                            preserveRatio="true" smooth="true">
@@ -137,11 +129,7 @@
                         </ToggleButton>
                         <ToggleButton fx:id="avatar2"
                                       toggleGroup="$avatarGroup"
-                                      userData="player_06.png"
-                                      style="-fx-background-color: #1a1a1a;
-                                             -fx-border-color: #444444; -fx-border-width: 3;
-                                             -fx-border-radius: 8; -fx-background-radius: 8;
-                                             -fx-padding: 3; -fx-cursor: hand;">
+                                      userData="player_06.png">
                             <graphic>
                                 <ImageView fitWidth="44" fitHeight="44"
                                            preserveRatio="true" smooth="true">
@@ -151,11 +139,7 @@
                         </ToggleButton>
                         <ToggleButton fx:id="avatar3"
                                       toggleGroup="$avatarGroup"
-                                      userData="player_07.png"
-                                      style="-fx-background-color: #1a1a1a;
-                                             -fx-border-color: #444444; -fx-border-width: 3;
-                                             -fx-border-radius: 8; -fx-background-radius: 8;
-                                             -fx-padding: 3; -fx-cursor: hand;">
+                                      userData="player_07.png">
                             <graphic>
                                 <ImageView fitWidth="44" fitHeight="44"
                                            preserveRatio="true" smooth="true">
@@ -165,11 +149,7 @@
                         </ToggleButton>
                         <ToggleButton fx:id="avatar4"
                                       toggleGroup="$avatarGroup"
-                                      userData="player_08.png"
-                                      style="-fx-background-color: #1a1a1a;
-                                             -fx-border-color: #444444; -fx-border-width: 3;
-                                             -fx-border-radius: 8; -fx-background-radius: 8;
-                                             -fx-padding: 3; -fx-cursor: hand;">
+                                      userData="player_08.png">
                             <graphic>
                                 <ImageView fitWidth="44" fitHeight="44"
                                            preserveRatio="true" smooth="true">
@@ -180,32 +160,20 @@
                     </HBox>
                 </VBox>
 
-                <!-- Dificultad -->
+                <!-- Dificultad — sin style inline -->
                 <VBox spacing="5">
                     <Label text="NIVEL DE EXPERIENCIA"
                            style="-fx-text-fill: #aaaaaa; -fx-font-size: 10px; -fx-font-family: 'Courier New';"/>
                     <HBox spacing="6">
                         <ToggleButton fx:id="diffBeginner" text="PRINCIPIANTE"
                                       toggleGroup="$difficultyGroup" selected="true" userData="BEGINNER"
-                                      HBox.hgrow="ALWAYS" maxWidth="Infinity"
-                                      style="-fx-background-color: #c8862a; -fx-border-color: #f0e060;
-                                             -fx-border-width: 2; -fx-border-radius: 5; -fx-background-radius: 5;
-                                             -fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold;
-                                             -fx-font-family: 'Courier New'; -fx-pref-height: 30px; -fx-cursor: hand;"/>
+                                      HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
                         <ToggleButton fx:id="diffAdvanced" text="AVANZADO"
                                       toggleGroup="$difficultyGroup" userData="ADVANCED"
-                                      HBox.hgrow="ALWAYS" maxWidth="Infinity"
-                                      style="-fx-background-color: #1a1a1a; -fx-border-color: #444444;
-                                             -fx-border-width: 2; -fx-border-radius: 5; -fx-background-radius: 5;
-                                             -fx-text-fill: #aaaaaa; -fx-font-size: 10px;
-                                             -fx-font-family: 'Courier New'; -fx-pref-height: 30px; -fx-cursor: hand;"/>
+                                      HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
                         <ToggleButton fx:id="diffExpert" text="EXPERTO"
                                       toggleGroup="$difficultyGroup" userData="EXPERT"
-                                      HBox.hgrow="ALWAYS" maxWidth="Infinity"
-                                      style="-fx-background-color: #1a1a1a; -fx-border-color: #444444;
-                                             -fx-border-width: 2; -fx-border-radius: 5; -fx-background-radius: 5;
-                                             -fx-text-fill: #aaaaaa; -fx-font-size: 10px;
-                                             -fx-font-family: 'Courier New'; -fx-pref-height: 30px; -fx-cursor: hand;"/>
+                                      HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
                     </HBox>
                 </VBox>
 
@@ -213,8 +181,9 @@
                 <Label fx:id="errorLabel" text="" wrapText="true" maxWidth="Infinity"
                        style="-fx-text-fill: #e74c3c; -fx-font-size: 10px; -fx-font-family: 'Courier New';"/>
 
-                <!-- Submit -->
-                <Button fx:id="submitButton" text="COMENZAR" maxWidth="Infinity"
+                <!-- Submit — con onAction -->
+                <Button fx:id="submitButton" text="▶  COMENZAR" maxWidth="Infinity"
+                        onAction="#handleSubmit"
                         style="-fx-background-color: #27ae60; -fx-border-color: #1e8449;
                                -fx-border-width: 3; -fx-border-radius: 7; -fx-background-radius: 7;
                                -fx-effect: dropshadow(gaussian,#145a30,0,0,0,3);
@@ -222,18 +191,14 @@
                                -fx-font-family: 'Courier New'; -fx-pref-height: 38px; -fx-cursor: hand;"/>
             </VBox>
 
-            <!-- ══ DERECHA: preview del avatar ══ -->
+            <!-- DERECHA: preview -->
             <VBox alignment="CENTER" spacing="10" prefWidth="200">
-
                 <Label text="PREVIEW"
                        style="-fx-text-fill: #aaaaaa; -fx-font-size: 10px;
                               -fx-font-family: 'Courier New'; -fx-font-weight: bold;"/>
-
-                <!-- Marco del preview -->
                 <StackPane style="-fx-background-color: #1a1a1a;
                                   -fx-border-color: #f0e060; -fx-border-width: 3;
                                   -fx-border-radius: 12; -fx-background-radius: 12;
-                                  -fx-effect: dropshadow(gaussian,#000000,10,0,0,0);
                                   -fx-padding: 14;">
                     <VBox alignment="CENTER" spacing="8">
                         <StackPane>
@@ -252,7 +217,6 @@
                                       -fx-font-weight: bold; -fx-font-family: 'Courier New';"/>
                     </VBox>
                 </StackPane>
-
                 <Label text="Elige tu personaje"
                        style="-fx-text-fill: #666666; -fx-font-size: 10px;
                               -fx-font-family: 'Courier New';"/>
