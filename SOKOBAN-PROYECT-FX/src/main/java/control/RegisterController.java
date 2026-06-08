@@ -1,5 +1,7 @@
 package control;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,9 +18,7 @@ import model.User;
 
 import java.io.IOException;
 
-/**
- * Controlador de la pantalla de registro del jugador.
- */
+
 public class RegisterController {
 
     @FXML private TextField nameField;
@@ -50,10 +50,14 @@ public class RegisterController {
     private void setupAvatarListeners() {
         if (avatarGroup == null) return;
 
-        avatarGroup.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) {
-                String avatarFile = newVal.getUserData().toString();
-                updateAvatarPreview(avatarFile);
+        avatarGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            @Override
+            public void changed(ObservableValue<? extends Toggle> obs,
+                                Toggle oldVal, Toggle newVal) {
+                if (newVal != null) {
+                    String avatarFile = newVal.getUserData().toString();
+                    updateAvatarPreview(avatarFile);
+                }
             }
         });
     }

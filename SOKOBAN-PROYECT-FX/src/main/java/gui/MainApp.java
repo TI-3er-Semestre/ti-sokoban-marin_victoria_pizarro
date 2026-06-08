@@ -9,9 +9,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.*;
 
-/**
- * Punto de entrada de la aplicacion. Carga los niveles desde JSON y lanza el menu principal.
- */
+
 public class MainApp extends Application {
 
     @Override

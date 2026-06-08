@@ -11,9 +11,7 @@ import model.GameStats;
 
 import java.io.IOException;
 
-/**
- * Controlador de la pantalla de victoria.
- */
+
 public class VictoryController {
 
     @FXML private Label victoryTitleLabel;

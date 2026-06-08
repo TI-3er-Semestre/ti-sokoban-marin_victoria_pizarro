@@ -13,9 +13,7 @@ import model.User;
 
 import java.io.IOException;
 
-/**
- * Controlador de la pantalla del menu principal.
- */
+
 public class MainMenuController {
 
     @FXML private ToggleButton level1Btn;

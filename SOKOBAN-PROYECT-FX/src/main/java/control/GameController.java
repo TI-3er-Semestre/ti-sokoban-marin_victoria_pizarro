@@ -3,9 +3,7 @@ package control;
 import model.*;
 import structures.HashTable;
 
-/**
- * Controlador del modelo. Gestiona usuarios y delega acciones en Game.
- */
+
 public class GameController {
 
     private Game game;
