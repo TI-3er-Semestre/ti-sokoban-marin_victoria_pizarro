@@ -16,6 +16,7 @@ public class GameTimer implements Runnable{
         if (running) return;
         running = true;
         thread = new Thread(this);
+        thread.setDaemon(true);
         thread.start();
     }
 
@@ -31,7 +32,7 @@ public class GameTimer implements Runnable{
                 System.out.println("tiempo"  +  stats.getTime());
 
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                running = false;
             }
 
 

@@ -49,9 +49,9 @@ public class GameScreenController {
     private Stage stage;
     private GameController gameController;
     private int currentLevelId;
+    private GameTimer timer;
 
-    private Timeline timer;
-    private int secondsElapsed;
+
 
     private Timeline autoTimeline;
     private static final int ANIMATION_DELAY_MS = 400;
@@ -70,32 +70,29 @@ public class GameScreenController {
         gameController.getGame().loadLevel(levelId);
 
         levelValueLabel.setText(String.format("%02d", levelId));
-        secondsElapsed = 0;
 
-        startTimer();
+        timer = new GameTimer(
+                gameController.getGame().getStats()
+        );
+
+        timer.start();
+
         drawBoard();
         updateHUD();
         setupKeyboard();
+        Timeline hudUpdater = new Timeline(
+                new KeyFrame(Duration.seconds(1), e -> updateHUD())
+        );
+
+        hudUpdater.setCycleCount(Timeline.INDEFINITE);
+        hudUpdater.play();
     }
 
     /**
      * Inicia el cronometro de la partida.
      */
-    private void startTimer() {
-        EventHandler<ActionEvent> timerHandler = new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                secondsElapsed++;
-                int minutes = secondsElapsed / 60;
-                int seconds = secondsElapsed % 60;
-                timeValueLabel.setText(String.format("%02d:%02d", minutes, seconds));
-            }
-        };
 
-        timer = new Timeline(new KeyFrame(Duration.seconds(1), timerHandler));
-        timer.setCycleCount(Timeline.INDEFINITE);
-        timer.play();
-    }
+
 
     /**
      * Detiene el cronometro de la partida.
@@ -195,14 +192,21 @@ public class GameScreenController {
      */
     @FXML
     public void handleRestart() {
+
         stopAutoSolve();
         stopTimer();
-        secondsElapsed = 0;
+
         gameController.getGame().loadLevel(currentLevelId);
-        startTimer();
+
+        timer = new GameTimer(
+                gameController.getGame().getStats()
+        );
+
+        timer.start();
         drawBoard();
         updateHUD();
     }
+
 
     /**
      * Resuelve el nivel con BFS y anima la solucion.
@@ -364,6 +368,15 @@ public class GameScreenController {
 
         movesValueLabel.setText(String.format("%03d", stats.getMoves()));
         pushesValueLabel.setText(String.format("%03d", stats.getPushes()));
+        int totalSeconds =
+                (int) stats.getTime();
+
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+
+        timeValueLabel.setText(
+                String.format("%02d:%02d", minutes, seconds)
+        );
     }
 
     /**
@@ -376,7 +389,8 @@ public class GameScreenController {
             Parent root = loader.load();
 
             VictoryController controller = loader.getController();
-            controller.init(stage, gameController, currentLevelId, secondsElapsed);
+            controller.init(stage, gameController, currentLevelId, (int) gameController.getGame().getStats().getTime());
+
 
             stage.setScene(new Scene(root));
             stage.show();
