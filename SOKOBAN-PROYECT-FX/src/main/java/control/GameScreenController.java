@@ -50,6 +50,7 @@ public class GameScreenController {
     private GameController gameController;
     private int currentLevelId;
     private GameTimer timer;
+    private Timeline hudUpdater;
 
 
 
@@ -80,9 +81,9 @@ public class GameScreenController {
         drawBoard();
         updateHUD();
         setupKeyboard();
-        Timeline hudUpdater = new Timeline(
+        hudUpdater = new Timeline((
                 new KeyFrame(Duration.seconds(1), e -> updateHUD())
-        );
+        ));
 
         hudUpdater.setCycleCount(Timeline.INDEFINITE);
         hudUpdater.play();
@@ -100,6 +101,9 @@ public class GameScreenController {
     private void stopTimer() {
         if (timer != null) {
             timer.stop();
+        }
+        if(hudUpdater !=null){
+            hudUpdater.stop();
         }
     }
 

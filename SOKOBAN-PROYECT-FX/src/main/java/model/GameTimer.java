@@ -3,9 +3,9 @@ package model;
 public class GameTimer implements Runnable{
     // atributos
 
-    private boolean running;
     private Thread thread;
     private GameStats stats;
+    private volatile boolean running;
 
     //constructor
     public GameTimer(GameStats stats){
@@ -32,7 +32,7 @@ public class GameTimer implements Runnable{
                 System.out.println("tiempo"  +  stats.getTime());
 
             } catch (InterruptedException e) {
-                running = false;
+                Thread.currentThread().interrupt();
             }
 
 
@@ -41,6 +41,9 @@ public class GameTimer implements Runnable{
     // detener hilo
     public void stop(){
             running = false;
+            if(thread !=null){
+                thread.interrupt();
+            }
 
     }
 
