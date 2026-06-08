@@ -36,6 +36,7 @@ public class StatsController {
     @FXML private TableColumn<GameStats, Integer> colMoves;
     @FXML private TableColumn<GameStats, Integer> colPushes;
     @FXML private TableColumn<GameStats, String>  colTime;
+    @FXML private TableColumn<GameStats, String> colPlayer;
     @FXML private Label personalBestLabel;
 
     private Stage stage;
@@ -89,6 +90,7 @@ public class StatsController {
                         String.format("%02d:%02d", secs / 60, secs % 60));
             }
         });
+        colPlayer.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPlayerName()));
     }
 
     /**

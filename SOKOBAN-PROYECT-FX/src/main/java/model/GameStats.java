@@ -7,12 +7,23 @@ public class GameStats implements Comparable<GameStats> {
     private int time;
     private int levelId;
 
+    private String playerName;
+
     // Constructor
     public GameStats(int levelId) {
         this.levelId = levelId;
         this.moves = 0;
         this.pushes = 0;
         this.time = 0;
+        this.playerName = "Desconocido";
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 
     /**

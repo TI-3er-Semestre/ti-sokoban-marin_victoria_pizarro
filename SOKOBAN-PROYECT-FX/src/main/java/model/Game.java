@@ -64,6 +64,9 @@ public class Game {
         Position start = currentLevel.getPlayerStart();
         this.player = new Player(new Position(start.getX(), start.getY()));
         this.stats = new GameStats(currentLevel.getId());
+        if (this.user != null) {
+            this.stats.setPlayerName(this.user.getUsername());
+        }
 
 
         this.isFinished = false;
@@ -368,5 +371,9 @@ public class Game {
 
     public Level getCurrentLevel() {
         return currentLevel;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
