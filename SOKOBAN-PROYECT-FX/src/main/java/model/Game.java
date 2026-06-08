@@ -3,6 +3,7 @@ package model;
 import structures.*;
 
 public class Game {
+    private GameTimer timer;
     private Stack<GameState> history;
     private Board board;
     private Player player;
@@ -61,6 +62,8 @@ public class Game {
         this.board = currentLevel.getBoard();
         this.player = new Player(new Position(1,1));
         this.stats = new GameStats(currentLevel.getId());
+        timer = new GameTimer(stats);
+        timer.start();
         this.isFinished = false;
 
         history = new Stack<>();
@@ -232,6 +235,9 @@ public class Game {
     public void updateGame() {
         if (checkWin()) {
             isFinished = true;
+            if (timer!= null){
+                timer.stop();
+            }
         }
     }
     // metodo deshacer movimiento
@@ -287,6 +293,9 @@ public class Game {
      * Reinicia el juego.
      */
     public void resetGame() {
+        if (timer != null){
+            timer.stop();
+        }
         startGame();
     }
 

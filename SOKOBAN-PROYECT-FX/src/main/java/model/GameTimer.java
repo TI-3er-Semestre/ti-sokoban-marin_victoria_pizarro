@@ -2,7 +2,7 @@ package model;
 
 public class GameTimer implements Runnable{
     // atributos
-    private int seconds;
+
     private boolean running;
     private Thread thread;
     private GameStats stats;
@@ -20,10 +20,6 @@ public class GameTimer implements Runnable{
     }
 
 
-
-
-
-
     @Override
     public void run() {
         while (running) {
@@ -32,7 +28,7 @@ public class GameTimer implements Runnable{
 
                 Thread.sleep(1000);
                 stats.addSecond();
-                System.out.println("tiempo" + stats.getTime());
+                System.out.println("tiempo"  +  stats.getTime());
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -41,12 +37,11 @@ public class GameTimer implements Runnable{
 
         }
     }
+    // detener hilo
     public void stop(){
             running = false;
 
-        }
-    public void reset(){
-
     }
+
 }
 
