@@ -9,13 +9,35 @@ public class GameController {
     private Game game;
     private HashTable<String, User> users;
 
-    /**
-     * Crea el controlador con un juego inicial.
-     * @param game instancia de Game a controlar
-     */
-    public GameController(Game game) {
-        this.game = game;
+
+    public GameController() {
         this.users = new HashTable<>(10);
+        initializeGame();
+    }
+    private void initializeGame() {
+        // El controlador carga los niveles del modelo
+        Level level1 = LevelLoader.loadLevel("/assets/levels/level1.json");
+        Level level2 = LevelLoader.loadLevel("/assets/levels/level2.json");
+        Level level3 = LevelLoader.loadLevel("/assets/levels/level3.json");
+
+        // El controlador crea el usuario por defecto del modelo
+        User defaultUser = new User(
+                "Player", "player@game.com", "player1",
+                "player_05.png", Difficulty.EASY
+        );
+
+        // El controlador inicializa la instancia principal de Game
+        this.game = new Game(level1, defaultUser);
+        this.game.addLevel(level2);
+        this.game.addLevel(level3);
+
+        // Registra al usuario en la tabla hash
+        addUser(defaultUser);
+    }
+
+
+    public String getDefaultUsername() {
+        return "player1";
     }
 
     /**
