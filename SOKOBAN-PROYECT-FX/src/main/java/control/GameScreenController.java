@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
@@ -38,24 +39,22 @@ public class GameScreenController {
 
     private static final int CELL_SIZE = 64;
 
-    private static final Color COLOR_WALL        = Color.web("#c0392b");
-    private static final Color COLOR_FLOOR       = Color.web("#8a9ea8");
-    private static final Color COLOR_GOAL        = Color.web("#8a9ea8");
-    private static final Color COLOR_GOAL_BORDER = Color.web("#e67e22");
-    private static final Color COLOR_BOX         = Color.web("#c8862a");
-    private static final Color COLOR_BOX_GOAL    = Color.web("#2ecc71");
-    private static final Color COLOR_PLAYER      = Color.web("#4a90d9");
-
     private Stage stage;
     private GameController gameController;
     private int currentLevelId;
     private GameTimer timer;
     private Timeline hudUpdater;
 
-
-
     private Timeline autoTimeline;
     private static final int ANIMATION_DELAY_MS = 400;
+
+    // Sprites
+    private Image spriteWall;
+    private Image spriteFloor;
+    private Image spriteGoal;
+    private Image spriteBox;
+    private Image spriteBoxOnGoal;
+    private Image spritePlayer;
 
     /**
      * Inyecta dependencias y carga el nivel indicado.
@@ -72,28 +71,50 @@ public class GameScreenController {
 
         levelValueLabel.setText(String.format("%02d", levelId));
 
-        timer = new GameTimer(
-                gameController.getGame().getStats()
-        );
-
+        timer = new GameTimer(gameController.getGame().getStats());
         timer.start();
 
+        loadSprites();
         drawBoard();
         updateHUD();
         setupKeyboard();
-        hudUpdater = new Timeline((
-                new KeyFrame(Duration.seconds(1), e -> updateHUD())
-        ));
 
+        hudUpdater = new Timeline(
+                new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent e) {
+                        updateHUD();
+                    }
+                })
+        );
         hudUpdater.setCycleCount(Timeline.INDEFINITE);
         hudUpdater.play();
     }
 
     /**
-     * Inicia el cronometro de la partida.
+     * Carga los sprites desde assets/sprites una sola vez.
      */
+    private void loadSprites() {
+        spriteWall      = loadImage("/assets/sprites/block_05.png");
+        spriteFloor     = loadImage("/assets/sprites/ground_03.png");
+        spriteGoal      = loadImage("/assets/sprites/environment_11.png");
+        spriteBox       = loadImage("/assets/sprites/crate_02.png");
+        spriteBoxOnGoal = loadImage("/assets/sprites/crate_25.png");
+        spritePlayer    = loadImage("/assets/sprites/player_05.png");
+    }
 
-
+    /**
+     * Carga una imagen desde el classpath.
+     * @param path ruta del recurso
+     * @return Image cargada, o null si no se encuentra
+     */
+    private Image loadImage(String path) {
+        try {
+            return new Image(getClass().getResourceAsStream(path));
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     /**
      * Detiene el cronometro de la partida.
@@ -102,7 +123,7 @@ public class GameScreenController {
         if (timer != null) {
             timer.stop();
         }
-        if(hudUpdater !=null){
+        if (hudUpdater != null) {
             hudUpdater.stop();
         }
     }
@@ -196,21 +217,17 @@ public class GameScreenController {
      */
     @FXML
     public void handleRestart() {
-
         stopAutoSolve();
         stopTimer();
 
         gameController.getGame().loadLevel(currentLevelId);
 
-        timer = new GameTimer(
-                gameController.getGame().getStats()
-        );
-
+        timer = new GameTimer(gameController.getGame().getStats());
         timer.start();
+
         drawBoard();
         updateHUD();
     }
-
 
     /**
      * Resuelve el nivel con BFS y anima la solucion.
@@ -271,18 +288,18 @@ public class GameScreenController {
         autoTimeline = new Timeline();
         autoTimeline.setCycleCount(moveQueue.size());
 
-        EventHandler<ActionEvent> stepHandler = new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                String direction = moveQueue.dequeue();
-                if (direction != null) {
-                    move(direction);
-                }
-            }
-        };
+        autoTimeline.getKeyFrames().add(new KeyFrame(
+                Duration.millis(ANIMATION_DELAY_MS),
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        String direction = moveQueue.dequeue();
+                        if (direction != null) {
+                            move(direction);
+                        }
+                    }
+                }));
 
-        autoTimeline.getKeyFrames().add(
-                new KeyFrame(Duration.millis(ANIMATION_DELAY_MS), stepHandler));
         autoTimeline.play();
     }
 
@@ -297,7 +314,7 @@ public class GameScreenController {
     }
 
     /**
-     * Dibuja el tablero completo en el canvas usando el estado actual del modelo.
+     * Dibuja el tablero completo en el canvas usando sprites.
      */
     private void drawBoard() {
         Game game = gameController.getGame();
@@ -317,49 +334,49 @@ public class GameScreenController {
                 double px = x * CELL_SIZE;
                 double py = y * CELL_SIZE;
 
+                // 1. Fondo de la celda
                 if (cell.getType() == CellType.WALL) {
-                    gc.setFill(COLOR_WALL);
-                    gc.fillRect(px, py, CELL_SIZE, CELL_SIZE);
-                    gc.setStroke(Color.web("#96281b"));
-                    gc.setLineWidth(2);
-                    gc.strokeRect(px, py, CELL_SIZE, CELL_SIZE);
+                    drawSprite(gc, spriteWall, px, py);
                 } else if (cell.isGoal()) {
-                    gc.setFill(COLOR_GOAL);
-                    gc.fillRect(px, py, CELL_SIZE, CELL_SIZE);
-                    gc.setStroke(COLOR_GOAL_BORDER);
-                    gc.setLineWidth(3);
-                    gc.strokeRect(px + 2, py + 2, CELL_SIZE - 4, CELL_SIZE - 4);
+                    drawSprite(gc, spriteFloor, px, py);
+                    drawSprite(gc, spriteGoal, px, py);
                 } else {
-                    gc.setFill(COLOR_FLOOR);
-                    gc.fillRect(px, py, CELL_SIZE, CELL_SIZE);
-                    gc.setStroke(Color.web("#6a7e88"));
-                    gc.setLineWidth(1);
-                    gc.strokeRect(px, py, CELL_SIZE, CELL_SIZE);
+                    drawSprite(gc, spriteFloor, px, py);
                 }
 
+                // 2. Caja si la hay
                 if (cell.hasBox()) {
                     if (cell.isGoal()) {
-                        gc.setFill(COLOR_BOX_GOAL);
+                        drawSprite(gc, spriteBoxOnGoal, px, py);
                     } else {
-                        gc.setFill(COLOR_BOX);
+                        drawSprite(gc, spriteBox, px, py);
                     }
-                    gc.fillRoundRect(px + 4, py + 4, CELL_SIZE - 8, CELL_SIZE - 8, 8, 8);
-                    gc.setStroke(cell.isGoal()
-                            ? Color.web("#1a9e55") : Color.web("#a06020"));
-                    gc.setLineWidth(2);
-                    gc.strokeRoundRect(px + 4, py + 4, CELL_SIZE - 8, CELL_SIZE - 8, 8, 8);
                 }
 
+                // 3. Jugador si esta en esta celda
                 if (player != null
                         && player.getPosition().getX() == x
                         && player.getPosition().getY() == y) {
-                    gc.setFill(COLOR_PLAYER);
-                    gc.fillOval(px + 8, py + 8, CELL_SIZE - 16, CELL_SIZE - 16);
-                    gc.setStroke(Color.web("#1a5fa0"));
-                    gc.setLineWidth(2);
-                    gc.strokeOval(px + 8, py + 8, CELL_SIZE - 16, CELL_SIZE - 16);
+                    drawSprite(gc, spritePlayer, px, py);
                 }
             }
+        }
+    }
+
+    /**
+     * Dibuja un sprite en la posicion indicada del canvas.
+     * Si el sprite es null dibuja un rectangulo gris como fallback.
+     * @param gc     contexto grafico del canvas
+     * @param sprite imagen a dibujar
+     * @param px     coordenada X en pixeles
+     * @param py     coordenada Y en pixeles
+     */
+    private void drawSprite(GraphicsContext gc, Image sprite, double px, double py) {
+        if (sprite != null) {
+            gc.drawImage(sprite, px, py, CELL_SIZE, CELL_SIZE);
+        } else {
+            gc.setFill(Color.GRAY);
+            gc.fillRect(px, py, CELL_SIZE, CELL_SIZE);
         }
     }
 
@@ -372,15 +389,11 @@ public class GameScreenController {
 
         movesValueLabel.setText(String.format("%03d", stats.getMoves()));
         pushesValueLabel.setText(String.format("%03d", stats.getPushes()));
-        int totalSeconds =
-                (int) stats.getTime();
 
+        int totalSeconds = (int) stats.getTime();
         int minutes = totalSeconds / 60;
         int seconds = totalSeconds % 60;
-
-        timeValueLabel.setText(
-                String.format("%02d:%02d", minutes, seconds)
-        );
+        timeValueLabel.setText(String.format("%02d:%02d", minutes, seconds));
     }
 
     /**
@@ -393,8 +406,8 @@ public class GameScreenController {
             Parent root = loader.load();
 
             VictoryController controller = loader.getController();
-            controller.init(stage, gameController, currentLevelId, (int) gameController.getGame().getStats().getTime());
-
+            controller.init(stage, gameController, currentLevelId,
+                    (int) gameController.getGame().getStats().getTime());
 
             stage.setScene(new Scene(root));
             stage.show();
