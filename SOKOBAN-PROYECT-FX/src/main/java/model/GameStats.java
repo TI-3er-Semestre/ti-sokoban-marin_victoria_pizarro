@@ -73,6 +73,15 @@ public class GameStats implements Comparable<GameStats> {
 
         return pushes;
     }
+    public void addSecond() {
+
+        time++;
+    }
+
+    public void resetTime() {
+
+        time = 0;
+    }
 
     public double getTime() {
         return time;
