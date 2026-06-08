@@ -1,44 +1,52 @@
 package gui;
 
+import control.GameController;
+import control.MainMenuController;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import model.Level;
-import model.LevelLoader;
-import model.Position;
+import model.*;
+
 
 public class MainApp extends Application {
 
     @Override
-    public void start(Stage primaryStage) {
-        Label label = new Label("Sokoban cargando...");
-        StackPane root = new StackPane(label);
-        Scene scene = new Scene(root, 800, 600);
+    public void start(Stage primaryStage) throws Exception {
 
-        primaryStage.setTitle("Sokoban");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-        Level level = LevelLoader.loadLevel(
-                "src/main/resources/assets/levels/level1.json"
+        // Cargar niveles desde archivos JSON
+        Level level1 = LevelLoader.loadLevel("src/main/resources/levels/level1.json");
+        Level level2 = LevelLoader.loadLevel("src/main/resources/levels/level2.json");
+        Level level3 = LevelLoader.loadLevel("src/main/resources/levels/level3.json");
+
+        // Usuario por defecto
+        User defaultUser = new User(
+                "Player", "player@game.com", "player1",
+                "player_05.png", Difficulty.EASY
         );
 
-        if (level != null) {
-            System.out.println("Nivel: " + level.getId());
+        // Modelo: Game arranca con nivel 1
+        Game game = new Game(level1, defaultUser);
+        game.addLevel(level2);
+        game.addLevel(level3);
 
-            Position p = level.getPlayerStart();
+        // Controlador del modelo
+        GameController gameController = new GameController(game);
+        gameController.addUser(defaultUser);
 
-            System.out.println(
-                    "Jugador en: " +
-                            p.getX() + "," +
-                            p.getY()
-            );
-            System.out.println(
-                    "Cajas: " +
-                            level.getBoard().getBoxes().getLength()
-            );
-        }
+        // Cargar vista del menu principal
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/view/MainMenuView.fxml"));
+        Parent root = loader.load();
+
+        MainMenuController menuController = loader.getController();
+        menuController.init(primaryStage, gameController);
+        menuController.setPlayer(defaultUser);
+
+        primaryStage.setTitle("Sokoban");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
     }
 
     public static void main(String[] args) {

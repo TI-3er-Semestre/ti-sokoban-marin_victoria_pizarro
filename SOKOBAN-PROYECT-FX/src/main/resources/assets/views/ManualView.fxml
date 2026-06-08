@@ -6,6 +6,7 @@
 <BorderPane
     xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
+    fx:controller="control.ManualController"
     prefWidth="1024" prefHeight="768"
     stylesheets="@../style/game.css"
     style="-fx-background-color: #1a1a1a;">
@@ -115,6 +116,7 @@
             <Region VBox.vgrow="ALWAYS"/>
 
             <Button text="↩ VOLVER"
+                    onAction="#handleBack"
                     maxWidth="Infinity"
                     style="-fx-background-color: #333333;
                            -fx-border-color: #555555;

@@ -19,14 +19,7 @@ public class Level implements Comparable<Level> {
     public int compareTo(Level other) {
         return Integer.compare(this.id, other.id);
     }
-    /**
-     * Carga un nivel desde una representación compacta.
-     * @param data cadena con los datos del nivel
-     */
-    public void loadFromCompact(String data) {
 
-        //pendiente
-    }
     /**
      * Verifica si el nivel está completado recorriendo la lista enlazada de cajas.
      * El nivel se completa cuando TODAS las cajas están sobre una celda GOAL.
