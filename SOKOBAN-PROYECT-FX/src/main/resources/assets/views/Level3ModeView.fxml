@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<StackPane
+    xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    prefWidth="1024" prefHeight="768"
+    style="-fx-background-color: #2c2c2c;"
+    stylesheets="@../style/game.css">
+
+    <!-- Tiles arriba: verde y café alternados -->
+    <HBox maxHeight="64" StackPane.alignment="TOP_LEFT" pickOnBounds="false">
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c8862a;-fx-border-color:#a06020;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c8862a;-fx-border-color:#a06020;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c8862a;-fx-border-color:#a06020;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c8862a;-fx-border-color:#a06020;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c8862a;-fx-border-color:#a06020;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c8862a;-fx-border-color:#a06020;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;"/>
+    </HBox>
+
+    <!-- Tiles abajo -->
+    <HBox maxHeight="64" StackPane.alignment="BOTTOM_LEFT" pickOnBounds="false">
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c8862a;-fx-border-color:#a06020;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c8862a;-fx-border-color:#a06020;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c8862a;-fx-border-color:#a06020;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c8862a;-fx-border-color:#a06020;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c8862a;-fx-border-color:#a06020;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c8862a;-fx-border-color:#a06020;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c8862a;-fx-border-color:#a06020;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c8862a;-fx-border-color:#a06020;-fx-border-width:2;"/>
+    </HBox>
+
+    <!-- Contenido central -->
+    <VBox alignment="CENTER" spacing="16" pickOnBounds="false"
+          style="-fx-padding: 70 0 70 0;">
+
+        <!-- Banner -->
+        <HBox alignment="CENTER">
+            <StackPane style="-fx-background-color: #f0e060;
+                              -fx-border-color: #c8a020; -fx-border-width: 3;
+                              -fx-border-radius: 8; -fx-background-radius: 8;
+                              -fx-padding: 8 28 8 28;
+                              -fx-effect: dropshadow(gaussian,#a08010,0,0,0,5);">
+                <Label text="★ NIVEL 3 COMPLETADO ★"
+                       style="-fx-text-fill: #2c2c2c; -fx-font-size: 22px;
+                              -fx-font-weight: bold; -fx-font-family: 'Courier New';"/>
+            </StackPane>
+        </HBox>
+
+        <!-- Subtítulo -->
+        <Label text="NIVEL 3 — EXPERTO"
+               style="-fx-text-fill: #aaaaaa; -fx-font-size: 12px;
+                      -fx-font-family: 'Courier New';"/>
+
+        <!-- Pregunta -->
+        <Label text="¿Cómo deseas jugar de nuevo?"
+               style="-fx-text-fill: #f0e060; -fx-font-size: 14px;
+                      -fx-font-weight: bold; -fx-font-family: 'Courier New';"/>
+
+        <!-- Cards de selección -->
+        <HBox alignment="CENTER" spacing="14">
+
+            <!-- MANUAL -->
+            <VBox fx:id="cardManual" alignment="CENTER" spacing="10"
+                  prefWidth="200"
+                  style="-fx-background-color: #1a1a1a;
+                         -fx-border-color: #444444; -fx-border-width: 3;
+                         -fx-border-radius: 10; -fx-background-radius: 10;
+                         -fx-padding: 18 14 18 14; -fx-cursor: hand;">
+
+                <!-- Ícono -->
+                <StackPane prefWidth="52" prefHeight="52"
+                           style="-fx-background-color: #3498db;
+                                  -fx-border-color: #2980b9; -fx-border-width: 2;
+                                  -fx-border-radius: 8; -fx-background-radius: 8;">
+                </StackPane>
+
+                <Label text="MANUAL"
+                       style="-fx-text-fill: #f0e060; -fx-font-size: 13px;
+                              -fx-font-weight: bold; -fx-font-family: 'Courier New';"/>
+
+                <Label text="Controla al jugador tú mismo con las teclas"
+                       wrapText="true" textAlignment="CENTER"
+                       style="-fx-text-fill: #666666; -fx-font-size: 10px;
+                              -fx-font-family: 'Courier New';" maxWidth="160"/>
+
+                <Label text="WASD / FLECHAS"
+                       style="-fx-background-color: #1a4a7a;
+                              -fx-border-color: #2980b9; -fx-border-width: 1;
+                              -fx-border-radius: 4; -fx-background-radius: 4;
+                              -fx-text-fill: #6ab0f0; -fx-font-size: 9px;
+                              -fx-font-weight: bold; -fx-font-family: 'Courier New';
+                              -fx-padding: 3 8 3 8;"/>
+
+                <Button fx:id="btnManual" text="SELECCIONAR"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: #3498db;
+                               -fx-border-color: #2980b9; -fx-border-width: 2;
+                               -fx-border-radius: 6; -fx-background-radius: 6;
+                               -fx-text-fill: white; -fx-font-size: 11px;
+                               -fx-font-weight: bold; -fx-font-family: 'Courier New';
+                               -fx-pref-height: 32px; -fx-cursor: hand;"/>
+            </VBox>
+
+            <!-- BFS -->
+            <VBox fx:id="cardBFS" alignment="CENTER" spacing="10"
+                  prefWidth="200"
+                  style="-fx-background-color: #1a1a1a;
+                         -fx-border-color: #444444; -fx-border-width: 3;
+                         -fx-border-radius: 10; -fx-background-radius: 10;
+                         -fx-padding: 18 14 18 14; -fx-cursor: hand;">
+
+                <StackPane prefWidth="52" prefHeight="52"
+                           style="-fx-background-color: #27ae60;
+                                  -fx-border-color: #1e8449; -fx-border-width: 2;
+                                  -fx-border-radius: 8; -fx-background-radius: 8;">
+                </StackPane>
+
+                <Label text="AUTO — BFS"
+                       style="-fx-text-fill: #f0e060; -fx-font-size: 13px;
+                              -fx-font-weight: bold; -fx-font-family: 'Courier New';"/>
+
+                <Label text="Solución óptima animada paso a paso"
+                       wrapText="true" textAlignment="CENTER"
+                       style="-fx-text-fill: #666666; -fx-font-size: 10px;
+                              -fx-font-family: 'Courier New';" maxWidth="160"/>
+
+                <Label text="CAMINO MÁS CORTO"
+                       style="-fx-background-color: #1a4a2a;
+                              -fx-border-color: #27ae60; -fx-border-width: 1;
+                              -fx-border-radius: 4; -fx-background-radius: 4;
+                              -fx-text-fill: #6aea90; -fx-font-size: 9px;
+                              -fx-font-weight: bold; -fx-font-family: 'Courier New';
+                              -fx-padding: 3 8 3 8;"/>
+
+                <Button fx:id="btnBFS" text="SELECCIONAR"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: #27ae60;
+                               -fx-border-color: #1e8449; -fx-border-width: 2;
+                               -fx-border-radius: 6; -fx-background-radius: 6;
+                               -fx-text-fill: white; -fx-font-size: 11px;
+                               -fx-font-weight: bold; -fx-font-family: 'Courier New';
+                               -fx-pref-height: 32px; -fx-cursor: hand;"/>
+            </VBox>
+
+            <!-- DFS -->
+            <VBox fx:id="cardDFS" alignment="CENTER" spacing="10"
+                  prefWidth="200"
+                  style="-fx-background-color: #1a1a1a;
+                         -fx-border-color: #444444; -fx-border-width: 3;
+                         -fx-border-radius: 10; -fx-background-radius: 10;
+                         -fx-padding: 18 14 18 14; -fx-cursor: hand;">
+
+                <StackPane prefWidth="52" prefHeight="52"
+                           style="-fx-background-color: #c0392b;
+                                  -fx-border-color: #96281b; -fx-border-width: 2;
+                                  -fx-border-radius: 8; -fx-background-radius: 8;">
+                </StackPane>
+
+                <Label text="AUTO — DFS"
+                       style="-fx-text-fill: #f0e060; -fx-font-size: 13px;
+                              -fx-font-weight: bold; -fx-font-family: 'Courier New';"/>
+
+                <Label text="Exploración profunda, solución rápida"
+                       wrapText="true" textAlignment="CENTER"
+                       style="-fx-text-fill: #666666; -fx-font-size: 10px;
+                              -fx-font-family: 'Courier New';" maxWidth="160"/>
+
+                <Label text="EXPLORACIÓN RÁPIDA"
+                       style="-fx-background-color: #4a1a1a;
+                              -fx-border-color: #c0392b; -fx-border-width: 1;
+                              -fx-border-radius: 4; -fx-background-radius: 4;
+                              -fx-text-fill: #f08080; -fx-font-size: 9px;
+                              -fx-font-weight: bold; -fx-font-family: 'Courier New';
+                              -fx-padding: 3 8 3 8;"/>
+
+                <Button fx:id="btnDFS" text="SELECCIONAR"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: #c0392b;
+                               -fx-border-color: #96281b; -fx-border-width: 2;
+                               -fx-border-radius: 6; -fx-background-radius: 6;
+                               -fx-text-fill: white; -fx-font-size: 11px;
+                               -fx-font-weight: bold; -fx-font-family: 'Courier New';
+                               -fx-pref-height: 32px; -fx-cursor: hand;"/>
+            </VBox>
+
+        </HBox>
+
+        <!-- Botón volver -->
+        <Button text="↩  VOLVER AL MENÚ"
+                style="-fx-background-color: #333333;
+                       -fx-border-color: #555555; -fx-border-width: 2;
+                       -fx-border-radius: 7; -fx-background-radius: 7;
+                       -fx-effect: dropshadow(gaussian,#222222,0,0,0,3);
+                       -fx-text-fill: #aaaaaa; -fx-font-size: 11px;
+                       -fx-font-weight: bold; -fx-font-family: 'Courier New';
+                       -fx-pref-height: 36px; -fx-padding: 0 20 0 20;
+                       -fx-cursor: hand;"/>
+
+    </VBox>
+
+</StackPane>
