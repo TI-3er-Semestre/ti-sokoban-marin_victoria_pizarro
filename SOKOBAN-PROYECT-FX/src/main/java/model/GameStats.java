@@ -68,6 +68,8 @@ public class GameStats implements Comparable<GameStats> {
         pushes++;
 
     }
+    public void removeMove() {
+        if (moves > 0) { moves--; } }
 
     public int getMoves() {
 

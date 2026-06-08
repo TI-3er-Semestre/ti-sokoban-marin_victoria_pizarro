@@ -274,6 +274,7 @@ public class Game {
                 Box b = it3.next().getData();
                 boxMap.put(boxKey(b.getPosition().getX(), b.getPosition().getY()), b);
             }
+            stats.removeMove();
 
 
 

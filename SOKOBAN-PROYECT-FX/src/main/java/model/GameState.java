@@ -20,6 +20,7 @@ public class GameState {
         this.playerPosition = playerPosition;
         this.boxes = boxes;
     }
+    
 
     /**
      * Construye un estado del juego para el grafo de BFS.
