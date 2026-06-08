@@ -1,14 +1,12 @@
 package gui;
 
 import control.GameController;
-import control.MainMenuController;
+import control.RegisterController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-
 
 public class MainApp extends Application {
 
@@ -18,17 +16,13 @@ public class MainApp extends Application {
         // La UI solo instancia al Controlador.
         GameController gameController = new GameController();
 
-        // Cargar vista del menú principal
+        // Cargar vista de registro como pantalla inicial
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/assets/views/MainMenuView.fxml"));
+                getClass().getResource("/assets/views/RegisterView.fxml"));
         Parent root = loader.load();
 
-        // se mete el controlador en la vista
-        MainMenuController menuController = loader.getController();
-        menuController.init(primaryStage, gameController);
-
-        // Buscamos el usuario a través del controlador usando String
-        menuController.setPlayer(gameController.getUser(gameController.getDefaultUsername()));
+        RegisterController registerController = loader.getController();
+        registerController.init(primaryStage, gameController);
 
         primaryStage.setTitle("Sokoban");
         primaryStage.setScene(new Scene(root));

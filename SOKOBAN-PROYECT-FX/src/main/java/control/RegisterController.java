@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,7 +18,7 @@ import model.Difficulty;
 import model.User;
 
 import java.io.IOException;
-
+import java.util.List;
 
 public class RegisterController {
 
@@ -30,49 +31,125 @@ public class RegisterController {
     @FXML private ImageView avatarPreview;
     @FXML private Label avatarNameLabel;
 
+    // fx:id de los botones para poder cambiarles el estilo
+    @FXML private ToggleButton avatar1;
+    @FXML private ToggleButton avatar2;
+    @FXML private ToggleButton avatar3;
+    @FXML private ToggleButton avatar4;
+
+    @FXML private ToggleButton diffBeginner;
+    @FXML private ToggleButton diffAdvanced;
+    @FXML private ToggleButton diffExpert;
+
     private Stage stage;
     private GameController gameController;
 
-    /**
-     * Inyecta las dependencias necesarias desde el controlador que navega aqui.
-     * @param stage          Stage principal de JavaFX
-     * @param gameController controlador del modelo
-     */
+    // Estilos base para los botones (sin style inline en el FXML, los aplica el controller)
+    private static final String AVATAR_BASE =
+            "-fx-background-color: #1a1a1a;" +
+                    "-fx-border-width: 3;" +
+                    "-fx-border-radius: 8; -fx-background-radius: 8;" +
+                    "-fx-padding: 3; -fx-cursor: hand;";
+
+    private static final String DIFF_BASE =
+            "-fx-border-width: 2;" +
+                    "-fx-border-radius: 5; -fx-background-radius: 5;" +
+                    "-fx-font-size: 10px; -fx-font-weight: bold;" +
+                    "-fx-font-family: 'Courier New'; -fx-pref-height: 30px; -fx-cursor: hand;";
+
     public void init(Stage stage, GameController gameController) {
         this.stage = stage;
         this.gameController = gameController;
+        applyInitialStyles();
         setupAvatarListeners();
+        setupDifficultyListeners();
+        updateAvatarPreview("player_05.png");
     }
 
     /**
-     * Configura los listeners para actualizar el preview del avatar al seleccionar.
+     * Aplica los estilos iniciales a todos los botones al cargar la vista.
+     */
+    private void applyInitialStyles() {
+        // Avatares: el primero seleccionado (amarillo), los demás gris
+        avatar1.setStyle(AVATAR_BASE + "-fx-border-color: #f0e060;");
+        avatar2.setStyle(AVATAR_BASE + "-fx-border-color: #444444;");
+        avatar3.setStyle(AVATAR_BASE + "-fx-border-color: #444444;");
+        avatar4.setStyle(AVATAR_BASE + "-fx-border-color: #444444;");
+
+        // Dificultad: el primero seleccionado (naranja), los demás oscuro
+        diffBeginner.setStyle(DIFF_BASE +
+                "-fx-background-color: #c8862a; -fx-border-color: #f0e060; -fx-text-fill: white;");
+        diffAdvanced.setStyle(DIFF_BASE +
+                "-fx-background-color: #1a1a1a; -fx-border-color: #444444; -fx-text-fill: #aaaaaa;");
+        diffExpert.setStyle(DIFF_BASE +
+                "-fx-background-color: #1a1a1a; -fx-border-color: #444444; -fx-text-fill: #aaaaaa;");
+    }
+
+    /**
+     * Listener del ToggleGroup de avatares — actualiza borde y preview.
      */
     private void setupAvatarListeners() {
-        if (avatarGroup == null) return;
-
         avatarGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             @Override
             public void changed(ObservableValue<? extends Toggle> obs,
                                 Toggle oldVal, Toggle newVal) {
-                if (newVal != null) {
-                    String avatarFile = newVal.getUserData().toString();
-                    updateAvatarPreview(avatarFile);
+                if (newVal == null) {
+                    // Evita que se deseleccionen todos
+                    oldVal.setSelected(true);
+                    return;
+                }
+                // Actualiza bordes
+                List<ToggleButton> all = List.of(avatar1, avatar2, avatar3, avatar4);
+                for (ToggleButton btn : all) {
+                    if (btn == newVal) {
+                        btn.setStyle(AVATAR_BASE + "-fx-border-color: #f0e060;");
+                    } else {
+                        btn.setStyle(AVATAR_BASE + "-fx-border-color: #444444;");
+                    }
+                }
+                // Actualiza preview
+                updateAvatarPreview(newVal.getUserData().toString());
+            }
+        });
+    }
+
+    /**
+     * Listener del ToggleGroup de dificultad — actualiza color del botón activo.
+     */
+    private void setupDifficultyListeners() {
+        difficultyGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            @Override
+            public void changed(ObservableValue<? extends Toggle> obs,
+                                Toggle oldVal, Toggle newVal) {
+                if (newVal == null) {
+                    oldVal.setSelected(true);
+                    return;
+                }
+                List<ToggleButton> all = List.of(diffBeginner, diffAdvanced, diffExpert);
+                for (ToggleButton btn : all) {
+                    if (btn == newVal) {
+                        btn.setStyle(DIFF_BASE +
+                                "-fx-background-color: #c8862a; -fx-border-color: #f0e060; -fx-text-fill: white;");
+                    } else {
+                        btn.setStyle(DIFF_BASE +
+                                "-fx-background-color: #1a1a1a; -fx-border-color: #444444; -fx-text-fill: #aaaaaa;");
+                    }
                 }
             }
         });
     }
 
     /**
-     * Actualiza la imagen de preview segun el archivo de avatar seleccionado.
-     * @param avatarFile nombre del archivo del avatar
+     * Actualiza la imagen grande del preview y el label con el nombre del avatar.
      */
     private void updateAvatarPreview(String avatarFile) {
         try {
             Image img = new Image(
-                    getClass().getResourceAsStream("/sprites/" + avatarFile));
+                    getClass().getResourceAsStream("/assets/sprites/" + avatarFile));
             avatarPreview.setImage(img);
 
-            String playerName = avatarFile.replace("player_", "JUGADOR ")
+            String playerName = avatarFile
+                    .replace("player_0", "JUGADOR ")
                     .replace(".png", "");
             avatarNameLabel.setText(playerName.toUpperCase());
         } catch (Exception e) {
@@ -81,7 +158,7 @@ public class RegisterController {
     }
 
     /**
-     * Procesa el formulario y registra al usuario si los datos son validos.
+     * Valida el formulario, crea el usuario y navega al menú principal.
      */
     @FXML
     public void handleSubmit() {
@@ -90,7 +167,7 @@ public class RegisterController {
         String username = usernameField.getText().trim();
 
         if (name.isEmpty() || email.isEmpty() || username.isEmpty()) {
-            errorLabel.setText("Por favor completa todos los campos obligatorios.");
+            errorLabel.setText("Completa todos los campos antes de continuar.");
             return;
         }
 
@@ -103,8 +180,7 @@ public class RegisterController {
         Difficulty difficulty = Difficulty.EASY;
         Toggle selectedDiff = difficultyGroup.getSelectedToggle();
         if (selectedDiff != null) {
-            String diffData = selectedDiff.getUserData().toString();
-            switch (diffData) {
+            switch (selectedDiff.getUserData().toString()) {
                 case "ADVANCED": difficulty = Difficulty.MEDIUM; break;
                 case "EXPERT":   difficulty = Difficulty.HARD;   break;
                 default:         difficulty = Difficulty.EASY;   break;
@@ -118,8 +194,7 @@ public class RegisterController {
     }
 
     /**
-     * Navega de vuelta al menu principal con el usuario registrado.
-     * @param user usuario recien registrado
+     * Navega al menú principal con el usuario recién registrado.
      */
     private void goToMenu(User user) {
         try {

@@ -53,6 +53,7 @@ public class VictoryController {
         int seconds = secondsElapsed % 60;
         timeResultLabel.setText(String.format("%02d:%02d", minutes, seconds));
 
+        // Oculta "siguiente nivel" si ya paso el ultimo
         if (levelId >= 3) {
             nextLevelButton.setVisible(false);
             nextLevelButton.setManaged(false);
@@ -69,10 +70,16 @@ public class VictoryController {
 
     /**
      * Reinicia el nivel actual.
+     * Si es el nivel 3, muestra la pantalla de seleccion de modo (manual/BFS/DFS).
+     * Si es nivel 1 o 2, va directo al juego.
      */
     @FXML
     public void handleRetry() {
-        loadGameScreen(currentLevelId);
+        if (currentLevelId == 3) {
+            goToLevel3ModeSelector();
+        } else {
+            loadGameScreen(currentLevelId);
+        }
     }
 
     /**
@@ -86,6 +93,25 @@ public class VictoryController {
             Parent root = loader.load();
 
             MainMenuController controller = loader.getController();
+            controller.init(stage, gameController);
+
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Navega a la pantalla de seleccion de modo para el nivel 3.
+     */
+    private void goToLevel3ModeSelector() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/assets/views/Level3ModeView.fxml"));
+            Parent root = loader.load();
+
+            Level3ModeController controller = loader.getController();
             controller.init(stage, gameController);
 
             stage.setScene(new Scene(root));
