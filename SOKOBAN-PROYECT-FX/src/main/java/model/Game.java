@@ -1,5 +1,6 @@
 package model;
 
+import javafx.scene.control.Label;
 import structures.*;
 
 public class Game {
@@ -63,8 +64,8 @@ public class Game {
         Position start = currentLevel.getPlayerStart();
         this.player = new Player(new Position(start.getX(), start.getY()));
         this.stats = new GameStats(currentLevel.getId());
-        timer = new GameTimer(stats);
-        timer.start();
+
+
         this.isFinished = false;
 
         history = new Stack<>();

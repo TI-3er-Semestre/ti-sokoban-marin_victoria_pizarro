@@ -4,7 +4,7 @@ public class GameStats implements Comparable<GameStats> {
 
     private int moves;
     private int pushes;
-    private double time;
+    private int time;
     private int levelId;
 
     // Constructor
@@ -48,8 +48,12 @@ public class GameStats implements Comparable<GameStats> {
     public void reset() {
         moves = 0;
         pushes = 0;
+
+    }
+    public synchronized void resetTime() {
         time = 0;
     }
+
 
     /**
      * Incrementa el contador de movimientos.
@@ -73,21 +77,18 @@ public class GameStats implements Comparable<GameStats> {
 
         return pushes;
     }
-    public void addSecond() {
+    public synchronized void addSecond() {
 
         time++;
     }
 
-    public void resetTime() {
 
-        time = 0;
-    }
 
-    public double getTime() {
+    public synchronized int getTime() {
         return time;
     }
 
-    public void setTime(double time) {
+    public  synchronized void  setTime(int time) {
         this.time = time;
     }
 

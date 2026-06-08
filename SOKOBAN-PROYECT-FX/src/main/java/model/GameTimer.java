@@ -1,19 +1,27 @@
 package model;
 
+import java.awt.*;
+import javafx.application.Platform;
+import javafx.scene.control.Label;
+
 public class GameTimer implements Runnable{
     // atributos
 
     private Thread thread;
     private GameStats stats;
     private volatile boolean running;
+    private Label timeLabel;
 
     //constructor
-    public GameTimer(GameStats stats){
+    public GameTimer(GameStats stats, Label timeLabel){
         this.stats = stats;
+        this.timeLabel = timeLabel;
         this.running = false;
     }
     public void start(){
-        if (running) return;
+        if (running) {
+            return;
+        }
         running = true;
         thread = new Thread(this);
         thread.setDaemon(true);
@@ -28,18 +36,32 @@ public class GameTimer implements Runnable{
 
 
                 Thread.sleep(1000);
+
                 stats.addSecond();
-                System.out.println("tiempo"  +  stats.getTime());
+                int totalSeconds = stats.getTime();
+                int minutes = totalSeconds / 60;
+                int seconds = totalSeconds % 60;
+
+                Platform.runLater(() ->{
+                    timeLabel.setText(
+                            String.format("%02d:%2d", minutes, seconds)
+                    );
+                });
+
+
 
             } catch (InterruptedException e) {
+                running = false;
                 Thread.currentThread().interrupt();
+
+
             }
 
 
         }
     }
     // detener hilo
-    public void stop(){
+    public  void stop(){
             running = false;
             if(thread !=null){
                 thread.interrupt();

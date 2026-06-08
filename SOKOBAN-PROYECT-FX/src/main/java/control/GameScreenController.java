@@ -1,7 +1,6 @@
 package control;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -24,6 +23,9 @@ import model.*;
 import structures.CustomIterator;
 import structures.LinkedList;
 import structures.Queue;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+
 
 import java.io.IOException;
 
@@ -43,9 +45,8 @@ public class GameScreenController {
     private GameController gameController;
     private int currentLevelId;
     private GameTimer timer;
-    private Timeline hudUpdater;
-
     private Timeline autoTimeline;
+
     private static final int ANIMATION_DELAY_MS = 400;
 
     // Sprites
@@ -71,7 +72,7 @@ public class GameScreenController {
 
         levelValueLabel.setText(String.format("%02d", levelId));
 
-        timer = new GameTimer(gameController.getGame().getStats());
+        timer = new GameTimer(gameController.getGame().getStats(), timeValueLabel);
         timer.start();
 
         loadSprites();
@@ -79,16 +80,6 @@ public class GameScreenController {
         updateHUD();
         setupKeyboard();
 
-        hudUpdater = new Timeline(
-                new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-                        updateHUD();
-                    }
-                })
-        );
-        hudUpdater.setCycleCount(Timeline.INDEFINITE);
-        hudUpdater.play();
     }
 
     /**
@@ -123,9 +114,7 @@ public class GameScreenController {
         if (timer != null) {
             timer.stop();
         }
-        if (hudUpdater != null) {
-            hudUpdater.stop();
-        }
+
     }
 
     /**
@@ -219,14 +208,17 @@ public class GameScreenController {
     public void handleRestart() {
         stopAutoSolve();
         stopTimer();
+        if (timer != null) {
+            timer.stop();
+        }
 
         gameController.getGame().loadLevel(currentLevelId);
 
-        timer = new GameTimer(gameController.getGame().getStats());
+        timer = new GameTimer(gameController.getGame().getStats(), timeValueLabel);
         timer.start();
-
-        drawBoard();
+        drawBoard();;
         updateHUD();
+
     }
 
     /**
@@ -383,7 +375,7 @@ public class GameScreenController {
     /**
      * Actualiza las etiquetas del HUD con las estadisticas actuales.
      */
-    private void updateHUD() {
+    private synchronized void  updateHUD() {
         GameStats stats = gameController.getGame().getStats();
         if (stats == null) return;
 
