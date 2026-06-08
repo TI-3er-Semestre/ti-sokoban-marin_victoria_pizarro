@@ -33,6 +33,10 @@ public class MainMenuController {
     public void init(Stage stage, GameController gameController) {
         this.stage = stage;
         this.gameController = gameController;
+
+        if (gameController.getCurrentUser() != null) {
+            setPlayer(gameController.getCurrentUser());
+        }
     }
 
     /**

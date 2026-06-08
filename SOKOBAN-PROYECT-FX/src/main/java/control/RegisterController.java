@@ -117,6 +117,7 @@ public class RegisterController {
 
         User user = new User(name, email, username, avatar, difficulty);
         gameController.addUser(user);
+        gameController.setCurrentUser(user);
 
         goToMenu(user);
     }

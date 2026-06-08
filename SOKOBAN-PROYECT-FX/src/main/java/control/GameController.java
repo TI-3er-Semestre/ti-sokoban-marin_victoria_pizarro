@@ -8,6 +8,7 @@ public class GameController {
 
     private Game game;
     private HashTable<String, User> users;
+    private User currentUser;
 
 
     public GameController() {
@@ -152,5 +153,18 @@ public class GameController {
      */
     public Game getGame() {
         return game;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+
+        // ¡Esta es la línea mágica que faltaba!
+        if (this.game != null) {
+            this.game.setUser(user);
+        }
     }
 }
