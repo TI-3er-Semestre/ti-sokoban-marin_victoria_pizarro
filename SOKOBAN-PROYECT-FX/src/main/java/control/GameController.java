@@ -126,6 +126,27 @@ public class GameController {
     }
 
     /**
+     * Recarga el nivel desde JSON y lo reemplaza en el juego.
+     * @param levelId ID del nivel a cargar (1, 2 o 3)
+     * @return true si el nivel fue cargado correctamente
+     */
+    public boolean loadFreshLevel(int levelId) {
+        String path;
+        switch (levelId) {
+            case 1:  path = "/assets/levels/level1.json"; break;
+            case 2:  path = "/assets/levels/level2.json"; break;
+            case 3:  path = "/assets/levels/level3.json"; break;
+            default: return false;
+        }
+        Level freshLevel = LevelLoader.loadLevel(path);
+        if (freshLevel == null) {
+            return false;
+        }
+        game.replaceLevelAndRestart(levelId, freshLevel);
+        return true;
+    }
+
+    /**
      * Retorna el juego actualmente controlado.
      * @return instancia de Game en curso
      */

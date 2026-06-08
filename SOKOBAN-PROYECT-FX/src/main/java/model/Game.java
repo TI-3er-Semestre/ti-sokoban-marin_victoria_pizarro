@@ -301,6 +301,16 @@ public class Game {
         }
         startGame();
     }
+    /**
+     * Reemplaza el nivel con uno nuevo cargado desde JSON y reinicia el juego.
+     * @param levelId    ID del nivel a reemplazar
+     * @param freshLevel nivel recien cargado desde JSON
+     */
+    public void replaceLevelAndRestart(int levelId, Level freshLevel) {
+        levelsTable.put(levelId, freshLevel);
+        this.currentLevel = freshLevel;
+        startGame();
+    }
 
     /**
      * Guarda las estadísticas de la partida actual en el árbol binario.

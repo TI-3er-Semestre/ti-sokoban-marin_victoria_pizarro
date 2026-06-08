@@ -65,7 +65,11 @@ public class VictoryController {
      */
     @FXML
     public void handleNextLevel() {
-        loadGameScreen(currentLevelId + 1);
+        if (currentLevelId < 3) {
+            loadGameScreen(currentLevelId + 1);
+        } else {
+            handleMenu();
+        }
     }
 
     /**
