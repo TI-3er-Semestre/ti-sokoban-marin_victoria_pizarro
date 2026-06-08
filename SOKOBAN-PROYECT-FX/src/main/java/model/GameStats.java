@@ -64,6 +64,11 @@ public class GameStats implements Comparable<GameStats> {
     public synchronized void resetTime() {
         time = 0;
     }
+    public void removePush() {
+        if (pushes > 0) {
+            pushes--;
+        }
+    }
 
 
     /**

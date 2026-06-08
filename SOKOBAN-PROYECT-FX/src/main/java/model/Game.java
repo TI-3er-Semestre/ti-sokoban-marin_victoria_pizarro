@@ -132,9 +132,12 @@ public class Game {
             }
 
         }// guardar estado
+        boolean pushed = (box != null);
+
         history.push(new GameState(
                 new Position(currentX, currentY),
-                copyBoxes()
+                copyBoxes(),
+                pushed
         ));
         // aplicar cambios
         if (box != null) {
@@ -278,6 +281,9 @@ public class Game {
                 boxMap.put(boxKey(b.getPosition().getX(), b.getPosition().getY()), b);
             }
             stats.removeMove();
+            if (prev.isPushedBox()) {
+                stats.removePush();
+            }
 
 
 

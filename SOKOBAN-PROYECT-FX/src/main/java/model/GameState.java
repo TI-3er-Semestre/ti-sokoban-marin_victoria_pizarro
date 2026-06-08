@@ -9,6 +9,7 @@ public class GameState {
     //Relaciones para BFS
     private GameState lastState;
     private String moveGenerated;
+    private boolean pushedBox;
 
     /**
      * construye un nuevo estado del juego
@@ -16,11 +17,12 @@ public class GameState {
      * @param boxes la lista enlazada con todas las cajas del tablero
      */
 
-    public GameState(Position playerPosition, LinkedList<Box> boxes){
+    public GameState(Position playerPosition, LinkedList<Box> boxes, boolean pushedBox){
         this.playerPosition = playerPosition;
         this.boxes = boxes;
+        this.pushedBox = pushedBox;
     }
-    
+
 
     /**
      * Construye un estado del juego para el grafo de BFS.
@@ -34,6 +36,7 @@ public class GameState {
         this.boxes = boxes;
         this.lastState = lastState;
         this.moveGenerated = moveGenerated;
+
     }
 
     //Tiene que generar una llave en para que la hashTable
@@ -68,6 +71,7 @@ public class GameState {
     }
     public GameState       getLastState()    { return lastState;    }
     public String          getMoveGenerated()    { return moveGenerated; }
+    public boolean isPushedBox() {return pushedBox;}
 
 
     }
