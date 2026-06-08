@@ -16,9 +16,9 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         // Cargar niveles desde archivos JSON
-        Level level1 = LevelLoader.loadLevel("src/main/resources/levels/level1.json");
-        Level level2 = LevelLoader.loadLevel("src/main/resources/levels/level2.json");
-        Level level3 = LevelLoader.loadLevel("src/main/resources/levels/level3.json");
+        Level level1 = LevelLoader.loadLevel("/assets/levels/level1.json");
+        Level level2 = LevelLoader.loadLevel("/assets/levels/level2.json");
+        Level level3 = LevelLoader.loadLevel("/assets/levels/level3.json");
 
         // Usuario por defecto
         User defaultUser = new User(
@@ -37,7 +37,7 @@ public class MainApp extends Application {
 
         // Cargar vista del menu principal
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/view/MainMenuView.fxml"));
+                getClass().getResource("/assets/views/MainMenuView.fxml"));
         Parent root = loader.load();
 
         MainMenuController menuController = loader.getController();

@@ -2,6 +2,7 @@ package model;
 
 import com.google.gson.Gson;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.io.Reader;
 
 public class LevelLoader {
@@ -10,7 +11,8 @@ public class LevelLoader {
         try {
             Gson gson = new Gson();
 
-            Reader reader = new FileReader(path);
+            Reader reader = new InputStreamReader(
+                    LevelLoader.class.getResourceAsStream(path));
             LevelData data = gson.fromJson(reader, LevelData.class);
 
             Board board = new Board(data.width, data.height);

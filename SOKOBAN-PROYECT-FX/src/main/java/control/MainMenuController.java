@@ -67,7 +67,7 @@ public class MainMenuController {
     public void handleRegister() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/view/RegisterView.fxml"));
+                    getClass().getResource("/assets/views/RegisterView.fxml"));
             Parent root = loader.load();
 
             RegisterController controller = loader.getController();
@@ -87,7 +87,7 @@ public class MainMenuController {
     public void handleRanking() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/view/StatsView.fxml"));
+                    getClass().getResource("/assets/views/StatsView.fxml"));
             Parent root = loader.load();
 
             StatsController controller = loader.getController();
@@ -107,7 +107,7 @@ public class MainMenuController {
     public void handleManual() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/view/ManualView.fxml"));
+                    getClass().getResource("/assets/views/ManualView.fxml"));
             Parent root = loader.load();
 
             ManualController controller = loader.getController();
@@ -127,7 +127,7 @@ public class MainMenuController {
     public void loadGameScreen(int levelId) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/view/GameView.fxml"));
+                    getClass().getResource("/assets/views/GameView.fxml"));
             Parent root = loader.load();
 
             GameScreenController controller = loader.getController();
