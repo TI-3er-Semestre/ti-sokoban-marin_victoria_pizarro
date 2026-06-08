@@ -157,7 +157,7 @@ public class StatsController {
     public void handleBack() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/view/MainMenuView.fxml"));
+                    getClass().getResource("/assets/views/MainMenuView.fxml"));
             Parent root = loader.load();
 
             MainMenuController controller = loader.getController();

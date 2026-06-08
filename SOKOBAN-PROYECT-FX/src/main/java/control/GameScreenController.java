@@ -389,7 +389,7 @@ public class GameScreenController {
     private void goToVictory() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/view/VictoryView.fxml"));
+                    getClass().getResource("/assets/views/VictoryView.fxml"));
             Parent root = loader.load();
 
             VictoryController controller = loader.getController();
@@ -409,7 +409,7 @@ public class GameScreenController {
     private void goToMenu() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/view/MainMenuView.fxml"));
+                    getClass().getResource("/assets/views/MainMenuView.fxml"));
             Parent root = loader.load();
 
             MainMenuController controller = loader.getController();
