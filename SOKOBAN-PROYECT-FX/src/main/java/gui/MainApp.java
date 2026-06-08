@@ -7,7 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.*;
+
 
 
 public class MainApp extends Application {
@@ -15,34 +15,20 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        // Cargar niveles desde archivos JSON
-        Level level1 = LevelLoader.loadLevel("/assets/levels/level1.json");
-        Level level2 = LevelLoader.loadLevel("/assets/levels/level2.json");
-        Level level3 = LevelLoader.loadLevel("/assets/levels/level3.json");
+        // La UI solo instancia al Controlador.
+        GameController gameController = new GameController();
 
-        // Usuario por defecto
-        User defaultUser = new User(
-                "Player", "player@game.com", "player1",
-                "player_05.png", Difficulty.EASY
-        );
-
-        // Modelo: Game arranca con nivel 1
-        Game game = new Game(level1, defaultUser);
-        game.addLevel(level2);
-        game.addLevel(level3);
-
-        // Controlador del modelo
-        GameController gameController = new GameController(game);
-        gameController.addUser(defaultUser);
-
-        // Cargar vista del menu principal
+        // Cargar vista del menú principal
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/assets/views/MainMenuView.fxml"));
         Parent root = loader.load();
 
+        // se mete el controlador en la vista
         MainMenuController menuController = loader.getController();
         menuController.init(primaryStage, gameController);
-        menuController.setPlayer(defaultUser);
+
+        // Buscamos el usuario a través del controlador usando String
+        menuController.setPlayer(gameController.getUser(gameController.getDefaultUsername()));
 
         primaryStage.setTitle("Sokoban");
         primaryStage.setScene(new Scene(root));
