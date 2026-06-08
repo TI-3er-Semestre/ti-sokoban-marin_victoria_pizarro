@@ -13,7 +13,6 @@
     stylesheets="@../style/game.css">
 
     <fx:define>
-        <ToggleGroup fx:id="avatarGroup"/>
         <ToggleGroup fx:id="difficultyGroup"/>
     </fx:define>
 
@@ -59,15 +58,15 @@
 
     <!-- Contenido principal -->
     <VBox alignment="CENTER" pickOnBounds="false" style="-fx-padding: 70 0 70 0;">
-        <HBox alignment="CENTER" spacing="24">
 
-            <!-- IZQUIERDA: formulario -->
-            <VBox spacing="9" prefWidth="360"
+        <!-- Formulario centrado -->
+        <HBox alignment="CENTER">
+            <VBox spacing="9" prefWidth="400"
                   style="-fx-background-color: #2c2c2c;
                          -fx-border-color: #111111; -fx-border-width: 3;
                          -fx-border-radius: 10; -fx-background-radius: 10;
                          -fx-effect: dropshadow(gaussian,#111111,0,0,0,6);
-                         -fx-padding: 18;">
+                         -fx-padding: 20;">
 
                 <Label text="[ NUEVO JUGADOR ]" maxWidth="Infinity" alignment="CENTER"
                        style="-fx-text-fill: #f0e060; -fx-font-size: 15px;
@@ -112,55 +111,24 @@
                                       -fx-padding: 5 10 5 10;"/>
                 </VBox>
 
-                <!-- Avatar — sin style inline para que el controller pueda cambiar el borde -->
+                <!-- Avatar fijo — solo imagen estática, no seleccionable -->
                 <VBox spacing="5">
                     <Label text="AVATAR"
                            style="-fx-text-fill: #aaaaaa; -fx-font-size: 10px; -fx-font-family: 'Courier New';"/>
-                    <HBox spacing="6">
-                        <ToggleButton fx:id="avatar1"
-                                      toggleGroup="$avatarGroup"
-                                      selected="true" userData="player_05.png">
-                            <graphic>
-                                <ImageView fitWidth="44" fitHeight="44"
-                                           preserveRatio="true" smooth="true">
-                                    <image><Image url="@../sprites/player_05.png"/></image>
-                                </ImageView>
-                            </graphic>
-                        </ToggleButton>
-                        <ToggleButton fx:id="avatar2"
-                                      toggleGroup="$avatarGroup"
-                                      userData="player_06.png">
-                            <graphic>
-                                <ImageView fitWidth="44" fitHeight="44"
-                                           preserveRatio="true" smooth="true">
-                                    <image><Image url="@../sprites/player_06.png"/></image>
-                                </ImageView>
-                            </graphic>
-                        </ToggleButton>
-                        <ToggleButton fx:id="avatar3"
-                                      toggleGroup="$avatarGroup"
-                                      userData="player_07.png">
-                            <graphic>
-                                <ImageView fitWidth="44" fitHeight="44"
-                                           preserveRatio="true" smooth="true">
-                                    <image><Image url="@../sprites/player_07.png"/></image>
-                                </ImageView>
-                            </graphic>
-                        </ToggleButton>
-                        <ToggleButton fx:id="avatar4"
-                                      toggleGroup="$avatarGroup"
-                                      userData="player_08.png">
-                            <graphic>
-                                <ImageView fitWidth="44" fitHeight="44"
-                                           preserveRatio="true" smooth="true">
-                                    <image><Image url="@../sprites/player_08.png"/></image>
-                                </ImageView>
-                            </graphic>
-                        </ToggleButton>
+                    <HBox alignment="CENTER_LEFT">
+                        <StackPane style="-fx-background-color: #1a1a1a;
+                                          -fx-border-color: #f0e060; -fx-border-width: 3;
+                                          -fx-border-radius: 8; -fx-background-radius: 8;
+                                          -fx-padding: 4;">
+                            <ImageView fitWidth="44" fitHeight="44"
+                                       preserveRatio="true" smooth="true">
+                                <image><Image url="@../sprites/player_05.png"/></image>
+                            </ImageView>
+                        </StackPane>
                     </HBox>
                 </VBox>
 
-                <!-- Dificultad — sin style inline -->
+                <!-- Dificultad -->
                 <VBox spacing="5">
                     <Label text="NIVEL DE EXPERIENCIA"
                            style="-fx-text-fill: #aaaaaa; -fx-font-size: 10px; -fx-font-family: 'Courier New';"/>
@@ -181,7 +149,7 @@
                 <Label fx:id="errorLabel" text="" wrapText="true" maxWidth="Infinity"
                        style="-fx-text-fill: #e74c3c; -fx-font-size: 10px; -fx-font-family: 'Courier New';"/>
 
-                <!-- Submit — con onAction -->
+                <!-- Submit -->
                 <Button fx:id="submitButton" text="▶  COMENZAR" maxWidth="Infinity"
                         onAction="#handleSubmit"
                         style="-fx-background-color: #27ae60; -fx-border-color: #1e8449;
@@ -190,38 +158,6 @@
                                -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold;
                                -fx-font-family: 'Courier New'; -fx-pref-height: 38px; -fx-cursor: hand;"/>
             </VBox>
-
-            <!-- DERECHA: preview -->
-            <VBox alignment="CENTER" spacing="10" prefWidth="200">
-                <Label text="PREVIEW"
-                       style="-fx-text-fill: #aaaaaa; -fx-font-size: 10px;
-                              -fx-font-family: 'Courier New'; -fx-font-weight: bold;"/>
-                <StackPane style="-fx-background-color: #1a1a1a;
-                                  -fx-border-color: #f0e060; -fx-border-width: 3;
-                                  -fx-border-radius: 12; -fx-background-radius: 12;
-                                  -fx-padding: 14;">
-                    <VBox alignment="CENTER" spacing="8">
-                        <StackPane>
-                            <Region prefWidth="96" prefHeight="96"
-                                    style="-fx-background-color: #8a9ea8;
-                                           -fx-border-color: #6a7e88; -fx-border-width: 2;
-                                           -fx-border-radius: 4; -fx-background-radius: 4;"/>
-                            <ImageView fx:id="avatarPreview"
-                                       fitWidth="80" fitHeight="80"
-                                       preserveRatio="true" smooth="true">
-                                <image><Image url="@../sprites/player_05.png"/></image>
-                            </ImageView>
-                        </StackPane>
-                        <Label fx:id="avatarNameLabel" text="JUGADOR 1"
-                               style="-fx-text-fill: #f0e060; -fx-font-size: 11px;
-                                      -fx-font-weight: bold; -fx-font-family: 'Courier New';"/>
-                    </VBox>
-                </StackPane>
-                <Label text="Elige tu personaje"
-                       style="-fx-text-fill: #666666; -fx-font-size: 10px;
-                              -fx-font-family: 'Courier New';"/>
-            </VBox>
-
         </HBox>
     </VBox>
 
