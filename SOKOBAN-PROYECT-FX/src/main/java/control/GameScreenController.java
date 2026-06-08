@@ -68,7 +68,7 @@ public class GameScreenController {
         this.gameController = gameController;
         this.currentLevelId = levelId;
 
-        gameController.getGame().loadLevel(levelId);
+        gameController.loadFreshLevel(levelId);
 
         levelValueLabel.setText(String.format("%02d", levelId));
 
@@ -212,7 +212,7 @@ public class GameScreenController {
             timer.stop();
         }
 
-        gameController.getGame().loadLevel(currentLevelId);
+        gameController.loadFreshLevel(currentLevelId);
 
         timer = new GameTimer(gameController.getGame().getStats(), timeValueLabel);
         timer.start();

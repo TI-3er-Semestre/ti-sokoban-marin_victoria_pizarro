@@ -85,6 +85,7 @@
                            -fx-font-family: 'Courier New'; -fx-pref-height: 38px;
                            -fx-padding: 0 16 0 16; -fx-cursor: hand;"/>
             <Button fx:id="nextLevelButton" text="NIVEL SIGUIENTE"
+                    onAction="#handleNextLevel"
                     style="-fx-background-color: #c8862a; -fx-border-color: #f0e060;
                            -fx-border-width: 2; -fx-border-radius: 7; -fx-background-radius: 7;
                            -fx-effect: dropshadow(gaussian,#8a5010,0,0,0,3);
