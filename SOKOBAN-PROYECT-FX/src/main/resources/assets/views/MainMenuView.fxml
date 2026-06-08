@@ -7,7 +7,8 @@
            style="-fx-background-color: #5a7a8a;"
            stylesheets="@../style/game.css"
            xmlns="http://javafx.com/javafx/17.0.12"
-           xmlns:fx="http://javafx.com/fxml/1">
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="control.MainMenuController">
 
     <fx:define>
         <ToggleGroup fx:id="levelGroup"/>
@@ -54,6 +55,7 @@
 
         <!-- Jugar -->
         <Button text="JUGAR"
+                onAction="#handlePlay"
                 style="-fx-background-color: #27ae60; -fx-border-color: #1e8449;
                        -fx-border-width: 3; -fx-border-radius: 8; -fx-background-radius: 8;
                        -fx-effect: dropshadow(gaussian,#145a30,0,0,0,4);
@@ -63,6 +65,7 @@
 
         <!-- Ranking -->
         <Button text="RANKING"
+                onAction="#handleRanking"
                 style="-fx-background-color: #c8862a; -fx-border-color: #a06020;
                        -fx-border-width: 3; -fx-border-radius: 8; -fx-background-radius: 8;
                        -fx-effect: dropshadow(gaussian,#6a4010,0,0,0,4);
@@ -72,6 +75,7 @@
 
         <!-- Manual -->
         <Button text="MANUAL DE USUARIO"
+                onAction="#handleManual"
                 style="-fx-background-color: #c8862a; -fx-border-color: #a06020;
                        -fx-border-width: 3; -fx-border-radius: 8; -fx-background-radius: 8;
                        -fx-effect: dropshadow(gaussian,#6a4010,0,0,0,4);

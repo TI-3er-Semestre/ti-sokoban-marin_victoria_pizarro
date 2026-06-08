@@ -5,24 +5,21 @@ public class Level implements Comparable<Level> {
 
     private int id;
     private Board board;
+    private Position playerStart;
 
 
-    public Level(int id, Board board) {
+    public Level(int id, Board board, Position playerStart) {
         this.id = id;
         this.board = board;
+
+        this.playerStart = playerStart;
     }
+
     @Override
     public int compareTo(Level other) {
         return Integer.compare(this.id, other.id);
     }
-    /**
-     * Carga un nivel desde una representación compacta.
-     * @param data cadena con los datos del nivel
-     */
-    public void loadFromCompact(String data) {
 
-        //pendiente
-    }
     /**
      * Verifica si el nivel está completado recorriendo la lista enlazada de cajas.
      * El nivel se completa cuando TODAS las cajas están sobre una celda GOAL.
@@ -53,5 +50,8 @@ public class Level implements Comparable<Level> {
     public Board getBoard() {
 
         return board;
+    }
+    public Position getPlayerStart() {
+        return playerStart;
     }
 }

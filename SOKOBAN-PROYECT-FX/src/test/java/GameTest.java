@@ -29,7 +29,7 @@ public class GameTest {
         }
 
         player = new Player(new Position(2, 2));
-        level = new Level(1, board);
+        level = new Level(1, board, new Position(1,1));
         user = new User("test", "test@test.com", "user", "avatar", Difficulty.EASY);
         game = new Game(level, user);
         game.startGame();
@@ -100,7 +100,7 @@ public class GameTest {
         board.setCell(3, 2, new Cell(CellType.GOAL, true));
 
         player = new Player(new Position(2, 2));
-        level = new Level(1, board);
+        level = new Level(1, board, new Position(1,1));
         user = new User("Juan", "juan@mail.com", "juan123", "avatar.png", Difficulty.EASY);
         game = new Game(level, user);
         game.startGame();
@@ -132,7 +132,7 @@ public class GameTest {
         board.addBox(new Box(new Position(3, 2))); // caja fuera de objetivo
 
         player = new Player(new Position(1, 1));
-        level = new Level(1, board);
+        level = new Level(1, board, new Position(1,1));
         user = new User("Juan", "juan@mail.com", "juan123", "avatar.png", Difficulty.EASY);
         game = new Game(level, user);
         game.startGame();

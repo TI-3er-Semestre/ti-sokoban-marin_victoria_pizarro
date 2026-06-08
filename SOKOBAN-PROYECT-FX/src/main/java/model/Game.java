@@ -60,7 +60,8 @@ public class Game {
      */
     public void startGame() {
         this.board = currentLevel.getBoard();
-        this.player = new Player(new Position(1,1));
+        Position start = currentLevel.getPlayerStart();
+        this.player = new Player(new Position(start.getX(), start.getY()));
         this.stats = new GameStats(currentLevel.getId());
         timer = new GameTimer(stats);
         timer.start();
