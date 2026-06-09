@@ -772,7 +772,7 @@ Total proporcional a G
 
 ## 1. `solve(GameState initialState)`
 
-### Complejidad Temporal: O((V + E) · (B + D))
+### Complejidad Temporal: O((V + E) · (B² + D))
 
 El método implementa una búsqueda en profundidad (DFS)
 utilizando una pila.
@@ -788,17 +788,22 @@ Para cada estado se realizan las siguientes operaciones:
 - Aplicar podas heurísticas mediante Floyd-Warshall o Dijkstra.
 
 Las heurísticas requieren convertir las cajas a un arreglo
-de posiciones mediante `boxesToPositionArray()`, cuyo costo
-depende de la cantidad de cajas B.
+de posiciones mediante boxesToPositionArray().
 
-Además, el método `getDepth()` recorre la cadena de padres
-hasta el estado inicial, con costo O(D).
+Además, para cada estado generado se construye una clave única
+mediante generateKey(). Este método ordena las posiciones de las
+cajas usando ordenamiento burbuja, lo que tiene complejidad O(B²).
+Adicionalmente, el método getDepth() recorre la cadena de padres
+hasta el estado inicial con costo O(D).
+Por esta razón el costo dominante por expansión es O(B² + D),
+obteniendo una complejidad total de O((V + E) · (B² + D)).
+
 
 | Caso          | Comportamiento                        | Complejidad          |
 | ------------- | ------------------------------------- | -------------------- |
 | Mejor caso    | El estado inicial ya es solución      | O(B + D)             |
-| Caso promedio | Explora parte del espacio de estados  | O((V + E) · (B + D)) |
-| Peor caso     | Explora todos los estados alcanzables | O((V + E) · (B + D)) |
+| Caso promedio | Explora parte del espacio de estados  | O((V + E) · (B² + D)) |
+| Peor caso     | Explora todos los estados alcanzables | O((V + E) · (B² + D)) |
 
 ### Complejidad Espacial: O(V)
 
@@ -942,6 +947,146 @@ Total proporcional a B
 **Espacio total: O(B)**
 
 ---
+
+
+## 6. `reconstructPath(GameState finalState)`
+
+### Complejidad Temporal: O(L)
+
+Recorre la cadena de padres desde el estado final
+hasta el estado inicial.
+
+Posteriormente invierte el camino utilizando una pila.
+
+| Caso          | Comportamiento             | Complejidad |
+| ------------- | -------------------------- | ----------- |
+| Mejor caso    | Solución vacía             | O(1)        |
+| Caso promedio | Solución de longitud media | O(L)        |
+| Peor caso     | Solución larga             | O(L)        |
+
+### Complejidad Espacial: O(L)
+
+Utiliza una pila auxiliar y una lista para almacenar
+la solución.
+
+| Tipo     | Variable      | Cantidad de valores atómicos |
+| -------- | ------------- | ---------------------------- |
+| Entrada  | finalState    | 1                            |
+| Auxiliar | reversedStack | L                            |
+| Salida   | path          | L                            |
+
+Total proporcional a L
+
+**Espacio total: O(L)**
+
+---
+
+## 7. `boxesToPositionArray(LinkedList<Box> boxes)`
+
+### Complejidad Temporal: O(B)
+
+Recorre todas las cajas y construye un arreglo
+de posiciones.
+
+| Caso          | Comportamiento          | Complejidad |
+| ------------- | ----------------------- | ----------- |
+| Mejor caso    | Una caja                | O(1)        |
+| Caso promedio | Recorre todas las cajas | O(B)        |
+| Peor caso     | Recorre todas las cajas | O(B)        |
+
+### Complejidad Espacial: O(B)
+
+Se crea un arreglo con una posición por cada caja.
+
+| Tipo     | Variable   | Cantidad de valores atómicos |
+| -------- | ---------- | ---------------------------- |
+| Entrada  | boxes      | B                            |
+| Auxiliar | result     | B                            |
+| Salida   | Position[] | B                            |
+
+Total proporcional a B
+
+**Espacio total: O(B)**
+
+---
+
+## 8. `buildInitialState(Game game)`
+
+### Complejidad Temporal: O(B)
+
+Recorre todas las cajas del tablero para construir
+el estado inicial.
+
+| Caso          | Comportamiento          | Complejidad |
+| ------------- | ----------------------- | ----------- |
+| Mejor caso    | Una sola caja           | O(1)        |
+| Caso promedio | Recorre todas las cajas | O(B)        |
+| Peor caso     | Recorre todas las cajas | O(B)        |
+
+### Complejidad Espacial: O(B)
+
+Se crea una copia completa de las cajas existentes.
+
+| Tipo     | Variable          | Cantidad de valores atómicos |
+| -------- | ----------------- | ---------------------------- |
+| Entrada  | game              | 1                            |
+| Auxiliar | initialBoxes      | B                            |
+| Salida   | GameState inicial | B                            |
+
+Total proporcional a B
+
+**Espacio total: O(B)**
+
+---
+
+## 9. `loadGoalPositions()`
+
+### Complejidad Temporal: O(W × H)
+
+El tablero se recorre dos veces:
+
+1. Contar goals.
+2. Guardar posiciones.
+
+Cada recorrido inspecciona todas las celdas.
+
+| Caso          | Comportamiento          | Complejidad |
+| ------------- | ----------------------- | ----------- |
+| Mejor caso    | Tablero pequeño         | O(W × H)    |
+| Caso promedio | Recorre todo el tablero | O(W × H)    |
+| Peor caso     | Recorre todo el tablero | O(W × H)    |
+
+### Complejidad Espacial: O(G)
+
+Se almacena un arreglo con todas las posiciones objetivo.
+
+| Tipo     | Variable         | Cantidad de valores atómicos |
+| -------- | ---------------- | ---------------------------- |
+| Entrada  | board            | 1                            |
+| Auxiliar | goalPositions    | G                            |
+| Auxiliar | goalCount        | 1                            |
+| Salida   | arreglo de goals | G                            |
+
+Total proporcional a G
+
+**Espacio total: O(G)**
+
+---
+
+# Resumen General — DFSAuto
+
+| Método                   | Temporal             | Espacial |
+| ------------------------ | -------------------- | -------- |
+| `solve()`                | O((V + E) · (B² + D)) | O(V)     |
+| `getDepth()`             | O(D)                 | O(1)     |
+| `applyMove()`            | O(B)                 | O(B)     |
+| `findBoxAt()`            | O(B)                 | O(1)     |
+| `buildBoxes()`           | O(B)                 | O(B)     |
+| `reconstructPath()`      | O(L)                 | O(L)     |
+| `boxesToPositionArray()` | O(B)                 | O(B)     |
+| `buildInitialState()`    | O(B)                 | O(B)     |
+| `loadGoalPositions()`    | O(W × H)             | O(G)     |
+
 
 
 
