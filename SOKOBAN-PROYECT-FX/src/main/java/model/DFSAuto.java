@@ -37,6 +37,11 @@ public class DFSAuto {
         loadGoalPositions();
     }
 
+    /**
+     * Resuelve el nivel desde el estado inicial usando DFS con limite de profundidad.
+     * @param initialState estado de partida con posicion del jugador y cajas
+     * @return lista de movimientos que resuelven el nivel, o null si no hay solucion
+     */
     public LinkedList<String> solve(GameState initialState) {
         Stack<GameState> dfStack = new Stack<>();
         HashTable<String, Boolean> visited = new HashTable<>(1024);
@@ -60,14 +65,14 @@ public class DFSAuto {
                     String key = next.generateKey();
 
                     if (!visited.containsKey(key)) {
-                        // Poda Floyd-Warshall
+
                         if (fw != null) {
                             Position[] boxPositions = boxesToPositionArray(next.getBoxes());
                             int h = fw.computeHeuristic(boxPositions, boxPositions.length,
                                     goalPositions, goalCount);
                             if (h == FloydWarshall.INF) continue;
                         }
-                        // Poda Dijkstra
+
                         if (dijkstra != null) {
                             Position[] boxPositions = boxesToPositionArray(next.getBoxes());
                             int h = dijkstra.computeHeuristic(boxPositions, boxPositions.length,
@@ -84,6 +89,11 @@ public class DFSAuto {
         return null;
     }
 
+    /**
+     * Calcula la profundidad del estado en el arbol de busqueda.
+     * @param state estado cuya profundidad se calcula
+     * @return numero de pasos desde el estado inicial
+     */
     private int getDepth(GameState state) {
         int depth = 0;
         GameState current = state;
@@ -94,6 +104,11 @@ public class DFSAuto {
         return depth;
     }
 
+    /**
+     * Verifica si todas las cajas del estado estan sobre posiciones objetivo.
+     * @param state estado a evaluar
+     * @return true si el nivel esta completado
+     */
     private boolean isGoalState(GameState state) {
         CustomIterator<Box> it = state.getBoxes().iterator();
         while (it.hasNext()) {
@@ -106,10 +121,11 @@ public class DFSAuto {
 
     /**
      * Aplica un movimiento a un estado simulado.
-     *
-     * FIX CRITICO: igual que BFSAuto, la verificación de cajas se hace
-     * sobre el ESTADO SIMULADO (LinkedList<Box> del GameState), no sobre
-     * board.isFree() que consulta el tablero físico real.
+     * La verificacion de cajas se hace sobre el estado simulado,
+     * no sobre el tablero fisico, para evitar inconsistencias durante la busqueda.
+     * @param state     estado actual del juego simulado
+     * @param direction direccion del movimiento a aplicar
+     * @return nuevo GameState resultante, o null si el movimiento es invalido
      */
     private GameState applyMove(GameState state, String direction) {
         int offsetX = 0, offsetY = 0;
@@ -123,11 +139,11 @@ public class DFSAuto {
         int newX = state.getPlayerPosition().getX() + offsetX;
         int newY = state.getPlayerPosition().getY() + offsetY;
 
-        // Paredes nunca cambian — sí usamos el board para eso
+
         Cell targetCell = board.getCell(newX, newY);
         if (targetCell == null || targetCell.getType() == CellType.WALL) return null;
 
-        // Verificar caja en destino usando el ESTADO SIMULADO
+
         Box boxAtTarget = findBoxAt(state.getBoxes(), newX, newY);
         LinkedList<Box> updatedBoxes;
 
@@ -151,6 +167,13 @@ public class DFSAuto {
         return new GameState(new Position(newX, newY), updatedBoxes, state, direction);
     }
 
+    /**
+     * Busca una caja en la posicion dada dentro de la lista del estado simulado.
+     * @param boxes lista de cajas del estado simulado
+     * @param x     coordenada X a buscar
+     * @param y     coordenada Y a buscar
+     * @return la caja encontrada, o null si no hay ninguna en esa posicion
+     */
     private Box findBoxAt(LinkedList<Box> boxes, int x, int y) {
         CustomIterator<Box> it = boxes.iterator();
         while (it.hasNext()) {
@@ -160,6 +183,13 @@ public class DFSAuto {
         return null;
     }
 
+    /**
+     * Construye una nueva lista de cajas aplicando el movimiento de una caja.
+     * @param currentBoxes lista de cajas del estado actual
+     * @param oldBox       caja que se mueve, o null si no hay empuje
+     * @param newBoxPos    nueva posicion de la caja movida, o null si no hay empuje
+     * @return nueva lista de cajas con la posicion actualizada
+     */
     private LinkedList<Box> buildBoxes(LinkedList<Box> currentBoxes,
                                        Box oldBox, Position newBoxPos) {
         LinkedList<Box> result = new LinkedList<>();
@@ -178,6 +208,11 @@ public class DFSAuto {
         return result;
     }
 
+    /**
+     * Reconstruye el camino de movimientos desde el estado final hasta el inicial.
+     * @param finalState estado donde se encontro la solucion
+     * @return lista de movimientos en orden de ejecucion
+     */
     private LinkedList<String> reconstructPath(GameState finalState) {
         Stack<String> reversedStack = new Stack<>();
         GameState current = finalState;
@@ -192,6 +227,11 @@ public class DFSAuto {
         return path;
     }
 
+    /**
+     * Convierte la lista de cajas a un array de posiciones para la heuristica.
+     * @param boxes lista de cajas del estado simulado
+     * @return array de posiciones de las cajas
+     */
     private Position[] boxesToPositionArray(LinkedList<Box> boxes) {
         Position[] result = new Position[boxes.getLength()];
         CustomIterator<Box> it = boxes.iterator();
@@ -203,6 +243,11 @@ public class DFSAuto {
         return result;
     }
 
+    /**
+     * Construye el estado inicial del solver desde el juego actual.
+     * @param game instancia del juego en curso
+     * @return GameState con la posicion actual del jugador y las cajas
+     */
     public GameState buildInitialState(Game game) {
         Position playerPos = new Position(
                 game.getPlayer().getPosition().getX(),
@@ -218,6 +263,9 @@ public class DFSAuto {
         return new GameState(playerPos, initialBoxes, null, null);
     }
 
+    /**
+     * Carga las posiciones de las celdas objetivo desde el tablero.
+     */
     private void loadGoalPositions() {
         int count = 0;
         for (int x = 0; x < board.getWidth(); x++) {

@@ -18,6 +18,10 @@ public class GameTimer implements Runnable{
         this.timeLabel = timeLabel;
         this.running = false;
     }
+
+    /**
+     * Inicia el hilo del temporizador si no esta ya en ejecucion.
+     */
     public void start(){
         if (running) {
             return;
@@ -28,7 +32,10 @@ public class GameTimer implements Runnable{
         thread.start();
     }
 
-
+    /**
+     * Ejecuta el ciclo del temporizador.
+     * Incrementa el tiempo cada segundo y actualiza el label en el hilo de JavaFX.
+     */
     @Override
     public void run() {
         while (running) {
@@ -60,14 +67,16 @@ public class GameTimer implements Runnable{
 
         }
     }
-    // detener hilo
+
+    /**
+     * Detiene el hilo del temporizador e interrumpe el sleep en curso.
+     */
     public  void stop(){
-            running = false;
-            if(thread !=null){
-                thread.interrupt();
-            }
+        running = false;
+        if(thread !=null){
+            thread.interrupt();
+        }
 
     }
 
 }
-

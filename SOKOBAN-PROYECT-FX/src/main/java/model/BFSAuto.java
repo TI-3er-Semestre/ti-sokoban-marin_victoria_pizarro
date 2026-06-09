@@ -36,6 +36,11 @@ public class BFSAuto {
         loadGoalPositions();
     }
 
+    /**
+     * Resuelve el nivel desde el estado inicial usando BFS.
+     * @param estadoInicial estado de partida con posicion del jugador y cajas
+     * @return lista de movimientos que resuelven el nivel, o null si no hay solucion
+     */
     public LinkedList<String> solve(GameState estadoInicial) {
         Queue<GameState> colaBFS = new Queue<>();
         HashTable<String, Boolean> visitados = new HashTable<>(1024);
@@ -82,6 +87,11 @@ public class BFSAuto {
         return null;
     }
 
+    /**
+     * Verifica si todas las cajas del estado estan sobre posiciones objetivo.
+     * @param estado estado a evaluar
+     * @return true si el nivel esta completado
+     */
     private boolean isGoalState(GameState estado) {
         CustomIterator<Box> it = estado.getBoxes().iterator();
         while (it.hasNext()) {
@@ -96,14 +106,11 @@ public class BFSAuto {
 
     /**
      * Aplica un movimiento a un estado simulado.
-     *
-     * FIX CRITICO: la verificación de si hay caja en la celda destino
-     * y si la celda detrás está libre se hace consultando el estado simulado
-     * (la LinkedList<Box> del GameState), NO el board físico.
-     *
-     * El bug original era que board.isFree() consulta cell.hasBox() del tablero
-     * real, que refleja el estado visual del juego y no el estado simulado del BFS.
-     * Esto hacía que el solver rechazara movimientos válidos o aceptara inválidos.
+     * La verificacion de cajas se hace sobre el estado simulado,
+     * no sobre el tablero fisico, para evitar inconsistencias durante la busqueda.
+     * @param estado    estado actual del juego simulado
+     * @param direction direccion del movimiento a aplicar
+     * @return nuevo GameState resultante, o null si el movimiento es invalido
      */
     private GameState applyMove(GameState estado, String direction) {
         int offsetX = 0, offsetY = 0;
@@ -154,6 +161,13 @@ public class BFSAuto {
         return new GameState(new Position(newX, newY), nuevasCajas, estado, direction);
     }
 
+    /**
+     * Busca una caja en la posicion dada dentro de la lista del estado simulado.
+     * @param cajas lista de cajas del estado simulado
+     * @param x     coordenada X a buscar
+     * @param y     coordenada Y a buscar
+     * @return la caja encontrada, o null si no hay ninguna en esa posicion
+     */
     private Box findBoxAt(LinkedList<Box> cajas, int x, int y) {
         CustomIterator<Box> it = cajas.iterator();
         while (it.hasNext()) {
@@ -165,6 +179,13 @@ public class BFSAuto {
         return null;
     }
 
+    /**
+     * Construye una nueva lista de cajas aplicando el movimiento de una caja.
+     * @param cajasActuales lista de cajas del estado actual
+     * @param cajaVieja     caja que se mueve, o null si no hay empuje
+     * @param cajaNuevaPos  nueva posicion de la caja movida, o null si no hay empuje
+     * @return nueva lista de cajas con la posicion actualizada
+     */
     private LinkedList<Box> buildBoxes(LinkedList<Box> cajasActuales,
                                        Box cajaVieja, Position cajaNuevaPos) {
         LinkedList<Box> resultado = new LinkedList<>();
@@ -183,6 +204,11 @@ public class BFSAuto {
         return resultado;
     }
 
+    /**
+     * Reconstruye el camino de movimientos desde el estado final hasta el inicial.
+     * @param estadoFinal estado donde se encontro la solucion
+     * @return lista de movimientos en orden de ejecucion
+     */
     private LinkedList<String> reconstructPath(GameState estadoFinal) {
         structures.Stack<String> pilaInversa = new structures.Stack<>();
         GameState actual = estadoFinal;
@@ -197,6 +223,11 @@ public class BFSAuto {
         return camino;
     }
 
+    /**
+     * Convierte la lista de cajas a un array de posiciones para la heuristica.
+     * @param cajas lista de cajas del estado simulado
+     * @return array de posiciones de las cajas
+     */
     private Position[] boxesToPositionArray(LinkedList<Box> cajas) {
         Position[] result = new Position[cajas.getLength()];
         CustomIterator<Box> it = cajas.iterator();
@@ -208,6 +239,11 @@ public class BFSAuto {
         return result;
     }
 
+    /**
+     * Construye el estado inicial del solver desde el juego actual.
+     * @param game instancia del juego en curso
+     * @return GameState con la posicion actual del jugador y las cajas
+     */
     public GameState buildInitialState(Game game) {
         Position posJugador = new Position(
                 game.getPlayer().getPosition().getX(),
@@ -224,6 +260,9 @@ public class BFSAuto {
         return new GameState(posJugador, cajasIniciales, null, null);
     }
 
+    /**
+     * Carga las posiciones de las celdas objetivo desde el tablero.
+     */
     private void loadGoalPositions() {
         int count = 0;
         for (int x = 0; x < board.getWidth(); x++) {

@@ -16,6 +16,13 @@ public class GameController {
         this.currentUser = null;
     }
 
+    /**
+     * Inicializa el juego con los tres niveles y el usuario registrado.
+     * @param level1 nivel basico
+     * @param level2 nivel avanzado
+     * @param level3 nivel experto
+     * @param user   usuario que jugara la partida
+     */
     public void initGame(Level level1, Level level2, Level level3, User user) {
         this.game = new Game(level1, user);
         this.game.addLevel(level2);
@@ -24,6 +31,10 @@ public class GameController {
         setCurrentUser(user);
     }
 
+    /**
+     * Recarga el nivel desde JSON y reinicia el juego en ese nivel.
+     * @param levelId ID del nivel a cargar (1, 2 o 3)
+     */
     public void loadFreshLevel(int levelId) {
         String path = "/assets/levels/level" + levelId + ".json";
         Level fresh = LevelLoader.loadLevel(path);
@@ -34,6 +45,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Restaura el estado guardado en disco sobre el juego actual.
+     * Reposiciona al jugador, las cajas y las estadisticas segun el snapshot.
+     * @param saved snapshot cargado desde disco
+     */
     public void restoreSavedState(SavedState saved) {
         if (game == null || saved == null) return;
         game.loadLevel(saved.getLevelId());
@@ -71,6 +87,10 @@ public class GameController {
     public User removeUser(String username) { return users.remove(username); }
     public boolean userExists(String username) { return users.containsKey(username); }
 
+    /**
+     * Procesa la tecla ingresada y mueve al jugador en la direccion correspondiente.
+     * @param input tecla ingresada (w, a, s, d o up, down, left, right)
+     */
     public void handleInput(String input) {
         String direction = mapInputToDirection(input);
         if (direction != null) { game.movePlayer(direction); }
@@ -93,7 +113,15 @@ public class GameController {
         }
     }
 
+    /**
+     * Actualiza el estado del juego verificando condicion de victoria.
+     */
     public void update() { game.updateGame(); }
+
+    /**
+     * Reinicia el juego actual al estado inicial del nivel.
+     */
     public void restart() { game.resetGame(); }
+
     public Game getGame() { return game; }
 }
