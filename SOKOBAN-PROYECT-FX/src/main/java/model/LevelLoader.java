@@ -7,6 +7,13 @@ import java.io.Reader;
 
 public class LevelLoader {
 
+    /**
+     * Carga un nivel desde un archivo JSON en el classpath.
+     * Interpreta cada caracter del grid: # muro, . objetivo, $ caja,
+     * @ jugador, * caja sobre objetivo, + jugador sobre objetivo.
+     * @param path ruta del recurso en el classpath (ej: /assets/levels/level1.json)
+     * @return Level construido desde el JSON, o null si ocurre un error
+     */
     public static Level loadLevel(String path) {
         try {
             Gson gson = new Gson();

@@ -11,6 +11,11 @@ public class GameSaver {
 
     private static final String SAVE_FILE = "sokoban_save.dat";
 
+    /**
+     * Guarda el estado actual del juego en disco.
+     * Captura nivel, posicion del jugador, cajas y estadisticas.
+     * @param game instancia del juego a guardar
+     */
     public static void save(Game game) {
         if (game == null || game.getBoard() == null || game.getPlayer() == null) return;
         try {
@@ -47,6 +52,10 @@ public class GameSaver {
         }
     }
 
+    /**
+     * Carga el estado guardado desde disco.
+     * @return SavedState con el snapshot guardado, o null si no existe archivo
+     */
     public static SavedState load() {
         File file = new File(SAVE_FILE);
         if (!file.exists()) return null;
@@ -63,11 +72,18 @@ public class GameSaver {
         }
     }
 
+    /**
+     * Elimina el archivo de guardado del disco.
+     */
     public static void deleteSave() {
         File file = new File(SAVE_FILE);
         if (file.exists()) { file.delete(); }
     }
 
+    /**
+     * Verifica si existe un archivo de guardado pendiente.
+     * @return true si existe sokoban_save.dat
+     */
     public static boolean hasSave() {
         return new File(SAVE_FILE).exists();
     }
