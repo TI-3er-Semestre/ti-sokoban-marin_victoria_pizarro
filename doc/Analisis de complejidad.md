@@ -1277,6 +1277,129 @@ No crea estructuras nuevas.
 | `computeHeuristic()`              | O(B × G) | O(1)     |
 | `getDistMatrix()`                 | O(1)     | O(1)     |
 
+# Análisis de Complejidad — Dijkstra
+
+> Para el análisis se usa:
+>
+> * **V** = cantidad de nodos del tablero (**V = width × height**).
+> * **B** = cantidad de cajas.
+> * **G** = cantidad de objetivos.
+
+---
+
+## 1. `processNeighbor(int currentId, int neighborId, int[] dist, boolean[] visited)`
+
+### Complejidad Temporal: O(1)
+
+El método únicamente realiza comparaciones y asignaciones sobre posiciones específicas de los arreglos.
+
+| Caso          | Comportamiento            | Complejidad |
+| ------------- | ------------------------- | ----------- |
+| Mejor caso    | El vecino ya fue visitado | O(1)        |
+| Caso promedio | Actualiza la distancia    | O(1)        |
+| Peor caso     | Actualiza la distancia    | O(1)        |
+
+### Complejidad Espacial: O(1)
+
+No crea estructuras auxiliares.
+
+| Tipo     | Variable    | Cantidad de valores atómicos |
+| -------- | ----------- | ---------------------------- |
+| Entrada  | currentId   | 1                            |
+| Entrada  | neighborId  | 1                            |
+| Entrada  | dist        | V                            |
+| Entrada  | visited     | V                            |
+| Auxiliar | newDistance | 1                            |
+| Salida   | ——          | 0                            |
+
+Total constante
+
+**Espacio total: O(1)**
+
+---
+
+## 2. `getMinDistanceNode(int[] dist, boolean[] visited)`
+
+### Complejidad Temporal: O(V)
+
+Recorre completamente el arreglo de distancias para encontrar el nodo no visitado con menor valor.
+
+| Caso          | Comportamiento          | Complejidad |
+| ------------- | ----------------------- | ----------- |
+| Mejor caso    | Recorre todo el arreglo | O(V)        |
+| Caso promedio | Recorre todo el arreglo | O(V)        |
+| Peor caso     | Recorre todo el arreglo | O(V)        |
+
+### Complejidad Espacial: O(1)
+
+No crea estructuras auxiliares.
+
+| Tipo     | Variable    | Cantidad de valores atómicos |
+| -------- | ----------- | ---------------------------- |
+| Entrada  | dist        | V                            |
+| Entrada  | visited     | V                            |
+| Auxiliar | minDistance | 1                            |
+| Auxiliar | minNode     | 1                            |
+| Salida   | índice      | 1                            |
+
+Total constante
+
+**Espacio total: O(1)**
+
+---
+
+## 3. `shortestDistance(Position start, Position goal)`
+
+### Complejidad Temporal: O(V²)
+
+El método implementa Dijkstra utilizando arreglos simples.
+
+En cada iteración se ejecuta:
+
+```java
+getMinDistanceNode(dist, visited)
+```
+
+que cuesta O(V).
+
+El ciclo principal puede ejecutarse hasta V veces.
+
+Por tanto:
+
+```text
+V × O(V) = O(V²)
+```
+
+Las verificaciones de vecinos son constantes porque cada celda tiene como máximo 4 vecinos.
+
+| Caso          | Comportamiento                      | Complejidad |
+| ------------- | ----------------------------------- | ----------- |
+| Mejor caso    | Origen y destino coinciden          | O(1)        |
+| Caso promedio | Explora parte del tablero           | O(V²)       |
+| Peor caso     | Explora todos los nodos alcanzables | O(V²)       |
+
+### Complejidad Espacial: O(V)
+
+Se crean dos arreglos de tamaño V:
+
+```java
+int[] dist
+boolean[] visited
+```
+
+| Tipo     | Variable    | Cantidad de valores atómicos |
+| -------- | ----------- | ---------------------------- |
+| Entrada  | start, goal | 2                            |
+| Auxiliar | dist        | V                            |
+| Auxiliar | visited     | V                            |
+| Auxiliar | current     | 1                            |
+| Salida   | distancia   | 1                            |
+
+Total proporcional a V
+
+**Espacio total: O(V)**
+
+
 
 
 
