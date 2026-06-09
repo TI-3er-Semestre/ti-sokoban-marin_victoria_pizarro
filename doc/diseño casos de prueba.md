@@ -36,6 +36,11 @@
 | setupStage31  | BFSAutoTest  | Tablero 5x3 con muros en toda la periferia. Goal en (1,1), caja en (2,1), jugador en (3,1). Un único empuje a la izquierda resuelve el nivel. |
 | setupStage32  | BFSAutoTest  | Tablero 3x3 con muros en toda la periferia. Goal en (0,1), caja en (1,1), muro en (2,1). La caja no tiene solución porque el jugador no puede posicionarse detrás de ella. |
 | setupStage33  | BFSAutoTest  | Tablero 5x5 con muros en la periferia e interior 3x3 caminable. Goal en (2,1), caja en (2,2), jugador en (1,3). BFS debe encontrar la secuencia óptima incluyendo el reposicionamiento del jugador. |
+| setupStage34  | DFSAutoTest  | Tablero 3x3 con muros en toda la periferia. La celda (1,1) es GOAL y ya tiene una caja encima. El GameState inicial se construye directamente con la caja sobre el goal |
+| setupStage35  | DFSAutoTest  | Tablero 5x3 con muros en toda la periferia. Jugador en (1,1), caja en (2,1), goal en (3,1). Un único empuje a la derecha resuelve el nivel|
+| setupStage36  | DFSAutoTest  | Tablero 5x3 con muros en toda la periferia. Goal en (1,1), caja en (2,1), jugador en (3,1). Un único empuje a la izquierda resuelve el nivel. |
+| setupStage37  | DFSAutoTest  | Tablero 3x3 con muros en toda la periferia. Goal en (0,1), caja en (1,1), muro en (2,1). La caja no tiene solución porque el jugador no puede posicionarse detrás de ella para empujarla |
+| setupStage38  | DFSAutoTest  | Tablero 5x5 con muros en la periferia e interior 3x3 caminable. Goal en (2,1), caja en (2,2), jugador en (1,3). DFS debe encontrar una solución incluyendo el reposicionamiento del jugador antes de empujar. |
 
 ---
 
@@ -360,6 +365,54 @@ Validar que BFSAuto encuentra y aplica correctamente una solución que requiere 
 | BFSAuto    | solve() | setupStage33 | estadoInicial      | Retorna lista no nula con longitud mayor a 0. |
 | BFSAuto    | solve() | setupStage33 | estadoInicial      | Al aplicar la solución sobre Game, checkWin() retorna true. |
 | BFSAuto    | solve() | setupStage33 | estadoInicial      | Aplicando (longitud - 1) movimientos, checkWin() retorna false (optimalidad garantizada por BFS). |
+
+### Objetivo de la Prueba:
+Validar que DFSAuto detecta correctamente cuando el nivel ya está resuelto sin necesidad de realizar movimientos.
+
+| Clase | Método | Escenario | Valores de Entrada | Resultado esperado |
+|---|---|---|---|---|
+| DFSAuto | solve() | setupStage34 | initialState | Retorna una lista no nula con longitud 0. |
+
+---
+
+### Objetivo de la Prueba:
+Validar que DFSAuto encuentra una solución válida de un único movimiento cuando la caja está a un empuje del objetivo hacia la derecha.
+
+| Clase | Método | Escenario | Valores de Entrada | Resultado esperado |
+|---|---|---|---|---|
+| DFSAuto | solve() | setupStage35 | initialState | Retorna lista no nula con longitud 1. |
+| DFSAuto | solve() | setupStage35 | initialState | El único movimiento encontrado es "RIGHT". |
+| DFSAuto | solve() | setupStage35 | initialState | Al aplicar la solución sobre Game, checkWin() retorna true. |
+
+---
+
+### Objetivo de la Prueba:
+Validar que DFSAuto encuentra una solución válida de un único movimiento cuando la caja está a un empuje del objetivo hacia la izquierda.
+
+| Clase | Método | Escenario | Valores de Entrada | Resultado esperado |
+|---|---|---|---|---|
+| DFSAuto | solve() | setupStage36 | initialState | Retorna lista no nula con longitud 1. |
+| DFSAuto | solve() | setupStage36 | initialState | El único movimiento encontrado es "LEFT". |
+
+---
+
+### Objetivo de la Prueba:
+Validar que DFSAuto identifica correctamente niveles sin solución y retorna null cuando no existe ningún camino válido para completar el objetivo.
+
+| Clase | Método | Escenario | Valores de Entrada | Resultado esperado |
+|---|---|---|---|---|
+| DFSAuto | solve() | setupStage37 | initialState | Retorna null. |
+
+---
+
+### Objetivo de la Prueba:
+Validar que DFSAuto encuentra una solución válida cuando el jugador debe reposicionarse antes de empujar la caja hacia el objetivo.
+
+| Clase | Método | Escenario | Valores de Entrada | Resultado esperado |
+|---|---|---|---|---|
+| DFSAuto | solve() | setupStage38 | initialState | Retorna lista no nula con longitud mayor a 0. |
+| DFSAuto | solve() | setupStage38 | initialState | Al aplicar la solución sobre Game, checkWin() retorna true. |
+| DFSAuto | solve() | setupStage38 | initialState | Aplicando un movimiento menos que la solución encontrada, checkWin() retorna false. |
 
 
 
