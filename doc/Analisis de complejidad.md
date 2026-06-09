@@ -505,7 +505,7 @@ Las operaciones principales son:
 
 ## 1. `solve(GameState estadoInicial)`
 
-### Complejidad Temporal: O(V + E)
+### Complejidad Temporal: O(V + E) . B
 
 El método implementa una búsqueda BFS (Breadth First Search).
 
@@ -517,11 +517,21 @@ Para cada estado se generan hasta 4 movimientos posibles: (UP, DOWN, LEF, RIGHT)
 Además se verifica si el estado ya fue visitado y se agrega
 a la cola únicamente si es nuevo.
 
-| Caso          | Comportamiento                                     | Complejidad |
-| ------------- | -------------------------------------------------- | ----------- |
-| Mejor caso    | El estado inicial ya es solución                   | O(B)        |
-| Caso promedio | Explora parte del espacio de estados               | O(V + E)    |
-| Peor caso     | Explora todos los estados alcanzables del problema | O(V + E)    |
+En esta versión del algoritmo se aplican podas utilizando
+Floyd-Warshall y Dijkstra. Para cada estado generado se
+construye un arreglo con las posiciones de las cajas mediante
+`boxesToPositionArray()` y posteriormente se calcula una
+heurística mediante `computeHeuristic()`.
+
+Estas operaciones dependen del número de cajas B presentes
+en el nivel, por lo que cada expansión de estado tiene un
+costo adicional O(B)
+
+| Caso          | Comportamiento                                     
+| ------------- | -------------------------------------------------- 
+| Mejor caso    | El estado inicial ya es solución                   
+| Caso promedio | Explora parte del espacio de estados aplicando podas heurisitcas              
+| Peor caso     | Explora todos los estados alcanzables del problema
 
 ### Complejidad Espacial: O(V)
 
@@ -735,7 +745,7 @@ Total proporcional a G
 
 | Método                | Temporal | Espacial |
 | --------------------- | -------- | -------- |
-| `solve()`             | O(V + E) | O(V)     |
+| `solve()`             | O(V + E) · B | O(V)     |
 | `applyMove()`         | O(B)     | O(B)     |
 | `findBoxAt()`         | O(B)     | O(1)     |
 | `buildBoxes()`        | O(B)     | O(B)     |
@@ -744,6 +754,194 @@ Total proporcional a G
 | `loadGoalPositions()` | O(W × H) | O(G)     |
 
 
+
+# Análisis de Complejidad — DFSAuto
+
+> Para el análisis se usa:
+>
+> * **V** = cantidad de estados alcanzables del espacio de búsqueda.
+> * **E** = cantidad de transiciones entre estados.
+> * **B** = cantidad de cajas presentes en el nivel.
+> * **D** = profundidad de un estado dentro del árbol de búsqueda.
+> * **L** = longitud de la solución encontrada.
+> * **W** = ancho del tablero.
+> * **H** = alto del tablero.
+> * **G** = cantidad de posiciones objetivo (goals).
+
+---
+
+## 1. `solve(GameState initialState)`
+
+### Complejidad Temporal: O((V + E) · (B + D))
+
+El método implementa una búsqueda en profundidad (DFS)
+utilizando una pila.
+
+Cada estado se visita una única vez gracias a la tabla hash
+`visited`.
+
+Para cada estado se realizan las siguientes operaciones:
+
+- Obtener la profundidad mediante `getDepth()`.
+- Verificar si es estado objetivo.
+- Generar hasta 4 movimientos posibles.
+- Aplicar podas heurísticas mediante Floyd-Warshall o Dijkstra.
+
+Las heurísticas requieren convertir las cajas a un arreglo
+de posiciones mediante `boxesToPositionArray()`, cuyo costo
+depende de la cantidad de cajas B.
+
+Además, el método `getDepth()` recorre la cadena de padres
+hasta el estado inicial, con costo O(D).
+
+| Caso          | Comportamiento                        | Complejidad          |
+| ------------- | ------------------------------------- | -------------------- |
+| Mejor caso    | El estado inicial ya es solución      | O(B + D)             |
+| Caso promedio | Explora parte del espacio de estados  | O((V + E) · (B + D)) |
+| Peor caso     | Explora todos los estados alcanzables | O((V + E) · (B + D)) |
+
+### Complejidad Espacial: O(V)
+
+La pila DFS y la tabla hash de visitados almacenan estados.
+
+| Tipo     | Variable        | Cantidad de valores atómicos |
+| -------- | --------------- | ---------------------------- |
+| Entrada  | initialState    | 1                            |
+| Auxiliar | dfStack         | V                            |
+| Auxiliar | visited         | V                            |
+| Auxiliar | current         | 1                            |
+| Salida   | camino solución | L                            |
+
+Total proporcional a V
+
+**Espacio total: O(V)**
+
+---
+
+## 2. `getDepth(GameState state)`
+
+### Complejidad Temporal: O(D)
+
+Recorre la cadena de estados padre hasta llegar
+al estado inicial.
+
+| Caso          | Comportamiento              | Complejidad |
+| ------------- | --------------------------- | ----------- |
+| Mejor caso    | Estado inicial              | O(1)        |
+| Caso promedio | Recorre parte de la cadena  | O(D)        |
+| Peor caso     | Recorre toda la profundidad | O(D)        |
+
+### Complejidad Espacial: O(1)
+
+No crea estructuras auxiliares adicionales.
+
+| Tipo     | Variable | Cantidad de valores atómicos |
+| -------- | -------- | ---------------------------- |
+| Entrada  | state    | 1                            |
+| Auxiliar | depth    | 1                            |
+| Auxiliar | current  | 1                            |
+| Salida   | int      | 1                            |
+
+Total: 4 valores
+
+**Espacio total: O(1)**
+
+---
+
+## 3. `applyMove(GameState state, String direction)`
+
+### Complejidad Temporal: O(B)
+
+El método simula un movimiento sobre un estado.
+
+Las operaciones sobre posiciones son constantes.
+
+Sin embargo utiliza:
+
+* `findBoxAt()`
+* `buildBoxes()`
+
+ambos recorriendo la lista completa de cajas.
+
+| Caso          | Comportamiento                             | Complejidad |
+| ------------- | ------------------------------------------ | ----------- |
+| Mejor caso    | Movimiento inválido por pared              | O(1)        |
+| Caso promedio | Movimiento normal                          | O(B)        |
+| Peor caso     | Empuje de caja y copia completa del estado | O(B)        |
+
+### Complejidad Espacial: O(B)
+
+Se construye una nueva lista de cajas para el estado generado.
+
+| Tipo     | Variable         | Cantidad de valores atómicos |
+| -------- | ---------------- | ---------------------------- |
+| Entrada  | state, direction | 2                            |
+| Auxiliar | updatedBoxes     | B                            |
+| Auxiliar | boxAtTarget      | 1                            |
+| Salida   | nuevo GameState  | B                            |
+
+Total proporcional a B
+
+**Espacio total: O(B)**
+
+---
+
+## 4. `findBoxAt(LinkedList<Box> boxes, int x, int y)`
+
+### Complejidad Temporal: O(B)
+
+Recorre secuencialmente todas las cajas hasta encontrar
+la posición buscada.
+
+| Caso          | Comportamiento                         | Complejidad |
+| ------------- | -------------------------------------- | ----------- |
+| Mejor caso    | Caja encontrada en la primera posición | O(1)        |
+| Caso promedio | Caja encontrada en posición intermedia | O(B)        |
+| Peor caso     | Caja inexistente o última posición     | O(B)        |
+
+### Complejidad Espacial: O(1)
+
+No crea estructuras auxiliares.
+
+| Tipo     | Variable  | Cantidad de valores atómicos |
+| -------- | --------- | ---------------------------- |
+| Entrada  | boxes,x,y | 3                            |
+| Auxiliar | box       | 1                            |
+| Salida   | Box       | 1                            |
+
+Total: 5 valores
+
+**Espacio total: O(1)**
+
+---
+
+## 5. `buildBoxes(...)`
+
+### Complejidad Temporal: O(B)
+
+Recorre todas las cajas para construir una copia del estado.
+
+| Caso          | Comportamiento          | Complejidad |
+| ------------- | ----------------------- | ----------- |
+| Mejor caso    | Una sola caja           | O(1)        |
+| Caso promedio | Recorre todas las cajas | O(B)        |
+| Peor caso     | Recorre todas las cajas | O(B)        |
+
+### Complejidad Espacial: O(B)
+
+Se crea una nueva LinkedList con todas las cajas.
+
+| Tipo     | Variable     | Cantidad de valores atómicos |
+| -------- | ------------ | ---------------------------- |
+| Entrada  | currentBoxes | B                            |
+| Auxiliar | result       | B                            |
+| Salida   | nueva lista  | B                            |
+
+Total proporcional a B
+
+**Espacio total: O(B)**
+
+---
 
 
 
