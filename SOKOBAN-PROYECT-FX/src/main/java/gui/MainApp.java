@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.GameSaver;
+import javafx.event.EventHandler;
 
 public class MainApp extends Application {
 
@@ -27,6 +29,15 @@ public class MainApp extends Application {
         primaryStage.setTitle("Sokoban");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(new EventHandler<javafx.stage.WindowEvent>() {
+            @Override
+            public void handle(javafx.stage.WindowEvent event) {
+                if (gameController.getGame() != null) {
+                    GameSaver.save(gameController.getGame());
+                }
+            }
+        });
     }
 
     public static void main(String[] args) {

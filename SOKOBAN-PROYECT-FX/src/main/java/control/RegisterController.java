@@ -14,6 +14,8 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import model.Difficulty;
 import model.User;
+import model.LevelLoader;
+import model.Level;
 
 import java.io.IOException;
 import java.util.List;
@@ -116,8 +118,10 @@ public class RegisterController {
         }
 
         User user = new User(name, email, username, avatar, difficulty);
-        gameController.addUser(user);
-        gameController.setCurrentUser(user);
+        Level level1 = LevelLoader.loadLevel("/assets/levels/level1.json");
+        Level level2 = LevelLoader.loadLevel("/assets/levels/level2.json");
+        Level level3 = LevelLoader.loadLevel("/assets/levels/level3.json");
+        gameController.initGame(level1, level2, level3, user);
 
         goToMenu(user);
     }

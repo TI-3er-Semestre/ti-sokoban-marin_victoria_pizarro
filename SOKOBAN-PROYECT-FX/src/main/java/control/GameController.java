@@ -1,8 +1,8 @@
 package control;
 
 import model.*;
+import structures.CustomIterator;
 import structures.HashTable;
-
 
 public class GameController {
 
@@ -10,88 +10,71 @@ public class GameController {
     private HashTable<String, User> users;
     private User currentUser;
 
-
     public GameController() {
         this.users = new HashTable<>(10);
-        initializeGame();
+        this.game = null;
+        this.currentUser = null;
     }
-    private void initializeGame() {
-        // El controlador carga los niveles del modelo
-        Level level1 = LevelLoader.loadLevel("/assets/levels/level1.json");
-        Level level2 = LevelLoader.loadLevel("/assets/levels/level2.json");
-        Level level3 = LevelLoader.loadLevel("/assets/levels/level3.json");
 
-        // El controlador crea el usuario por defecto del modelo
-        User defaultUser = new User(
-                "Player", "player@game.com", "player1",
-                "player_05.png", Difficulty.EASY
-        );
-
-        // El controlador inicializa la instancia principal de Game
-        this.game = new Game(level1, defaultUser);
+    public void initGame(Level level1, Level level2, Level level3, User user) {
+        this.game = new Game(level1, user);
         this.game.addLevel(level2);
         this.game.addLevel(level3);
-
-        // Registra al usuario en la tabla hash
-        addUser(defaultUser);
+        addUser(user);
+        setCurrentUser(user);
     }
 
-
-    public String getDefaultUsername() {
-        return "player1";
-    }
-
-    /**
-     * Registra un usuario en la tabla hash usando su username como clave.
-     * @param user usuario a registrar
-     */
-    public void addUser(User user) {
-        users.put(user.getUsername(), user);
-    }
-
-    /**
-     * Busca y retorna el usuario con el username dado.
-     * @param username nombre de usuario a buscar
-     * @return el usuario encontrado, o null si no existe
-     */
-    public User getUser(String username) {
-        return users.get(username);
-    }
-
-    /**
-     * Elimina el usuario con el username dado de la tabla hash.
-     * @param username nombre de usuario a eliminar
-     * @return el usuario eliminado, o null si no existia
-     */
-    public User removeUser(String username) {
-        return users.remove(username);
-    }
-
-    /**
-     * Indica si un usuario con el username dado esta registrado.
-     * @param username nombre de usuario a verificar
-     * @return true si el usuario existe, false en caso contrario
-     */
-    public boolean userExists(String username) {
-        return users.containsKey(username);
-    }
-
-    /**
-     * Procesa la tecla ingresada y mueve al jugador.
-     * @param input tecla ingresada (w, a, s, d o flechas)
-     */
-    public void handleInput(String input) {
-        String direction = mapInputToDirection(input);
-        if (direction != null) {
-            game.movePlayer(direction);
+    public void loadFreshLevel(int levelId) {
+        String path = "/assets/levels/level" + levelId + ".json";
+        Level fresh = LevelLoader.loadLevel(path);
+        if (fresh != null && game != null) {
+            game.replaceLevelAndRestart(levelId, fresh);
+        } else if (game != null) {
+            game.loadLevel(levelId);
         }
     }
 
-    /**
-     * Convierte la tecla del usuario en una direccion del juego.
-     * @param input tecla ingresada
-     * @return direccion equivalente o null si es invalida
-     */
+    public void restoreSavedState(SavedState saved) {
+        if (game == null || saved == null) return;
+        game.loadLevel(saved.getLevelId());
+        Board board = game.getBoard();
+        CustomIterator<Box> it = board.getBoxes().iterator();
+        while (it.hasNext()) {
+            Box b = it.next().getData();
+            board.getCell(b.getPosition().getX(), b.getPosition().getY()).setHasBox(false);
+        }
+        structures.LinkedList<Box> newBoxes = new structures.LinkedList<>();
+        int[] bx = saved.getBoxX();
+        int[] by = saved.getBoxY();
+        for (int i = 0; i < bx.length; i++) {
+            Box box = new Box(new Position(bx[i], by[i]));
+            newBoxes.add(box);
+            board.getCell(bx[i], by[i]).setHasBox(true);
+        }
+        board.setBoxes(newBoxes);
+        game.getPlayer().getPosition().setX(saved.getPlayerX());
+        game.getPlayer().getPosition().setY(saved.getPlayerY());
+        GameStats stats = game.getStats();
+        if (stats != null) {
+            for (int i = 0; i < saved.getMoves(); i++) { stats.addMove(); }
+            for (int i = 0; i < saved.getPushes(); i++) { stats.addPush(); }
+            stats.setTime(saved.getTime());
+        }
+    }
+
+    public void setCurrentUser(User user) { this.currentUser = user; }
+    public User getCurrentUser() { return currentUser; }
+
+    public void addUser(User user) { users.put(user.getUsername(), user); }
+    public User getUser(String username) { return users.get(username); }
+    public User removeUser(String username) { return users.remove(username); }
+    public boolean userExists(String username) { return users.containsKey(username); }
+
+    public void handleInput(String input) {
+        String direction = mapInputToDirection(input);
+        if (direction != null) { game.movePlayer(direction); }
+    }
+
     private String mapInputToDirection(String input) {
         switch (input.toLowerCase()) {
             case "w": case "up":    return "UP";
@@ -102,69 +85,7 @@ public class GameController {
         }
     }
 
-    /**
-     * Actualiza el estado del juego.
-     */
-    public void update() {
-        game.updateGame();
-    }
-
-    /**
-     * Inicia un nuevo juego con el nivel y usuario dados.
-     * @param level nivel a cargar
-     * @param user  usuario que jugara
-     */
-    public void start(Level level, User user) {
-        game = new Game(level, user);
-        game.startGame();
-    }
-
-    /**
-     * Reinicia el juego actual.
-     */
-    public void restart() {
-        game.resetGame();
-    }
-
-    /**
-     * Recarga el nivel desde JSON y lo reemplaza en el juego.
-     * @param levelId ID del nivel a cargar (1, 2 o 3)
-     * @return true si el nivel fue cargado correctamente
-     */
-    public boolean loadFreshLevel(int levelId) {
-        String path;
-        switch (levelId) {
-            case 1:  path = "/assets/levels/level1.json"; break;
-            case 2:  path = "/assets/levels/level2.json"; break;
-            case 3:  path = "/assets/levels/level3.json"; break;
-            default: return false;
-        }
-        Level freshLevel = LevelLoader.loadLevel(path);
-        if (freshLevel == null) {
-            return false;
-        }
-        game.replaceLevelAndRestart(levelId, freshLevel);
-        return true;
-    }
-
-    /**
-     * Retorna el juego actualmente controlado.
-     * @return instancia de Game en curso
-     */
-    public Game getGame() {
-        return game;
-    }
-
-    public User getCurrentUser() {
-        return currentUser;
-    }
-
-    public void setCurrentUser(User user) {
-        this.currentUser = user;
-
-        // ¡Esta es la línea mágica que faltaba!
-        if (this.game != null) {
-            this.game.setUser(user);
-        }
-    }
+    public void update() { game.updateGame(); }
+    public void restart() { game.resetGame(); }
+    public Game getGame() { return game; }
 }

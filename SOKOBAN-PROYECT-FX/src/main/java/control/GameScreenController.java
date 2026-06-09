@@ -24,6 +24,8 @@ import structures.LinkedList;
 import structures.Queue;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import model.GameSaver;
+import model.SavedState;
 
 import java.io.IOException;
 
@@ -60,6 +62,12 @@ public class GameScreenController {
 
         // Siempre carga el nivel fresco al entrar a la pantalla de juego
         gameController.loadFreshLevel(levelId);
+
+        SavedState saved = GameSaver.load();
+        if (saved != null && saved.getLevelId() == levelId) {
+            gameController.restoreSavedState(saved);
+            GameSaver.deleteSave();
+        }
 
         levelValueLabel.setText(String.format("%02d", levelId));
 
