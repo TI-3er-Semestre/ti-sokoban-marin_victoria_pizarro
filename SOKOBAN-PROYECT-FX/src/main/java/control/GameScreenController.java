@@ -1,6 +1,5 @@
 package control;
 
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -26,9 +25,7 @@ import structures.Queue;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 
-
 import java.io.IOException;
-
 
 public class GameScreenController {
 
@@ -49,7 +46,6 @@ public class GameScreenController {
 
     private static final int ANIMATION_DELAY_MS = 400;
 
-    // Sprites
     private Image spriteWall;
     private Image spriteFloor;
     private Image spriteGoal;
@@ -57,17 +53,12 @@ public class GameScreenController {
     private Image spriteBoxOnGoal;
     private Image spritePlayer;
 
-    /**
-     * Inyecta dependencias y carga el nivel indicado.
-     * @param stage          Stage principal de JavaFX
-     * @param gameController controlador del modelo
-     * @param levelId        ID del nivel a cargar
-     */
     public void init(Stage stage, GameController gameController, int levelId) {
         this.stage = stage;
         this.gameController = gameController;
         this.currentLevelId = levelId;
 
+        // Siempre carga el nivel fresco al entrar a la pantalla de juego
         gameController.loadFreshLevel(levelId);
 
         levelValueLabel.setText(String.format("%02d", levelId));
@@ -79,12 +70,8 @@ public class GameScreenController {
         drawBoard();
         updateHUD();
         setupKeyboard();
-
     }
 
-    /**
-     * Carga los sprites desde assets/sprites una sola vez.
-     */
     private void loadSprites() {
         spriteWall      = loadImage("/assets/sprites/block_05.png");
         spriteFloor     = loadImage("/assets/sprites/ground_03.png");
@@ -94,11 +81,6 @@ public class GameScreenController {
         spritePlayer    = loadImage("/assets/sprites/player_05.png");
     }
 
-    /**
-     * Carga una imagen desde el classpath.
-     * @param path ruta del recurso
-     * @return Image cargada, o null si no se encuentra
-     */
     private Image loadImage(String path) {
         try {
             return new Image(getClass().getResourceAsStream(path));
@@ -107,19 +89,10 @@ public class GameScreenController {
         }
     }
 
-    /**
-     * Detiene el cronometro de la partida.
-     */
     private void stopTimer() {
-        if (timer != null) {
-            timer.stop();
-        }
-
+        if (timer != null) timer.stop();
     }
 
-    /**
-     * Configura el listener de teclado en la escena.
-     */
     private void setupKeyboard() {
         gameCanvas.setFocusTraversable(true);
         gameCanvas.requestFocus();
@@ -142,13 +115,8 @@ public class GameScreenController {
         });
     }
 
-    /**
-     * Procesa los eventos de teclado del jugador.
-     * @param event evento de tecla presionada
-     */
     private void handleKeyPressed(KeyEvent event) {
         KeyCode code = event.getCode();
-
         switch (code) {
             case UP:    case W: move("UP");    break;
             case DOWN:  case S: move("DOWN");  break;
@@ -163,10 +131,6 @@ public class GameScreenController {
         }
     }
 
-    /**
-     * Mueve al jugador en la direccion indicada y actualiza la vista.
-     * @param direction direccion del movimiento
-     */
     private void move(String direction) {
         gameController.handleInput(direction);
         gameController.update();
@@ -180,9 +144,6 @@ public class GameScreenController {
         }
     }
 
-    /**
-     * Maneja el boton de menu: detiene el juego y navega al menu principal.
-     */
     @FXML
     public void handleMenu() {
         stopTimer();
@@ -190,9 +151,6 @@ public class GameScreenController {
         goToMenu();
     }
 
-    /**
-     * Deshace el ultimo movimiento del jugador.
-     */
     @FXML
     public void handleUndo() {
         stopAutoSolve();
@@ -201,72 +159,86 @@ public class GameScreenController {
         updateHUD();
     }
 
-    /**
-     * Reinicia el nivel actual desde el principio.
-     */
     @FXML
     public void handleRestart() {
         stopAutoSolve();
         stopTimer();
-        if (timer != null) {
-            timer.stop();
-        }
-
         gameController.loadFreshLevel(currentLevelId);
-
         timer = new GameTimer(gameController.getGame().getStats(), timeValueLabel);
         timer.start();
-        drawBoard();;
+        drawBoard();
         updateHUD();
-
     }
 
     /**
-     * Resuelve el nivel con BFS y anima la solucion.
+     * Resuelve el nivel con BFS + Floyd-Warshall en hilo separado.
      */
     @FXML
     public void handleSolveBFS() {
         Game game = gameController.getGame();
-        BFSAuto solver = new BFSAuto(game.getBoard());
-        animateSolution(solver.solve(solver.buildInitialState(game)));
-    }
 
-    /**
-     * Resuelve el nivel con BFS + poda Floyd-Warshall y anima la solucion.
-     */
-    @FXML
-    public void handleSolveBFSFloyd() {
-        Game game = gameController.getGame();
         FloydWarshall fw = new FloydWarshall(game.getBoard());
         BFSAuto solver = new BFSAuto(game.getBoard(), fw);
-        animateSolution(solver.solve(solver.buildInitialState(game)));
+        GameState inicial = solver.buildInitialState(game);
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                LinkedList<String> solucion = solver.solve(inicial);
+                javafx.application.Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (solucion != null) {
+                            animateSolution(solucion);
+                        }
+                    }
+                });
+            }
+        });
+        thread.setDaemon(true);
+        thread.start();
     }
 
     /**
-     * Resuelve el nivel con DFS y anima la solucion.
+     * Resuelve el nivel con DFS + Floyd-Warshall en hilo separado.
      */
     @FXML
     public void handleSolveDFS() {
         Game game = gameController.getGame();
-        DFSAuto solver = new DFSAuto(game.getBoard());
-        animateSolution(solver.solve(solver.buildInitialState(game)));
+
+        Dijkstra dij = new Dijkstra(game.getBoard());
+        DFSAuto solver = new DFSAuto(game.getBoard(), dij);
+        GameState inicial = solver.buildInitialState(game);
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                LinkedList<String> solucion = solver.solve(inicial);
+
+                javafx.application.Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (solucion != null) {
+                            animateSolution(solucion);
+                        }
+                    }
+                });
+            }
+        });
+        thread.setDaemon(true);
+        thread.start();
     }
 
-    /**
-     * Resuelve el nivel con DFS + poda Floyd-Warshall y anima la solucion.
-     */
+    @FXML
+    public void handleSolveBFSFloyd() {
+        handleSolveBFS();
+    }
+
     @FXML
     public void handleSolveDFSFloyd() {
-        Game game = gameController.getGame();
-        FloydWarshall fw = new FloydWarshall(game.getBoard());
-        DFSAuto solver = new DFSAuto(game.getBoard(), fw);
-        animateSolution(solver.solve(solver.buildInitialState(game)));
+        handleSolveDFS();
     }
 
-    /**
-     * Anima la lista de movimientos paso a paso con Timeline de JavaFX.
-     * @param solution lista de movimientos, o null si no hay solucion
-     */
     private void animateSolution(LinkedList<String> solution) {
         if (solution == null) return;
 
@@ -295,9 +267,6 @@ public class GameScreenController {
         autoTimeline.play();
     }
 
-    /**
-     * Detiene la animacion automatica en curso.
-     */
     private void stopAutoSolve() {
         if (autoTimeline != null) {
             autoTimeline.stop();
@@ -305,9 +274,6 @@ public class GameScreenController {
         }
     }
 
-    /**
-     * Dibuja el tablero completo en el canvas usando sprites.
-     */
     private void drawBoard() {
         Game game = gameController.getGame();
         if (game == null || game.getBoard() == null || gameCanvas == null) return;
@@ -326,7 +292,6 @@ public class GameScreenController {
                 double px = x * CELL_SIZE;
                 double py = y * CELL_SIZE;
 
-                // 1. Fondo de la celda
                 if (cell.getType() == CellType.WALL) {
                     drawSprite(gc, spriteWall, px, py);
                 } else if (cell.isGoal()) {
@@ -336,7 +301,6 @@ public class GameScreenController {
                     drawSprite(gc, spriteFloor, px, py);
                 }
 
-                // 2. Caja si la hay
                 if (cell.hasBox()) {
                     if (cell.isGoal()) {
                         drawSprite(gc, spriteBoxOnGoal, px, py);
@@ -345,7 +309,6 @@ public class GameScreenController {
                     }
                 }
 
-                // 3. Jugador si esta en esta celda
                 if (player != null
                         && player.getPosition().getX() == x
                         && player.getPosition().getY() == y) {
@@ -355,14 +318,6 @@ public class GameScreenController {
         }
     }
 
-    /**
-     * Dibuja un sprite en la posicion indicada del canvas.
-     * Si el sprite es null dibuja un rectangulo gris como fallback.
-     * @param gc     contexto grafico del canvas
-     * @param sprite imagen a dibujar
-     * @param px     coordenada X en pixeles
-     * @param py     coordenada Y en pixeles
-     */
     private void drawSprite(GraphicsContext gc, Image sprite, double px, double py) {
         if (sprite != null) {
             gc.drawImage(sprite, px, py, CELL_SIZE, CELL_SIZE);
@@ -372,10 +327,7 @@ public class GameScreenController {
         }
     }
 
-    /**
-     * Actualiza las etiquetas del HUD con las estadisticas actuales.
-     */
-    private synchronized void  updateHUD() {
+    private synchronized void updateHUD() {
         GameStats stats = gameController.getGame().getStats();
         if (stats == null) return;
 
@@ -388,9 +340,6 @@ public class GameScreenController {
         timeValueLabel.setText(String.format("%02d:%02d", minutes, seconds));
     }
 
-    /**
-     * Navega a la pantalla de victoria.
-     */
     private void goToVictory() {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -408,9 +357,6 @@ public class GameScreenController {
         }
     }
 
-    /**
-     * Navega de vuelta al menu principal.
-     */
     private void goToMenu() {
         try {
             FXMLLoader loader = new FXMLLoader(
