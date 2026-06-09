@@ -248,6 +248,21 @@ public class Game {
             }
         }
     }
+
+    /**
+     * Reconstruye el boxMap desde las cajas actuales del tablero.
+     * Llamar despues de restaurar un estado guardado.
+     */
+    public void rebuildBoxMap() {
+        this.boxMap = new HashTable<>(50);
+        structures.CustomIterator<Box> it = board.getBoxes().iterator();
+        while (it.hasNext()) {
+            Box box = it.next().getData();
+            String key = boxKey(box.getPosition().getX(), box.getPosition().getY());
+            boxMap.put(key, box);
+        }
+    }
+
     // metodo deshacer movimiento
     public void undoMove() {
         if (!history.isEmpty()) {
