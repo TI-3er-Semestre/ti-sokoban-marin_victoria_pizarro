@@ -668,6 +668,83 @@ Total proporcional a L
 
 ---
 
+## 6. `buildInitialState(Game game)`
+
+### Complejidad Temporal: O(B)
+
+Recorre todas las cajas del tablero para construir
+el estado inicial.
+
+| Caso          | Comportamiento          | Complejidad |
+| ------------- | ----------------------- | ----------- |
+| Mejor caso    | Una sola caja           | O(1)        |
+| Caso promedio | Recorre todas las cajas | O(B)        |
+| Peor caso     | Recorre todas las cajas | O(B)        |
+
+### Complejidad Espacial: O(B)
+
+Se crea una copia completa de las cajas existentes.
+
+| Tipo     | Variable          | Cantidad de valores atómicos |
+| -------- | ----------------- | ---------------------------- |
+| Entrada  | game              | 1                            |
+| Auxiliar | cajasIniciales    | B                            |
+| Salida   | GameState inicial | B                            |
+
+Total proporcional a B
+
+**Espacio total: O(B)**
+
+---
+
+## 7. `loadGoalPositions()`
+
+### Complejidad Temporal: O(W × H)
+
+El tablero se recorre dos veces:
+
+1. Contar goals.
+2. Guardar posiciones.
+
+Cada recorrido inspecciona todas las celdas.
+
+| Caso          | Comportamiento          | Complejidad |
+| ------------- | ----------------------- | ----------- |
+| Mejor caso    | Tablero pequeño         | O(W×H)      |
+| Caso promedio | Recorre todo el tablero | O(W×H)      |
+| Peor caso     | Recorre todo el tablero | O(W×H)      |
+
+### Complejidad Espacial: O(G)
+
+Se almacena un arreglo con todas las posiciones objetivo.
+
+| Tipo     | Variable         | Cantidad de valores atómicos |
+| -------- | ---------------- | ---------------------------- |
+| Entrada  | board            | 1                            |
+| Auxiliar | goalPositions    | G                            |
+| Auxiliar | goalCount        | 1                            |
+| Salida   | arreglo de goals | G                            |
+
+Total proporcional a G
+
+**Espacio total: O(G)**
+
+---
+
+# Resumen General — BFSAuto
+
+| Método                | Temporal | Espacial |
+| --------------------- | -------- | -------- |
+| `solve()`             | O(V + E) | O(V)     |
+| `applyMove()`         | O(B)     | O(B)     |
+| `findBoxAt()`         | O(B)     | O(1)     |
+| `buildBoxes()`        | O(B)     | O(B)     |
+| `reconstructPath()`   | O(L)     | O(L)     |
+| `buildInitialState()` | O(B)     | O(B)     |
+| `loadGoalPositions()` | O(W × H) | O(G)     |
+
+
+
 
 
 
