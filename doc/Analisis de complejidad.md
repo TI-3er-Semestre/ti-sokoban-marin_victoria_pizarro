@@ -1087,7 +1087,108 @@ Total proporcional a G
 | `buildInitialState()`    | O(B)                 | O(B)     |
 | `loadGoalPositions()`    | O(W × H)             | O(G)     |
 
+# Análisis de Complejidad — FloydWarshall
 
+> Para el análisis se usa:
+>
+> * **V** = cantidad de nodos del grafo.
+> * **W** = ancho del tablero.
+> * **H** = alto del tablero.
+> * **B** = cantidad de cajas.
+> * **G** = cantidad de objetivos.
+>
+> Donde:
+>
+> V = W × H
+
+---
+
+## 1. `FloydWarshall(Board board)`
+
+### Complejidad Temporal: O(V³)
+
+El constructor realiza tres etapas:
+
+* Inicializar la matriz de distancias.
+* Construir las conexiones entre celdas caminables.
+* Ejecutar el algoritmo Floyd-Warshall.
+
+La parte dominante corresponde a los tres ciclos anidados:
+
+```java
+for (int k = 0; k < V; k++)
+    for (int i = 0; i < V; i++)
+        for (int j = 0; j < V; j++)
+```
+
+Por lo tanto, el costo total es O(V³).
+
+| Caso          | Comportamiento                  | Complejidad |
+| ------------- | ------------------------------- | ----------- |
+| Mejor caso    | Tablero pequeño                 | O(V³)       |
+| Caso promedio | Ejecuta Floyd-Warshall completo | O(V³)       |
+| Peor caso     | Ejecuta Floyd-Warshall completo | O(V³)       |
+
+### Complejidad Espacial: O(V²)
+
+La matriz de distancias almacena una distancia para cada par de nodos.
+
+| Tipo     | Variable | Cantidad de valores atómicos |
+| -------- | -------- | ---------------------------- |
+| Entrada  | board    | 1                            |
+| Auxiliar | dist     | V²                           |
+| Auxiliar | rows     | 1                            |
+| Auxiliar | cols     | 1                            |
+| Salida   | matriz   | V²                           |
+
+Total proporcional a V²
+
+**Espacio total: O(V²)**
+
+---
+
+## 2. `getDistance(Position from, Position to)`
+
+### Complejidad Temporal: O(1)
+
+El método únicamente calcula los índices correspondientes
+y consulta una posición de la matriz.
+
+| Caso          | Comportamiento | Complejidad |
+| ------------- | -------------- | ----------- |
+| Mejor caso    | Acceso directo | O(1)        |
+| Caso promedio | Acceso directo | O(1)        |
+| Peor caso     | Acceso directo | O(1)        |
+
+### Complejidad Espacial: O(1)
+
+No crea estructuras auxiliares.
+
+| Tipo     | Variable  | Cantidad de valores atómicos |
+| -------- | --------- | ---------------------------- |
+| Entrada  | from, to  | 2                            |
+| Auxiliar | idFrom    | 1                            |
+| Auxiliar | idTo      | 1                            |
+| Salida   | distancia | 1                            |
+
+Total: 5 valores
+
+**Espacio total: O(1)**
+
+---
+
+## 3. `getDistance(int x1, int y1, int x2, int y2)`
+
+### Complejidad Temporal: O(1)
+
+Realiza operaciones aritméticas simples y consulta
+una posición de la matriz.
+
+| Caso          | Comportamiento | Complejidad |
+| ------------- | -------------- | ----------- |
+| Mejor caso    | Acceso directo | O(1)        |
+| Caso promedio | Acceso directo | O(1)        |
+| Peor caso     | Acceso directo | O(1)        |
 
 
 
