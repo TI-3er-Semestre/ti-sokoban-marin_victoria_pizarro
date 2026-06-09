@@ -60,6 +60,7 @@ public class GameController {
             for (int i = 0; i < saved.getPushes(); i++) { stats.addPush(); }
             stats.setTime(saved.getTime());
         }
+        game.rebuildBoxMap();
     }
 
     public void setCurrentUser(User user) { this.currentUser = user; }
@@ -73,6 +74,13 @@ public class GameController {
     public void handleInput(String input) {
         String direction = mapInputToDirection(input);
         if (direction != null) { game.movePlayer(direction); }
+    }
+
+    /**
+     * Guarda el estado actual de la partida en disco.
+     */
+    public void saveState() {
+        GameSaver.save(game);
     }
 
     private String mapInputToDirection(String input) {
