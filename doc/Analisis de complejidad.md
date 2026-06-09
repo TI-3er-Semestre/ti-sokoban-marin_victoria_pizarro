@@ -483,3 +483,192 @@ Espacio Total O(n)
 | `Display()`      | O(n)                | | O(n)     |
 
 
+# Analisis de Complejidad - BFSAuto
+## 1 `solve(GameState estadoInicial)`
+### Complejidad Temporal: O(V+E)
+El metodo implementa una busqueda en anchura(BFS) sobre el espacion de eestados del juego
+para cada estado se generan hasta 4 movimientos posibles(UP, DOWN, LEFT, RIGHT).
+Las operaciones principales son:
+# Análisis de Complejidad — BFSAuto
+
+> Para el análisis se usa:
+>
+> * **V** = cantidad de estados alcanzables del espacio de búsqueda.
+> * **E** = cantidad de transiciones entre estados.
+> * **B** = cantidad de cajas presentes en el nivel.
+> * **L** = longitud de la solución encontrada.
+> * **W** = ancho del tablero.
+> * **H** = alto del tablero.
+> * **G** = cantidad de posiciones objetivo (goals).
+
+---
+
+## 1. `solve(GameState estadoInicial)`
+
+### Complejidad Temporal: O(V + E)
+
+El método implementa una búsqueda BFS (Breadth First Search).
+
+Cada estado se visita una única vez gracias a la tabla hash
+`visitados`.
+
+Para cada estado se generan hasta 4 movimientos posibles: (UP, DOWN, LEF, RIGHT)
+
+Además se verifica si el estado ya fue visitado y se agrega
+a la cola únicamente si es nuevo.
+
+| Caso          | Comportamiento                                     | Complejidad |
+| ------------- | -------------------------------------------------- | ----------- |
+| Mejor caso    | El estado inicial ya es solución                   | O(B)        |
+| Caso promedio | Explora parte del espacio de estados               | O(V + E)    |
+| Peor caso     | Explora todos los estados alcanzables del problema | O(V + E)    |
+
+### Complejidad Espacial: O(V)
+
+La cola BFS y la tabla hash de visitados almacenan estados.
+
+| Tipo     | Variable        | Cantidad de valores atómicos |
+| -------- | --------------- | ---------------------------- |
+| Entrada  | estadoInicial   | 1                            |
+| Auxiliar | colaBFS         | V                            |
+| Auxiliar | visitados       | V                            |
+| Auxiliar | estadoActual    | 1                            |
+| Salida   | camino solución | L                            |
+
+Total proporcional a V
+
+**Espacio total: O(V)**
+
+---
+
+## 2. `applyMove(GameState estado, String direction)`
+
+### Complejidad Temporal: O(B)
+
+El método simula un movimiento sobre un estado.
+
+Las operaciones sobre posiciones son constantes.
+
+Sin embargo utiliza:
+
+* `findBoxAt()`
+* `buildBoxes()`
+
+ambos recorriendo la lista completa de cajas.
+
+| Caso          | Comportamiento                            | Complejidad |
+| ------------- | ----------------------------------------- | ----------- |
+| Mejor caso    | Movimiento inválido por pared             | O(1)        |
+| Caso promedio | Movimiento normal                         | O(B)        |
+| Peor caso     | Empuje de caja y copia completa de estado | O(B)        |
+
+### Complejidad Espacial: O(B)
+
+Se construye una nueva lista de cajas para el estado generado.
+
+| Tipo     | Variable          | Cantidad de valores atómicos |
+| -------- | ----------------- | ---------------------------- |
+| Entrada  | estado, direction | 2                            |
+| Auxiliar | nuevasCajas       | B                            |
+| Auxiliar | cajaEnDestino     | 1                            |
+| Salida   | nuevo GameState   | B                            |
+
+Total proporcional a B
+
+**Espacio total: O(B)**
+
+---
+
+## 3. `findBoxAt(LinkedList<Box> cajas, int x, int y)`
+
+### Complejidad Temporal: O(B)
+
+Recorre secuencialmente todas las cajas hasta encontrar
+la posición buscada.
+
+| Caso          | Comportamiento                         | Complejidad |
+| ------------- | -------------------------------------- | ----------- |
+| Mejor caso    | Caja encontrada en la primera posición | O(1)        |
+| Caso promedio | Caja encontrada en posición intermedia | O(B)        |
+| Peor caso     | Caja inexistente o última posición     | O(B)        |
+
+### Complejidad Espacial: O(1)
+
+No crea estructuras auxiliares.
+
+| Tipo     | Variable  | Cantidad de valores atómicos |
+| -------- | --------- | ---------------------------- |
+| Entrada  | cajas,x,y | 3                            |
+| Auxiliar | box       | 1                            |
+| Salida   | Box       | 1                            |
+
+Total: 5 valores
+
+**Espacio total: O(1)**
+
+---
+
+## 4. `buildBoxes(...)`
+
+### Complejidad Temporal: O(B)
+
+Recorre todas las cajas para construir una copia del estado.
+
+| Caso          | Comportamiento          | Complejidad |
+| ------------- | ----------------------- | ----------- |
+| Mejor caso    | Una sola caja           | O(1)        |
+| Caso promedio | Recorre todas las cajas | O(B)        |
+| Peor caso     | Recorre todas las cajas | O(B)        |
+
+### Complejidad Espacial: O(B)
+
+Se crea una nueva LinkedList con todas las cajas.
+
+| Tipo     | Variable      | Cantidad de valores atómicos |
+| -------- | ------------- | ---------------------------- |
+| Entrada  | cajasActuales | B                            |
+| Auxiliar | resultado     | B                            |
+| Salida   | nueva lista   | B                            |
+
+Total proporcional a B
+
+**Espacio total: O(B)**
+
+---
+
+## 5. `reconstructPath(GameState estadoFinal)`
+
+### Complejidad Temporal: O(L)
+
+Recorre la cadena de padres desde el estado final
+hasta el estado inicial.
+
+Posteriormente invierte el camino usando una pila.
+
+| Caso          | Comportamiento             | Complejidad |
+| ------------- | -------------------------- | ----------- |
+| Mejor caso    | Solución vacía             | O(1)        |
+| Caso promedio | Solución de longitud media | O(L)        |
+| Peor caso     | Solución muy larga         | O(L)        |
+
+### Complejidad Espacial: O(L)
+
+Utiliza una pila auxiliar y una lista para almacenar
+la solución.
+
+| Tipo     | Variable    | Cantidad de valores atómicos |
+| -------- | ----------- | ---------------------------- |
+| Entrada  | estadoFinal | 1                            |
+| Auxiliar | pilaInversa | L                            |
+| Salida   | camino      | L                            |
+
+Total proporcional a L
+
+**Espacio total: O(L)**
+
+---
+
+
+
+
+
