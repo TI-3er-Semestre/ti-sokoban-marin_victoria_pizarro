@@ -212,6 +212,7 @@
 
         <!-- Botón volver -->
         <Button text="↩  VOLVER AL MENÚ"
+                onAction="#handleBack"
                 style="-fx-background-color: #333333;
                        -fx-border-color: #555555; -fx-border-width: 2;
                        -fx-border-radius: 7; -fx-background-radius: 7;
