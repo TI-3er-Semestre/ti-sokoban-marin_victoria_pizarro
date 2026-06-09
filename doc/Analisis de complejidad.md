@@ -1398,6 +1398,137 @@ boolean[] visited
 Total proporcional a V
 
 **Espacio total: O(V)**
+---
+
+## 4. `getDistance(Position from, Position to)`
+
+### Complejidad Temporal: O(V²)
+
+El método delega completamente en:
+
+```java
+shortestDistance(from, to)
+```
+
+Por lo tanto hereda exactamente su complejidad.
+
+| Caso          | Comportamiento                      | Complejidad |
+| ------------- | ----------------------------------- | ----------- |
+| Mejor caso    | El origen coincide con el destino   | O(1)        |
+| Caso promedio | Explora parte del tablero           | O(V²)       |
+| Peor caso     | Explora todos los nodos alcanzables | O(V²)       |
+
+### Complejidad Espacial: O(V)
+
+Hereda los arreglos creados por `shortestDistance()`.
+
+| Tipo     | Variable  | Cantidad de valores atómicos |
+| -------- | --------- | ---------------------------- |
+| Entrada  | from, to  | 2                            |
+| Auxiliar | dist      | V                            |
+| Auxiliar | visited   | V                            |
+| Salida   | distancia | 1                            |
+
+Total proporcional a V
+
+**Espacio total: O(V)**
+
+---
+
+## 5. `getDistance(int x1, int y1, int x2, int y2)`
+
+### Complejidad Temporal: O(V²)
+
+El método crea dos objetos `Position` y delega completamente en `shortestDistance()`.
+
+| Caso          | Comportamiento                      | Complejidad |
+| ------------- | ----------------------------------- | ----------- |
+| Mejor caso    | El origen coincide con el destino   | O(1)        |
+| Caso promedio | Explora parte del tablero           | O(V²)       |
+| Peor caso     | Explora todos los nodos alcanzables | O(V²)       |
+
+### Complejidad Espacial: O(V)
+
+Hereda los arreglos creados por `shortestDistance()`.
+
+| Tipo     | Variable         | Cantidad de valores atómicos |
+| -------- | ---------------- | ---------------------------- |
+| Entrada  | x1,y1,x2,y2      | 4                            |
+| Auxiliar | Position origen  | 1                            |
+| Auxiliar | Position destino | 1                            |
+| Auxiliar | dist             | V                            |
+| Auxiliar | visited          | V                            |
+| Salida   | distancia        | 1                            |
+
+Total proporcional a V
+
+**Espacio total: O(V)**
+
+---
+
+## 6. `computeHeuristic(Position[] boxPositions, int boxCount, Position[] goalPosition, int goalCount)`
+
+### Complejidad Temporal: O(B × G × V²)
+
+Para cada caja se recorren todos los objetivos.
+
+Para cada combinación caja-objetivo se ejecuta:
+
+```java
+shortestDistance(...)
+```
+
+que cuesta O(V²).
+
+Por tanto:
+
+```text
+B × G × O(V²)
+=
+O(B × G × V²)
+```
+
+| Caso          | Comportamiento                      | Complejidad   |
+| ------------- | ----------------------------------- | ------------- |
+| Mejor caso    | Una caja y un objetivo              | O(V²)         |
+| Caso promedio | Recorre cajas y objetivos           | O(B × G × V²) |
+| Peor caso     | Recorre todas las cajas y objetivos | O(B × G × V²) |
+
+### Complejidad Espacial: O(1)
+
+Solo utiliza variables auxiliares constantes.
+
+| Tipo     | Variable     | Cantidad de valores atómicos |
+| -------- | ------------ | ---------------------------- |
+| Entrada  | boxPositions | B                            |
+| Entrada  | goalPosition | G                            |
+| Auxiliar | total        | 1                            |
+| Auxiliar | minDist      | 1                            |
+| Auxiliar | d            | 1                            |
+| Salida   | int          | 1                            |
+
+Total constante
+
+**Espacio total: O(1)**
+
+---
+
+# Resumen General — Dijkstra
+
+| Método                            | Temporal      | Espacial |
+| --------------------------------- | ------------- | -------- |
+| `processNeighbor()`               | O(1)          | O(1)     |
+| `getMinDistanceNode()`            | O(V)          | O(1)     |
+| `shortestDistance()`              | O(V²)         | O(V)     |
+| `getDistance(Position, Position)` | O(V²)         | O(V)     |
+| `getDistance(int,int,int,int)`    | O(V²)         | O(V)     |
+| `computeHeuristic()`              | O(B × G × V²) | O(1)     |
+
+Donde:
+
+* **V** = cantidad de celdas del tablero (width × height)
+* **B** = cantidad de cajas
+* **G** = cantidad de objetivos
 
 
 
