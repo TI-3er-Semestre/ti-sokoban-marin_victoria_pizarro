@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane
+    xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="control.GameScreenController"
+    prefWidth="1024" prefHeight="768"
+    style="-fx-background-color: #5a7a8a;"
+    stylesheets="@../style/game.css">
+
+    <!-- ══ TOP: BARRA HUD ══ -->
+    <top>
+        <HBox styleClass="hud-bar" alignment="CENTER_LEFT" spacing="0">
+
+            <!-- Botones izquierda -->
+            <HBox spacing="6" alignment="CENTER_LEFT">
+                <Button styleClass="hud-button" text="≡"
+                        onAction="#handleMenu" prefWidth="36"/>
+                <Button styleClass="hud-button" text="↩ UNDO"
+                        onAction="#handleUndo"/>
+                <Button styleClass="hud-button" text="↺ REINICIAR"
+                        onAction="#handleRestart"/>
+            </HBox>
+
+            <!-- Spacer -->
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Pills de estadísticas -->
+            <HBox spacing="8" alignment="CENTER_RIGHT">
+
+                <!-- Movimientos -->
+                <VBox styleClass="hud-pill" alignment="CENTER" spacing="1">
+                    <Label fx:id="movesValueLabel" styleClass="hud-value" text="000"/>
+                    <Label styleClass="hud-key" text="MOVS"/>
+                </VBox>
+
+                <!-- Empujes -->
+                <VBox styleClass="hud-pill" alignment="CENTER" spacing="1">
+                    <Label fx:id="pushesValueLabel" styleClass="hud-value" text="000"/>
+                    <Label styleClass="hud-key" text="EMPUJES"/>
+                </VBox>
+
+                <!-- Nivel -->
+                <VBox styleClass="hud-pill" alignment="CENTER" spacing="1">
+                    <Label fx:id="levelValueLabel" styleClass="hud-value" text="01"/>
+                    <Label styleClass="hud-key" text="NIVEL"/>
+                </VBox>
+
+                <!-- Tiempo -->
+                <VBox styleClass="hud-pill" alignment="CENTER" spacing="1">
+                    <Label fx:id="timeValueLabel" styleClass="hud-value" text="00:00"/>
+                    <Label styleClass="hud-key" text="TIEMPO"/>
+                </VBox>
+
+            </HBox>
+        </HBox>
+    </top>
+
+    <!-- ══ CENTER: TABLERO ══ -->
+    <center>
+        <!-- StackPane permite superponer el Canvas con overlays futuros -->
+        <StackPane fx:id="gamePane" style="-fx-background-color: #5a7a8a;">
+
+            <!-- Canvas donde el GameController dibuja el tablero dinámicamente -->
+            <!-- El controller ajusta el tamaño según el nivel cargado -->
+            <Canvas fx:id="gameCanvas" width="896" height="672"/>
+
+        </StackPane>
+    </center>
+
+    <!-- ══ BOTTOM: BARRA DE AYUDA ══ -->
+    <bottom>
+        <HBox style="-fx-background-color: #1a1a1a; -fx-padding: 5 12 5 12;"
+              alignment="CENTER">
+            <Label text="WASD / FLECHAS para mover  ·  CTRL+Z deshacer  ·  R reiniciar  ·  ESC menú"
+                   style="-fx-text-fill: #555555; -fx-font-size: 10px; -fx-font-family: 'Courier New';"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

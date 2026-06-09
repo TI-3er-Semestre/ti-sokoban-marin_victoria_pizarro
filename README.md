@@ -142,3 +142,142 @@ Densidad de errores-fallos = 0
 Confiabilidad = 1
 
 Completitud = 2.9
+
+
+**Entrega 3**
+
+
+
+
+**Iteración 16: ba6609e**
+
+Densidad de errores-fallos = 0.26
+
+Confiabilidad = 0.74
+
+Completitud = 3.43
+
+**Iteración 17: 4abec83**
+
+Densidad de errores-fallos = 0
+
+Confiabilidad = 1
+
+Completitud = 3.43
+
+
+**Iteración 18: 3baaae5**
+
+Densidad de errores-fallos = 0
+
+Confiabilidad = 1
+
+Completitud = 3.43
+
+
+**Iteración 19: acabcd4**
+
+Densidad de errores-fallos = 0
+
+Confiabilidad = 1
+
+Completitud = 3.43
+
+
+**Iteración 20: ca37eda**
+
+Densidad de errores-fallos = 0
+
+Confiabilidad = 1
+
+Completitud = 3.43
+
+
+**Iteración 21: 5996c7b**
+
+Densidad de errores-fallos = 0
+
+Confiabilidad = 1
+
+Completitud = 3.43
+
+
+**Iteración 22: 83059dc**
+
+Densidad de errores-fallos = 0
+
+Confiabilidad = 1
+
+Completitud = 3.90
+
+
+**Iteración 23: fbe7a38**
+
+Densidad de errores-fallos = 0
+
+Confiabilidad = 1
+
+Completitud = 3.90
+
+
+**Iteración 24: 635a603**
+
+Densidad de errores-fallos = 0
+
+Confiabilidad = 1
+
+Completitud = 3.43
+
+
+**Iteración 25: d378678**
+
+Densidad de errores-fallos = 0
+
+Confiabilidad = 1
+
+Completitud = 3.43
+
+
+**Iteración 26: 0949003**
+
+Densidad de errores-fallos = 0
+
+Confiabilidad = 1
+
+Completitud = 3.90
+
+
+**Iteración 27: 14844c8**
+
+Densidad de errores-fallos = 0
+
+Confiabilidad = 1
+
+Completitud = 3.43
+
+
+**Iteración 28: 09b4854**
+
+Densidad de errores-fallos = 0
+
+Confiabilidad = 1
+
+Completitud = 3.90
+
+
+**Iteración 29: 19d7096**
+
+Densidad de errores-fallos = 0
+
+Confiabilidad = 1
+
+Completitud = 3.90
+
+
+**Iteración 30: 27f87d4**
+
+Densidad de errores-fallos = 0
+
+Confiabilidad = 1
+
+Completitud = 3.90

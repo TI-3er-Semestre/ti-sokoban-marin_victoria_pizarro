@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<StackPane
+    xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="control.VictoryController"
+    prefWidth="1024" prefHeight="768"
+    style="-fx-background-color: #2c2c2c;"
+    stylesheets="@../style/game.css">
+
+    <!-- Contenido central -->
+    <VBox alignment="CENTER" spacing="16" pickOnBounds="false">
+
+        <!-- Banner -->
+        <HBox alignment="CENTER">
+            <StackPane style="-fx-background-color: #f0e060;
+                              -fx-border-color: #c8a020; -fx-border-width: 3;
+                              -fx-border-radius: 8; -fx-background-radius: 8;
+                              -fx-padding: 8 28 8 28;
+                              -fx-effect: dropshadow(gaussian,#a08010,0,0,0,5);">
+                <Label fx:id="victoryTitleLabel"
+                       text="★ NIVEL COMPLETADO ★"
+                       style="-fx-text-fill: #2c2c2c; -fx-font-size: 24px;
+                              -fx-font-weight: bold; -fx-font-family: 'Courier New';"/>
+            </StackPane>
+        </HBox>
+
+        <Label fx:id="levelSubtitleLabel"
+               text="NIVEL 1 - BASICO"
+               style="-fx-text-fill: #aaaaaa; -fx-font-size: 13px; -fx-font-family: 'Courier New';"/>
+
+        <!-- Stats -->
+        <HBox alignment="CENTER" spacing="12">
+            <VBox alignment="CENTER" spacing="4"
+                  style="-fx-background-color: #1a1a1a; -fx-border-color: #444444;
+                         -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;
+                         -fx-padding: 10 18 10 18;">
+                <Label fx:id="movesResultLabel" text="000"
+                       style="-fx-text-fill: #f0e060; -fx-font-size: 22px;
+                              -fx-font-weight: bold; -fx-font-family: 'Courier New';"/>
+                <Label text="MOVIMIENTOS"
+                       style="-fx-text-fill: #888888; -fx-font-size: 9px; -fx-font-family: 'Courier New';"/>
+            </VBox>
+            <VBox alignment="CENTER" spacing="4"
+                  style="-fx-background-color: #1a1a1a; -fx-border-color: #444444;
+                         -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;
+                         -fx-padding: 10 18 10 18;">
+                <Label fx:id="pushesResultLabel" text="000"
+                       style="-fx-text-fill: #f0e060; -fx-font-size: 22px;
+                              -fx-font-weight: bold; -fx-font-family: 'Courier New';"/>
+                <Label text="EMPUJES"
+                       style="-fx-text-fill: #888888; -fx-font-size: 9px; -fx-font-family: 'Courier New';"/>
+            </VBox>
+            <VBox alignment="CENTER" spacing="4"
+                  style="-fx-background-color: #1a1a1a; -fx-border-color: #444444;
+                         -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;
+                         -fx-padding: 10 18 10 18;">
+                <Label fx:id="timeResultLabel" text="00:00"
+                       style="-fx-text-fill: #f0e060; -fx-font-size: 22px;
+                              -fx-font-weight: bold; -fx-font-family: 'Courier New';"/>
+                <Label text="TIEMPO"
+                       style="-fx-text-fill: #888888; -fx-font-size: 9px; -fx-font-family: 'Courier New';"/>
+            </VBox>
+        </HBox>
+
+        <!-- Botones -->
+        <HBox alignment="CENTER" spacing="10">
+            <Button text="MENU"
+                    onAction="#handleMenu"
+                    style="-fx-background-color: #333333; -fx-border-color: #555555;
+                           -fx-border-width: 2; -fx-border-radius: 7; -fx-background-radius: 7;
+                           -fx-effect: dropshadow(gaussian,#222222,0,0,0,3);
+                           -fx-text-fill: #cccccc; -fx-font-size: 12px; -fx-font-weight: bold;
+                           -fx-font-family: 'Courier New'; -fx-pref-height: 38px;
+                           -fx-padding: 0 16 0 16; -fx-cursor: hand;"/>
+            <Button text="REINTENTAR"
+                    onAction="#handleRetry"
+                    style="-fx-background-color: #333333; -fx-border-color: #555555;
+                           -fx-border-width: 2; -fx-border-radius: 7; -fx-background-radius: 7;
+                           -fx-effect: dropshadow(gaussian,#222222,0,0,0,3);
+                           -fx-text-fill: #cccccc; -fx-font-size: 12px; -fx-font-weight: bold;
+                           -fx-font-family: 'Courier New'; -fx-pref-height: 38px;
+                           -fx-padding: 0 16 0 16; -fx-cursor: hand;"/>
+            <Button fx:id="nextLevelButton" text="NIVEL SIGUIENTE"
+                    onAction="#handleNextLevel"
+                    style="-fx-background-color: #c8862a; -fx-border-color: #f0e060;
+                           -fx-border-width: 2; -fx-border-radius: 7; -fx-background-radius: 7;
+                           -fx-effect: dropshadow(gaussian,#8a5010,0,0,0,3);
+                           -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;
+                           -fx-font-family: 'Courier New'; -fx-pref-height: 38px;
+                           -fx-padding: 0 16 0 16; -fx-cursor: hand;"/>
+        </HBox>
+
+    </VBox>
+
+    <!-- Tiles arriba — altura fija 64px anclada arriba -->
+    <HBox maxHeight="64" StackPane.alignment="TOP_LEFT" pickOnBounds="false">
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+    </HBox>
+
+    <!-- Tiles abajo -->
+    <HBox maxHeight="64" StackPane.alignment="BOTTOM_LEFT" pickOnBounds="false">
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+        <Region style="-fx-background-color:#2ecc71;-fx-border-color:#1a9e55;-fx-border-width:2;" prefWidth="64" prefHeight="64"/>
+    </HBox>
+
+</StackPane>

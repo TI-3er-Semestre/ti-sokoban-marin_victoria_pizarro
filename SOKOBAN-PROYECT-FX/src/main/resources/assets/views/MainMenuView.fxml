@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane prefHeight="768" prefWidth="1024"
+           style="-fx-background-color: #5a7a8a;"
+           stylesheets="@../style/game.css"
+           xmlns="http://javafx.com/javafx/17.0.12"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="control.MainMenuController">
+
+    <fx:define>
+        <ToggleGroup fx:id="levelGroup"/>
+    </fx:define>
+
+    <!-- Contenido central -->
+    <VBox alignment="CENTER" pickOnBounds="false" spacing="14">
+
+        <!-- Título -->
+        <HBox alignment="CENTER">
+            <StackPane style="-fx-background-color: #c0392b;
+                              -fx-border-color: #96281b; -fx-border-width: 3;
+                              -fx-border-radius: 8; -fx-background-radius: 8;
+                              -fx-padding: 10 32 10 32;
+                              -fx-effect: dropshadow(gaussian,#6a1810,0,0,0,5);">
+                <Label text="SOKOBAN"
+                       style="-fx-text-fill: white; -fx-font-size: 32px;
+                              -fx-font-weight: bold; -fx-font-family: 'Courier New';
+                              -fx-effect: dropshadow(gaussian,#6a1810,0,0,2,2);"/>
+            </StackPane>
+        </HBox>
+
+        <!-- Selector de nivel -->
+        <HBox alignment="CENTER" spacing="8">
+            <ToggleButton fx:id="level1Btn" text="NIVEL 1"
+                          toggleGroup="$levelGroup" selected="true" userData="1"
+                          style="-fx-background-color: #333333; -fx-border-color: #f0e060;
+                                 -fx-border-width: 2; -fx-border-radius: 6; -fx-background-radius: 6;
+                                 -fx-text-fill: #f0e060; -fx-font-size: 11px; -fx-font-weight: bold;
+                                 -fx-font-family: 'Courier New'; -fx-padding: 7 14 7 14; -fx-cursor: hand;"/>
+            <ToggleButton fx:id="level2Btn" text="NIVEL 2"
+                          toggleGroup="$levelGroup" userData="2"
+                          style="-fx-background-color: #1a1a1a; -fx-border-color: #444444;
+                                 -fx-border-width: 2; -fx-border-radius: 6; -fx-background-radius: 6;
+                                 -fx-text-fill: #f0e060; -fx-font-size: 11px; -fx-font-weight: bold;
+                                 -fx-font-family: 'Courier New'; -fx-padding: 7 14 7 14; -fx-cursor: hand;"/>
+            <ToggleButton fx:id="level3Btn" text="NIVEL 3"
+                          toggleGroup="$levelGroup" userData="3"
+                          style="-fx-background-color: #1a1a1a; -fx-border-color: #444444;
+                                 -fx-border-width: 2; -fx-border-radius: 6; -fx-background-radius: 6;
+                                 -fx-text-fill: #f0e060; -fx-font-size: 11px; -fx-font-weight: bold;
+                                 -fx-font-family: 'Courier New'; -fx-padding: 7 14 7 14; -fx-cursor: hand;"/>
+        </HBox>
+
+        <!-- Jugar -->
+        <Button text="JUGAR"
+                onAction="#handlePlay"
+                style="-fx-background-color: #27ae60; -fx-border-color: #1e8449;
+                       -fx-border-width: 3; -fx-border-radius: 8; -fx-background-radius: 8;
+                       -fx-effect: dropshadow(gaussian,#145a30,0,0,0,4);
+                       -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;
+                       -fx-font-family: 'Courier New'; -fx-pref-width: 260px;
+                       -fx-pref-height: 50px; -fx-cursor: hand;"/>
+
+        <!-- Ranking -->
+        <Button text="RANKING"
+                onAction="#handleRanking"
+                style="-fx-background-color: #c8862a; -fx-border-color: #a06020;
+                       -fx-border-width: 3; -fx-border-radius: 8; -fx-background-radius: 8;
+                       -fx-effect: dropshadow(gaussian,#6a4010,0,0,0,4);
+                       -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;
+                       -fx-font-family: 'Courier New'; -fx-pref-width: 260px;
+                       -fx-pref-height: 46px; -fx-cursor: hand;"/>
+
+        <!-- Manual -->
+        <Button text="MANUAL DE USUARIO"
+                onAction="#handleManual"
+                style="-fx-background-color: #c8862a; -fx-border-color: #a06020;
+                       -fx-border-width: 3; -fx-border-radius: 8; -fx-background-radius: 8;
+                       -fx-effect: dropshadow(gaussian,#6a4010,0,0,0,4);
+                       -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;
+                       -fx-font-family: 'Courier New'; -fx-pref-width: 260px;
+                       -fx-pref-height: 46px; -fx-cursor: hand;"/>
+
+        <!-- Jugador actual -->
+        <Label fx:id="playerNameLabel" text="Jugador: —"
+               style="-fx-text-fill: #cccccc; -fx-font-size: 13px;
+                      -fx-font-family: 'Courier New'; -fx-font-weight: bold;"/>
+
+    </VBox>
+
+    <!-- Tiles arriba -->
+    <HBox maxHeight="64" pickOnBounds="false" StackPane.alignment="TOP_LEFT">
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+    </HBox>
+
+    <!-- Tiles abajo -->
+    <HBox maxHeight="64" pickOnBounds="false" StackPane.alignment="BOTTOM_LEFT">
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+        <Region prefWidth="64" prefHeight="64" style="-fx-background-color:#c0392b;-fx-border-color:#96281b;-fx-border-width:2;"/>
+    </HBox>
+
+</StackPane>
