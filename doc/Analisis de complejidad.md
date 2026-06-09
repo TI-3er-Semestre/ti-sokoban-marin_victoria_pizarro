@@ -1190,6 +1190,94 @@ una posición de la matriz.
 | Caso promedio | Acceso directo | O(1)        |
 | Peor caso     | Acceso directo | O(1)        |
 
+### Complejidad Espacial: O(1)
+
+No crea estructuras auxiliares.
+
+| Tipo     | Variable    | Cantidad de valores atómicos |
+| -------- | ----------- | ---------------------------- |
+| Entrada  | x1,y1,x2,y2 | 4                            |
+| Auxiliar | idFrom      | 1                            |
+| Auxiliar | idTo        | 1                            |
+| Salida   | distancia   | 1                            |
+
+Total: 7 valores
+
+**Espacio total: O(1)**
+
+---
+
+## 4. `computeHeuristic(Position[] boxPositions, int boxCount, Position[] goalPositions, int goalCount)`
+
+### Complejidad Temporal: O(B × G)
+
+Para cada caja se evalúan todos los objetivos posibles
+buscando la distancia mínima.
+
+Las consultas a `getDistance()` son O(1) porque utilizan
+la matriz precalculada por Floyd-Warshall.
+
+| Caso          | Comportamiento                      | Complejidad |
+| ------------- | ----------------------------------- | ----------- |
+| Mejor caso    | Una caja y un objetivo              | O(1)        |
+| Caso promedio | Recorre cajas y objetivos           | O(B × G)    |
+| Peor caso     | Recorre todas las cajas y objetivos | O(B × G)    |
+
+### Complejidad Espacial: O(1)
+
+Solo utiliza variables auxiliares constantes.
+
+| Tipo     | Variable      | Cantidad de valores atómicos |
+| -------- | ------------- | ---------------------------- |
+| Entrada  | boxPositions  | B                            |
+| Entrada  | goalPositions | G                            |
+| Auxiliar | total         | 1                            |
+| Auxiliar | minDist       | 1                            |
+| Auxiliar | d             | 1                            |
+| Salida   | int           | 1                            |
+
+Total constante
+
+**Espacio total: O(1)**
+
+---
+
+## 5. `getDistMatrix()`
+
+### Complejidad Temporal: O(1)
+
+Retorna la referencia de la matriz ya construida.
+
+| Caso          | Comportamiento  | Complejidad |
+| ------------- | --------------- | ----------- |
+| Mejor caso    | Retorno directo | O(1)        |
+| Caso promedio | Retorno directo | O(1)        |
+| Peor caso     | Retorno directo | O(1)        |
+
+### Complejidad Espacial: O(1)
+
+No crea estructuras nuevas.
+
+| Tipo    | Variable | Cantidad de valores atómicos |
+| ------- | -------- | ---------------------------- |
+| Entrada | ——       | 0                            |
+| Salida  | dist     | 1                            |
+
+**Espacio total: O(1)**
+
+---
+
+# Resumen General — FloydWarshall
+
+| Método                            | Temporal | Espacial |
+| --------------------------------- | -------- | -------- |
+| `FloydWarshall()`                 | O(V³)    | O(V²)    |
+| `getDistance(Position, Position)` | O(1)     | O(1)     |
+| `getDistance(int,int,int,int)`    | O(1)     | O(1)     |
+| `computeHeuristic()`              | O(B × G) | O(1)     |
+| `getDistMatrix()`                 | O(1)     | O(1)     |
+
+
 
 
 
